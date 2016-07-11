@@ -16,7 +16,7 @@ public class PhoneHomeInfo {
 	
 	//ctors
 	public PhoneHomeInfo(){
-		buildUrlFromProperties();
+		this.targetUrl = buildUrlFromProperties();
 	};
 	public PhoneHomeInfo(String blackDuckName, 
 			String blackDuckVersion, 
@@ -26,7 +26,7 @@ public class PhoneHomeInfo {
 		this.blackDuckVersion = blackDuckVersion;
 		this.thirdPartyName = thirdPartyName;
 		this.thirdPartyVersion = thirdPartyVersion;
-		buildUrlFromProperties();
+		this.targetUrl = buildUrlFromProperties();
 	}
 
 	
