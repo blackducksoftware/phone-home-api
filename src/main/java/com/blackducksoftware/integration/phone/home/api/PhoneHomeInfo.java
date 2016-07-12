@@ -68,6 +68,7 @@ public class PhoneHomeInfo {
 	//     change so that it loads it when ctor is called?
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
+		PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
 		clientResource.post(this, MediaType.APPLICATION_JSON);
 		
 		//TODO get response from server
