@@ -2,10 +2,19 @@ package com.blackducksoftware.integration.phone.home.api;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 import java.util.Properties;
 
+import org.restlet.data.Form;
 import org.restlet.data.MediaType;
+import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
+
+import org.json.JSONObject;
 
 public class PhoneHomeInfo {
 	//member info
@@ -68,8 +77,16 @@ public class PhoneHomeInfo {
 	//     change so that it loads it when ctor is called?
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
-		PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
-		ar.updatePhoneHomeInfo(this);
+		//ObjectMapper mapper
+		JSONObject jsonRep = new JSONObject();
+		jsonRep.append("blackDuckName", this.blackDuckName);
+		jsonRep.append("blackDuckVersion", this.blackDuckVersion);
+		jsonRep.append("thirdPartyName", this.thirdPartyName);
+		jsonRep.append("thirdPartyVersion", this.thirdPartyVersion);
+		
+		clientResource.post(jsonRep, MediaType.APPLICATION_JSON);
+		//PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
+		//ar.updatePhoneHomeInfo(this);
 		//TODO get response from server
 	}
 	
