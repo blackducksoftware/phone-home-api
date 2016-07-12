@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import org.restlet.data.Form;
 import org.restlet.data.MediaType;
+import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 
@@ -82,13 +83,19 @@ public class PhoneHomeInfo implements Serializable{
 	//     change so that it loads it when ctor is called?
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
-		clientResource.post(this);
+		
+		JSONObject jsonOb = new JSONObject();
+		jsonOb.accumulate("blackDuckName", this.blackDuckName);
+		jsonOb.accumulate("blackDuckVersion", this.blackDuckVersion);
+		jsonOb.accumulate("thirdPartyName", this.thirdPartyName);
+		jsonOb.accumulate("thirdPartyVersion", this.thirdPartyVersion);
+		//jsonOb.accumulate("blackDuckName", blackDuckName);
+		
+		JsonRepresentation jsonRep = new JsonRepresentation(jsonOb);
+		clientResource.post(jsonRep);
 //		//ObjectMapper mapper
 //		JSONObject jsonRep = new JSONObject();
-//		jsonRep.accumulate("blackDuckName", this.blackDuckName);
-//		jsonRep.accumulate("blackDuckVersion", this.blackDuckVersion);
-//		jsonRep.accumulate("thirdPartyName", this.thirdPartyName);
-//		jsonRep.accumulate("thirdPartyVersion", this.thirdPartyVersion);
+
 //		//PhoneHomeServerApi serverApi = clientResource.wrap(PhoneHomeServerApi.class);
 //		clientResource.post(jsonRep, MediaType.APPLICATION_JSON);
 //		//PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
