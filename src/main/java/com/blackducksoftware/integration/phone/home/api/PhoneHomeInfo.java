@@ -69,8 +69,7 @@ public class PhoneHomeInfo {
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
 		PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
-		clientResource.post(this, MediaType.APPLICATION_JSON);
-		
+		ar.updatePhoneHomeInfo(this);
 		//TODO get response from server
 	}
 	
