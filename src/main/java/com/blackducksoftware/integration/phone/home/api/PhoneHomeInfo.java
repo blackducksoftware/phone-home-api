@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.restlet.data.MediaType;
 import org.restlet.resource.ClientResource;
 
 public class PhoneHomeInfo {
@@ -67,7 +68,7 @@ public class PhoneHomeInfo {
 	//     change so that it loads it when ctor is called?
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
-		clientResource.post(this);
+		clientResource.post(this, MediaType.APPLICATION_JSON);
 		
 		//TODO get response from server
 	}
