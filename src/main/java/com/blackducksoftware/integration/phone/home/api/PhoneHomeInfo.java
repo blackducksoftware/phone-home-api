@@ -16,7 +16,7 @@ public class PhoneHomeInfo {
 	
 	//ctors
 	public PhoneHomeInfo(){
-		buildUrlFromProperties();
+		targetUrl = buildUrlFromProperties();
 	};
 	public PhoneHomeInfo(String blackDuckName, 
 			String blackDuckVersion, 
@@ -26,7 +26,7 @@ public class PhoneHomeInfo {
 		this.blackDuckVersion = blackDuckVersion;
 		this.thirdPartyName = thirdPartyName;
 		this.thirdPartyVersion = thirdPartyVersion;
-		buildUrlFromProperties();
+		targetUrl = buildUrlFromProperties();
 	}
 
 	
@@ -63,8 +63,6 @@ public class PhoneHomeInfo {
 	}
 	
 	
-	//TODO fix so this doesn't load properties file every time this method is called, possible
-	//     change so that it loads it when ctor is called?
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
 		clientResource.post(this);
