@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.Serializable;
 import java.io.Writer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
@@ -16,7 +17,11 @@ import org.restlet.resource.ClientResource;
 
 import org.json.JSONObject;
 
-public class PhoneHomeInfo {
+public class PhoneHomeInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7080751458807269691L;
 	//member info
 	private String blackDuckName;
 	private String blackDuckVersion;
@@ -77,17 +82,19 @@ public class PhoneHomeInfo {
 	//     change so that it loads it when ctor is called?
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
-		//ObjectMapper mapper
-		JSONObject jsonRep = new JSONObject();
-		jsonRep.append("blackDuckName", this.blackDuckName);
-		jsonRep.append("blackDuckVersion", this.blackDuckVersion);
-		jsonRep.append("thirdPartyName", this.thirdPartyName);
-		jsonRep.append("thirdPartyVersion", this.thirdPartyVersion);
+		clientResource.post(this);
+//		//ObjectMapper mapper
+//		JSONObject jsonRep = new JSONObject();
+//		jsonRep.accumulate("blackDuckName", this.blackDuckName);
+//		jsonRep.accumulate("blackDuckVersion", this.blackDuckVersion);
+//		jsonRep.accumulate("thirdPartyName", this.thirdPartyName);
+//		jsonRep.accumulate("thirdPartyVersion", this.thirdPartyVersion);
+//		//PhoneHomeServerApi serverApi = clientResource.wrap(PhoneHomeServerApi.class);
+//		clientResource.post(jsonRep, MediaType.APPLICATION_JSON);
+//		//PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
+//		//ar.updatePhoneHomeInfo(this);
+//		//TODO get response from server
 		
-		clientResource.post(jsonRep, MediaType.APPLICATION_JSON);
-		//PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
-		//ar.updatePhoneHomeInfo(this);
-		//TODO get response from server
 	}
 	
 	private String buildUrlFromProperties(){
