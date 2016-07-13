@@ -10,6 +10,12 @@ import org.restlet.resource.Put;
 
 import com.blackducksoftware.integration.phone.home.api.PhoneHomeInfo;
 
+/**
+ * 
+ * @author nrowles
+ *
+ * This interface defines the 'Post' method for the phone-home endpoint
+ */
 public interface PhoneHomeServerApi {
 	
 	@Post("json")

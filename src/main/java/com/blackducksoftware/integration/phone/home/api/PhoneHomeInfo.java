@@ -18,19 +18,20 @@ import org.restlet.resource.ClientResource;
 
 import org.json.JSONObject;
 
-public class PhoneHomeInfo implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7080751458807269691L;
-	//member info
+/**
+ * 
+ * @author nrowles
+ *
+ */
+public class PhoneHomeInfo{
+	
 	private String blackDuckName;
 	private String blackDuckVersion;
 	private String thirdPartyName;
 	private String thirdPartyVersion;
 	private String targetUrl;
 	
-	//ctors
+	//constructors
 	public PhoneHomeInfo(){
 		this.targetUrl = buildUrlFromProperties();
 	};
@@ -78,9 +79,10 @@ public class PhoneHomeInfo implements Serializable{
 		this.targetUrl = targetUrl;
 	}
 	
-	
-	//TODO fix so this doesn't load properties file every time this method is called, possible
-	//     change so that it loads it when ctor is called?
+	/**
+	 * This method sends the information stored in this object to the 
+	 * server specified in config.properties
+	 */
 	public void phoneHome(){
 		ClientResource clientResource = new ClientResource(targetUrl);
 		
@@ -89,21 +91,17 @@ public class PhoneHomeInfo implements Serializable{
 		jsonOb.accumulate("blackDuckVersion", this.blackDuckVersion);
 		jsonOb.accumulate("thirdPartyName", this.thirdPartyName);
 		jsonOb.accumulate("thirdPartyVersion", this.thirdPartyVersion);
-		//jsonOb.accumulate("blackDuckName", blackDuckName);
 		
 		JsonRepresentation jsonRep = new JsonRepresentation(jsonOb);
 		clientResource.post(jsonRep);
-//		//ObjectMapper mapper
-//		JSONObject jsonRep = new JSONObject();
-
-//		//PhoneHomeServerApi serverApi = clientResource.wrap(PhoneHomeServerApi.class);
-//		clientResource.post(jsonRep, MediaType.APPLICATION_JSON);
-//		//PhoneHomeServerApi ar = clientResource.wrap(PhoneHomeServerApi.class);
-//		//ar.updatePhoneHomeInfo(this);
-//		//TODO get response from server
-		
 	}
 	
+	/**
+	 * 
+	 * @return Url of the target server
+	 * 
+	 * This method returns builds the server url from the included config.properties file
+	 */
 	private String buildUrlFromProperties(){
 		Properties properties = new Properties();
 		String propertiesFileName = "config.properties";
