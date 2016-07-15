@@ -29,6 +29,7 @@ public class PhoneHomeInfo{
 	private String blackDuckVersion;
 	private String thirdPartyName;
 	private String thirdPartyVersion;
+	private String pluginVersion;
 	private String targetUrl;
 	
 	//constructors
@@ -72,6 +73,12 @@ public class PhoneHomeInfo{
 	public void setThirdPartyVersion(String thirdPartyVersion) {
 		this.thirdPartyVersion = thirdPartyVersion;
 	}
+	public String getPluginVersion() {
+		return pluginVersion;
+	}
+	public void setPluginVersion(String pluginVersion) {
+		this.pluginVersion = pluginVersion;
+	}
 	public String getTargetUrl() {
 		return targetUrl;
 	}
@@ -91,6 +98,7 @@ public class PhoneHomeInfo{
 		jsonOb.accumulate("blackDuckVersion", this.blackDuckVersion);
 		jsonOb.accumulate("thirdPartyName", this.thirdPartyName);
 		jsonOb.accumulate("thirdPartyVersion", this.thirdPartyVersion);
+		jsonOb.accumulate("pluginVersion", this.pluginVersion);
 		
 		JsonRepresentation jsonRep = new JsonRepresentation(jsonOb);
 		clientResource.post(jsonRep);
@@ -129,5 +137,4 @@ public class PhoneHomeInfo{
 		target.append(properties.getProperty("targetExt"));
 		return target.toString();
 	}
-	
 }

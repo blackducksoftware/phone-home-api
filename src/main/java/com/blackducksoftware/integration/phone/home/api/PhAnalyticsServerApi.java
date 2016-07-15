@@ -6,12 +6,12 @@ import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 
 public interface PhAnalyticsServerApi {
-	@Get("")
+	@Get("html")
 	public Representation doGet();
 	
-	@Post("")
+	@Post("uri")
 	public Representation doPost(Representation entity);
 	
-	@Put("")
+	@Put("html")
 	public void doPut(Representation entity);
 }
