@@ -41,12 +41,14 @@ public class PhoneHomeInfo{
 			String blackDuckVersion, 
 			String thirdPartyName, 
 			String thirdPartyVersion,
-			String regId){
+			String regId,
+			String pluginVersion){
 		this.blackDuckName = blackDuckName;
 		this.blackDuckVersion = blackDuckVersion;
 		this.thirdPartyName = thirdPartyName;
 		this.thirdPartyVersion = thirdPartyVersion;
 		this.regId = regId;
+		this.pluginVersion = pluginVersion;
 		this.targetUrl = buildUrlFromProperties();
 	}
 
