@@ -1,5 +1,6 @@
 package com.blackducksoftware.integration.phone.home.api;
 
+import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
@@ -9,9 +10,7 @@ public interface PhAnalyticsServerApi {
 	@Get("html")
 	public Representation doGet();
 	
-	@Post("uri")
-	public Representation doPost(Representation entity);
+	@Post("json")
+	public Representation doPost(JsonRepresentation entity);
 	
-	@Put("html")
-	public void doPut(Representation entity);
 }
