@@ -8,7 +8,6 @@
     <version>1.0.4</version>
   </parent>
 
-  <groupId>com.blackducksoftware.integration</groupId>
   <artifactId>phone-home-api</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
