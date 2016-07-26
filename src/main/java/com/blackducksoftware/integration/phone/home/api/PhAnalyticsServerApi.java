@@ -20,42 +20,24 @@
  * under the License.
  *******************************************************************************/
 
-/**
- * 
- * @author nrowles
- * 
- */
 package com.blackducksoftware.integration.phone.home.api;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Properties;
-
-import org.json.JSONObject;
 import org.restlet.ext.json.JsonRepresentation;
-import org.restlet.resource.ClientResource;
+import org.restlet.representation.Representation;
+import org.restlet.resource.Get;
+import org.restlet.resource.Post;
+import org.restlet.resource.Put;
 
 /**
+ * 
  * @author nrowles
- * 
- * 
- * 
+ *
  */
-public class PhoneHomeInfo{
-	private final String regId;
-	private final Map<String, String> infoMap;
+public interface PhAnalyticsServerApi {
+	@Get("html")
+	public Representation doGet();
 	
-	public PhoneHomeInfo(String regId, Map<String, String> infoMap){
-		this.regId = regId;
-		this.infoMap = infoMap;
-	}
-
-	public String getRegId() {
-		return regId;
-	}
-
-	public Map<String, String> getInfoMap(){
-		return infoMap;
-	}
+	@Post("json")
+	public Representation doPost(JsonRepresentation entity);
+	
 }
