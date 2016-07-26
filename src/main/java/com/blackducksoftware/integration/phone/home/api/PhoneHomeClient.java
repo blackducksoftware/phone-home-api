@@ -31,6 +31,8 @@ import org.json.JSONObject;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -38,6 +40,7 @@ import org.restlet.resource.ResourceException;
  *
  */
 public class PhoneHomeClient {
+	private static final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
 	
 	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException, JSONException {
 		final ClientResource clientResource = new ClientResource(targetUrl);
@@ -54,9 +57,9 @@ public class PhoneHomeClient {
 	}
 	
 	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, 
-			String thirdPartyVersion, String pluginVersion) throws IOException, ResourceException, JSONException {
+			String thirdPartyVersion, String pluginVersion, String propertiesPath) throws IOException, ResourceException, JSONException {
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
-		final String targetUrl = propertiesLoader.createTargetUrl("config.properties");
+		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
 		
 		final Map<String, String> infoMap = new HashMap<String, String>();
 		infoMap.put("blackDuckName", blackDuckName);
@@ -70,5 +73,10 @@ public class PhoneHomeClient {
 		callHome(info, targetUrl);
 		
 	}
+	
+	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, 
+			String thirdPartyVersion, String pluginVersion) throws IOException, ResourceException, JSONException {
+		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, pluginVersion, "config.properties");
+	} 
 	
 }
