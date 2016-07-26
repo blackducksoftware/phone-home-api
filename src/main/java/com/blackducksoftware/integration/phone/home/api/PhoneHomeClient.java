@@ -38,10 +38,22 @@ import org.slf4j.LoggerFactory;
  * 
  * @author nrowles
  *
+ * Client for the phone home server. This class contains three methods: callHome, and version of callHomeIntegrations.
+ * All three methods send information back to a specified REST endpoint.
  */
 public class PhoneHomeClient {
+
 	private static final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
 	
+	/**
+	 * 
+	 * @param info					information to be sent to REST endpoint
+	 * @param targetUrl				the URL to make a POST request to
+	 * @throws ResourceException
+	 * @throws JSONException
+	 * 
+	 * This method posts to the specified 'targetUrl' the information contained in 'info'
+	 */
 	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException, JSONException {
 		final ClientResource clientResource = new ClientResource(targetUrl);
 		
@@ -54,8 +66,27 @@ public class PhoneHomeClient {
 		
 		JsonRepresentation jsonRep = new JsonRepresentation(jsonOb);
 		clientResource.post(jsonRep);
+		logger.info("Phone Home Call Successful");
 	}
 	
+	/**
+	 * 
+	 * @param regId					Registration ID of the 'BlackDuck Hub' instance in use
+	 * @param blackDuckName			Name of the 'BlackDuck' product
+	 * @param blackDuckVersion		Version of the 'BlackDuck' product
+	 * @param thirdPartyName		Name of the third party product integrated with the given 'BlackDuck' product
+	 * @param thirdPartyVersion		Version of the third party product integrated with the given 'BlackDuck' product
+	 * @param pluginVersion			Version of the 'BlackDuck' integration with the third party product
+	 * @param propertiesPath		Path to a properties file which contains the URL of the REST endpoint
+	 * @throws IOException
+	 * @throws ResourceException
+	 * @throws JSONException
+	 * 
+	 * This method is used to phone-home to the internal 'BlackDuck' Integrations server with integrations usage
+	 * information. *NOTE:* This method, in most instances, SHOULD NOT be called. Instead, use
+	 * 'callHomeIntegrations(String,String,String,String,String,String)'; as it points to a valid properties file
+	 * containing the URL to the internal 'BlackDuck' server.
+	 */
 	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, 
 			String thirdPartyVersion, String pluginVersion, String propertiesPath) throws IOException, ResourceException, JSONException {
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
@@ -74,6 +105,21 @@ public class PhoneHomeClient {
 		
 	}
 	
+	/**
+	 * 
+	 * @param regId					Registration ID of the 'BlackDuck Hub' instance in use
+	 * @param blackDuckName			Name of the 'BlackDuck' product
+	 * @param blackDuckVersion		Version of the 'BlackDuck' product
+	 * @param thirdPartyName		Name of the third party product integrated with the given 'BlackDuck' product
+	 * @param thirdPartyVersion		Version of the third party product integrated with the given 'BlackDuck' product
+	 * @param pluginVersion			Version of the 'BlackDuck' integration with the third party product
+	 * @throws IOException
+	 * @throws ResourceException
+	 * @throws JSONException
+	 * 
+	 * This method is used to phone-home to the internal 'BlackDuck' Integrations server with integrations usage
+	 * information.
+	 */
 	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, 
 			String thirdPartyVersion, String pluginVersion) throws IOException, ResourceException, JSONException {
 		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, pluginVersion, "config.properties");

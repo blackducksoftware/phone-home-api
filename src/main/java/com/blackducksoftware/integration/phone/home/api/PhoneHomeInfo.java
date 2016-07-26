@@ -27,20 +27,13 @@
  */
 package com.blackducksoftware.integration.phone.home.api;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Properties;
-
-import org.json.JSONObject;
-import org.restlet.ext.json.JsonRepresentation;
-import org.restlet.resource.ClientResource;
 
 /**
  * @author nrowles
  * 
  * 
- * 
+ * Information to be sent to a REST endpoint
  */
 public class PhoneHomeInfo{
 	private final String regId;

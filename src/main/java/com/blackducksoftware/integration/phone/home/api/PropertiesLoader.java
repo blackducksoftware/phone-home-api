@@ -30,8 +30,18 @@ import java.util.Properties;
  * 
  * @author nrowles
  *
+ * Utility class to load properties from an external file.
  */
 public class PropertiesLoader {
+	
+	/**
+	 * 
+	 * @param propertiesFileName	Path to a properties file
+	 * @return						URL built from properties file
+	 * @throws IOException
+	 * 
+	 * This method builds a URL from the given properties file name, and returns it as a String.
+	 */
 	public String createTargetUrl(String propertiesFileName) throws IOException{
 		final Properties properties = new Properties();
 		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
