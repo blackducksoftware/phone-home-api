@@ -20,42 +20,31 @@
  * under the License.
  *******************************************************************************/
 
-/**
- * 
- * @author nrowles
- * 
- */
 package com.blackducksoftware.integration.phone.home.api;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Properties;
 
-import org.json.JSONObject;
-import org.restlet.ext.json.JsonRepresentation;
-import org.restlet.resource.ClientResource;
-
 /**
+ * 
  * @author nrowles
- * 
- * 
- * 
+ *
  */
-public class PhoneHomeInfo{
-	private final String regId;
-	private final Map<String, String> infoMap;
-	
-	public PhoneHomeInfo(String regId, Map<String, String> infoMap){
-		this.regId = regId;
-		this.infoMap = infoMap;
-	}
-
-	public String getRegId() {
-		return regId;
-	}
-
-	public Map<String, String> getInfoMap(){
-		return infoMap;
+public class PropertiesLoader {
+	public String createTargetUrl(String propertiesFileName) throws IOException{
+		final Properties properties = new Properties();
+		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+		
+		properties.load(inputStream);
+		inputStream.close();
+		
+		final StringBuilder target = new StringBuilder();
+		target.append(properties.getProperty("targetUrl"));
+		target.append(":");
+		target.append(properties.getProperty("targetPort"));
+		target.append("/");
+		target.append(properties.getProperty("targetExt"));
+		return target.toString();
 	}
 }

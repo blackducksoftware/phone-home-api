@@ -28,6 +28,11 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 
+/**
+ * 
+ * @author nrowles
+ *
+ */
 public interface PhAnalyticsServerApi {
 	@Get("html")
 	public Representation doGet();

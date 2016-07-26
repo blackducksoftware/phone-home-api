@@ -26,6 +26,11 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 
+/**
+ * 
+ * @author nrowles
+ *
+ */
 public interface PhDetailedServerApi {
 	@Post("json")
 	public Representation doPost(JsonRepresentation entity);
