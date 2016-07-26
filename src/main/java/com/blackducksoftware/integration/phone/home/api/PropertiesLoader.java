@@ -20,35 +20,41 @@
  * under the License.
  *******************************************************************************/
 
-/**
- * 
- * @author nrowles
- * 
- */
 package com.blackducksoftware.integration.phone.home.api;
 
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
+ * 
  * @author nrowles
- * 
- * 
- * Information to be sent to a REST endpoint
+ *
+ * Utility class to load properties from an external file.
  */
-public class PhoneHomeInfo{
-	private final String regId;
-	private final Map<String, String> infoMap;
+public class PropertiesLoader {
 	
-	public PhoneHomeInfo(String regId, Map<String, String> infoMap){
-		this.regId = regId;
-		this.infoMap = infoMap;
-	}
-
-	public String getRegId() {
-		return regId;
-	}
-
-	public Map<String, String> getInfoMap(){
-		return infoMap;
+	/**
+	 * 
+	 * @param propertiesFileName	Path to a properties file
+	 * @return						URL built from properties file
+	 * @throws IOException
+	 * 
+	 * This method builds a URL from the given properties file name, and returns it as a String.
+	 */
+	public String createTargetUrl(String propertiesFileName) throws IOException{
+		final Properties properties = new Properties();
+		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+		
+		properties.load(inputStream);
+		inputStream.close();
+		
+		final StringBuilder target = new StringBuilder();
+		target.append(properties.getProperty("targetUrl"));
+		target.append(":");
+		target.append(properties.getProperty("targetPort"));
+		target.append("/");
+		target.append(properties.getProperty("targetExt"));
+		return target.toString();
 	}
 }

@@ -20,35 +20,18 @@
  * under the License.
  *******************************************************************************/
 
-/**
- * 
- * @author nrowles
- * 
- */
 package com.blackducksoftware.integration.phone.home.api;
 
-import java.util.Map;
+import org.restlet.ext.json.JsonRepresentation;
+import org.restlet.representation.Representation;
+import org.restlet.resource.Post;
 
 /**
+ * 
  * @author nrowles
- * 
- * 
- * Information to be sent to a REST endpoint
+ *
  */
-public class PhoneHomeInfo{
-	private final String regId;
-	private final Map<String, String> infoMap;
-	
-	public PhoneHomeInfo(String regId, Map<String, String> infoMap){
-		this.regId = regId;
-		this.infoMap = infoMap;
-	}
-
-	public String getRegId() {
-		return regId;
-	}
-
-	public Map<String, String> getInfoMap(){
-		return infoMap;
-	}
+public interface PhDetailedServerApi {
+	@Post("json")
+	public Representation doPost(JsonRepresentation entity);
 }
