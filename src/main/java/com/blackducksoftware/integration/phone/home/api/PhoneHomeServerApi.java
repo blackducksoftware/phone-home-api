@@ -29,7 +29,7 @@ import org.restlet.resource.Post;
  * 
  * @author nrowles
  *
- *
+ * API for a REST endpoint.
  */
 public interface PhoneHomeServerApi {
 	

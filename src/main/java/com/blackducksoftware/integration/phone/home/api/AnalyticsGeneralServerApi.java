@@ -27,9 +27,9 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 
 /**
- * 
  * @author nrowles
  *
+ * API for a REST endpoint.
  */
 public interface AnalyticsGeneralServerApi {
 	
