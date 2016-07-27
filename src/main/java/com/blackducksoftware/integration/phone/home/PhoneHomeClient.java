@@ -20,7 +20,7 @@
  * under the License.
  *******************************************************************************/
 
-package com.blackducksoftware.integration.phone.home.api;
+package com.blackducksoftware.integration.phone.home;
 
 import java.io.IOException;
 import java.util.HashMap;

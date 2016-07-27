@@ -1,4 +1,4 @@
-package com.blackducksoftware.integration.phone.home.api;
+package com.blackducksoftware.integration.phone.home;
 
 import java.util.ArrayList;
 import java.util.HashMap;

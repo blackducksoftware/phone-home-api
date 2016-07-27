@@ -25,7 +25,7 @@
  * @author nrowles
  * 
  */
-package com.blackducksoftware.integration.phone.home.api;
+package com.blackducksoftware.integration.phone.home;
 
 import java.util.Map;
 

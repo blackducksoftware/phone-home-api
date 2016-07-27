@@ -1,4 +1,4 @@
-package com.blackducksoftware.integration.phone.home.api;
+package com.blackducksoftware.integration.phone.home;
 
 import static org.junit.Assert.*;
 

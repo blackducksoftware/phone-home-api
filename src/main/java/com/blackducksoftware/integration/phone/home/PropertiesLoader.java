@@ -20,18 +20,41 @@
  * under the License.
  *******************************************************************************/
 
-package com.blackducksoftware.integration.phone.home.api;
+package com.blackducksoftware.integration.phone.home;
 
-import org.restlet.ext.json.JsonRepresentation;
-import org.restlet.representation.Representation;
-import org.restlet.resource.Post;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * 
  * @author nrowles
  *
+ * Utility class to load properties from an external file.
  */
-public interface PhDetailedServerApi {
-	@Post("json")
-	public Representation doPost(JsonRepresentation entity);
+public class PropertiesLoader {
+	
+	/**
+	 * 
+	 * @param propertiesFileName	Path to a properties file
+	 * @return						URL built from properties file
+	 * @throws IOException
+	 * 
+	 * This method builds a URL from the given properties file name, and returns it as a String.
+	 */
+	public String createTargetUrl(String propertiesFileName) throws IOException{
+		final Properties properties = new Properties();
+		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+		
+		properties.load(inputStream);
+		inputStream.close();
+		
+		final StringBuilder target = new StringBuilder();
+		target.append(properties.getProperty("targetUrl"));
+		target.append(":");
+		target.append(properties.getProperty("targetPort"));
+		target.append("/");
+		target.append(properties.getProperty("targetExt"));
+		return target.toString();
+	}
 }

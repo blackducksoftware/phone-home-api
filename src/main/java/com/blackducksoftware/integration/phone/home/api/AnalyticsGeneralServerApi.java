@@ -24,7 +24,6 @@ package com.blackducksoftware.integration.phone.home.api;
 
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
-import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 
 /**
@@ -32,11 +31,8 @@ import org.restlet.resource.Post;
  * @author nrowles
  *
  */
-public interface PhAnalyticsServerApi {
-	@Get("html")
-	public Representation doGet();
+public interface AnalyticsGeneralServerApi {
 	
 	@Post("json")
 	public Representation doPost(JsonRepresentation entity);
-	
 }
