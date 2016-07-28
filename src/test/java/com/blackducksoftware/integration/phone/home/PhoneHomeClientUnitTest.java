@@ -24,7 +24,13 @@ public class PhoneHomeClientUnitTest {
 	
 	@Before
 	public void startProxy(){
-		server = ClientAndServer.startClientAndServer(8080);
+		int port = 8080;
+		try{
+			server = ClientAndServer.startClientAndServer(port);
+		} catch(Exception e){
+			//TODO update
+			e.printStackTrace();
+		}
 		List<Header> headers = new ArrayList<Header>();
 		headers.add(new Header("Content-Type","application/json; charset=UTF-8"));
 		server.when(HttpRequest.request().withPath("/test")).respond(HttpResponse.response().withHeaders(headers));

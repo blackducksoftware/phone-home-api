@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PropertiesLoader {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
+	private static final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
 	
 	/**
 	 * 
