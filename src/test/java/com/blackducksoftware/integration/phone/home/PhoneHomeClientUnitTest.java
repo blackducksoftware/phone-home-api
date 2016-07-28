@@ -27,7 +27,7 @@ public class PhoneHomeClientUnitTest {
 		server = ClientAndServer.startClientAndServer(8080);
 		List<Header> headers = new ArrayList<Header>();
 		headers.add(new Header("Content-Type","application/json; charset=UTF-8"));
-		server.when(HttpRequest.request().withPath("/")).respond(HttpResponse.response().withHeaders(headers));
+		server.when(HttpRequest.request().withPath("/test")).respond(HttpResponse.response().withHeaders(headers));
 	}
 	
 	@After
@@ -63,7 +63,7 @@ public class PhoneHomeClientUnitTest {
 		String regId = "regId";
 		Map<String, String> infoMap = new HashMap<String, String>();
 		PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
-		String targetUrl = "http://localhost:8080/";
+		String targetUrl = "http://localhost:8080/test";
 		
 		phClient.callHome(info, targetUrl);
 	}

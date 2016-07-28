@@ -10,11 +10,11 @@ import org.junit.rules.ExpectedException;
 
 public class PropertiesLoaderUnitTest {
 	@Rule
-	ExpectedException exception = ExpectedException.none();
+	public ExpectedException exception = ExpectedException.none();
 	
 	@Test
 	public void createTargetUrlInvalidPropFile() throws Exception{
-		exception.expect(IOException.class);
+		exception.expect(NullPointerException.class);
 		final PropertiesLoader propLoader = new PropertiesLoader();
 		String invalidPath = "not a valid path";
 		
