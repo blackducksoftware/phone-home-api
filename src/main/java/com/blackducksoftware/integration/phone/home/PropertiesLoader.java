@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author nrowles
@@ -33,6 +36,8 @@ import java.util.Properties;
  * Utility class to load properties from an external file.
  */
 public class PropertiesLoader {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
 	
 	/**
 	 * 
@@ -55,6 +60,9 @@ public class PropertiesLoader {
 		target.append(properties.getProperty("targetPort"));
 		target.append("/");
 		target.append(properties.getProperty("targetExt"));
+		
+		logger.debug("Target URL: " + target.toString());
+		
 		return target.toString();
 	}
 }

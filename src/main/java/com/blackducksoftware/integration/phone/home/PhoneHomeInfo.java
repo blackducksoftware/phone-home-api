@@ -36,6 +36,7 @@ import java.util.Map;
  * Information to be sent to a REST endpoint
  */
 public class PhoneHomeInfo{
+	
 	private final String regId;
 	private final Map<String, String> infoMap;
 	

@@ -66,7 +66,13 @@ public class PhoneHomeClient {
 		
 		JsonRepresentation jsonRep = new JsonRepresentation(jsonOb);
 		clientResource.post(jsonRep);
-		logger.info("Phone Home Call Successful");
+		
+		int responseCode = clientResource.getResponse().getStatus().getCode();
+		if(responseCode >= 200 && responseCode < 300){
+			logger.info("Phone Home Call Successful, status returned: " + responseCode);
+		} else{
+			throw new ResourceException(responseCode);
+		}
 	}
 	
 	/**
