@@ -26,7 +26,6 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.resource.Post;
 
 /**
- * 
  * @author nrowles
  *
  * API for a REST endpoint.
