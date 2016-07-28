@@ -28,11 +28,15 @@ import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.restlet.Context;
+import org.restlet.data.Reference;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
 
 /**
  * 
@@ -55,19 +59,11 @@ public class PhoneHomeClient {
 	 * This method posts to the specified 'targetUrl' the information contained in 'info'
 	 */
 	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException, JSONException {
-		final ClientResource clientResource = new ClientResource(targetUrl);
+		final PhoneHomeClientApi client = ClientResource.create(new Context(), new Reference(targetUrl), PhoneHomeClientApi.class);
 		
-		final JSONObject jsonOb = new JSONObject();
-		jsonOb.accumulate("regId", info.getRegId());
-		for(final String infoKey : info.getInfoMap().keySet()){
-			final String value = info.getInfoMap().get(infoKey);
-			jsonOb.accumulate(infoKey, value);
-		}
+		client.postPhoneHomeInfo(info);
 		
-		JsonRepresentation jsonRep = new JsonRepresentation(jsonOb);
-		clientResource.post(jsonRep);
-		
-		int responseCode = clientResource.getResponse().getStatus().getCode();
+		int responseCode = client.getClientResource().getResponse().getStatus().getCode();
 		if(responseCode >= 200 && responseCode < 300){
 			logger.info("Phone Home Call Successful, status returned: " + responseCode);
 		} else{

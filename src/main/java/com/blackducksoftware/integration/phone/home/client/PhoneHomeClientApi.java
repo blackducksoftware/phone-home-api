@@ -20,19 +20,16 @@
  * under the License.
  *******************************************************************************/
 
-package com.blackducksoftware.integration.phone.home.api;
-
-import org.restlet.resource.Post;
-
-import com.blackducksoftware.integration.phone.home.PhoneHomeInfo;
-
 /**
  * @author nrowles
- *
- * API for a REST endpoint.
+ * 
  */
-public interface PhoneHomeServerApi {
-	
-	@Post("json")
-	public void postPhoneHomeInfo(PhoneHomeInfo info);
+package com.blackducksoftware.integration.phone.home.client;
+
+import org.restlet.resource.ClientProxy;
+
+import com.blackducksoftware.integration.phone.home.api.PhoneHomeServerApi;
+
+public interface PhoneHomeClientApi extends PhoneHomeServerApi, ClientProxy {
+
 }

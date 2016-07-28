@@ -20,7 +20,7 @@ public class PhoneHomeClientUnitTest {
 	private ClientAndServer server;
 	
 	@Rule
-	public ExpectedException exception = ExpectedException.none();
+	public final ExpectedException exception = ExpectedException.none();
 	
 	@Before
 	public void startProxy(){
@@ -58,7 +58,6 @@ public class PhoneHomeClientUnitTest {
 	
 	@Test
 	public void callHomeValidUrl() throws Exception{
-		exception = ExpectedException.none();
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 		String regId = "regId";
 		Map<String, String> infoMap = new HashMap<String, String>();
@@ -70,7 +69,6 @@ public class PhoneHomeClientUnitTest {
 	
 	@Test
 	public void callHomeIntegrationsTest() throws Exception{
-		exception = ExpectedException.none();
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 		
 		String propertiesPath = "testConfig.properties";
