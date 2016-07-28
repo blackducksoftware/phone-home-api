@@ -122,7 +122,7 @@ public class PhoneHomeClient {
 	 */
 	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, 
 			String thirdPartyVersion, String pluginVersion) throws IOException, ResourceException, JSONException {
-		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, pluginVersion, "config.properties");
+		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion, "config.properties");
 	} 
 	
 }
