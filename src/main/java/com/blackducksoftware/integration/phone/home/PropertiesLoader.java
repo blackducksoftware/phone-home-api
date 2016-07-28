@@ -55,11 +55,11 @@ public class PropertiesLoader {
 		inputStream.close();
 		
 		final StringBuilder target = new StringBuilder();
-		target.append(properties.getProperty("targetUrl"));
+		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETURL));
 		target.append(":");
-		target.append(properties.getProperty("targetPort"));
+		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT));
 		target.append("/");
-		target.append(properties.getProperty("targetExt"));
+		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETEXT));
 		
 		logger.debug("Target URL: " + target.toString());
 		

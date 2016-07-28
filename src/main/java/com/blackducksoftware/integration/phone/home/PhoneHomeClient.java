@@ -27,10 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.restlet.Context;
 import org.restlet.data.Reference;
-import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
@@ -39,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
 
 /**
- * 
  * @author nrowles
  *
  * Client for the phone home server. This class contains three methods: callHome, and version of callHomeIntegrations.
@@ -50,15 +47,13 @@ public class PhoneHomeClient {
 	private static final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
 	
 	/**
-	 * 
 	 * @param info					information to be sent to REST endpoint
 	 * @param targetUrl				the URL to make a POST request to
 	 * @throws ResourceException
-	 * @throws JSONException
 	 * 
 	 * This method posts to the specified 'targetUrl' the information contained in 'info'
 	 */
-	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException, JSONException {
+	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException {
 		final PhoneHomeClientApi client = ClientResource.create(new Context(), new Reference(targetUrl), PhoneHomeClientApi.class);
 		
 		client.postPhoneHomeInfo(info);
@@ -72,7 +67,6 @@ public class PhoneHomeClient {
 	}
 	
 	/**
-	 * 
 	 * @param regId					Registration ID of the 'BlackDuck Hub' instance in use
 	 * @param blackDuckName			Name of the 'BlackDuck' product
 	 * @param blackDuckVersion		Version of the 'BlackDuck' product
@@ -95,11 +89,11 @@ public class PhoneHomeClient {
 		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
 		
 		final Map<String, String> infoMap = new HashMap<String, String>();
-		infoMap.put("blackDuckName", blackDuckName);
-		infoMap.put("blackDuckVersion", blackDuckVersion);
-		infoMap.put("thirdPartyName", thirdPartyName);
-		infoMap.put("thirdPartyVersion", thirdPartyVersion);
-		infoMap.put("pluginVersion", pluginVersion);
+		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName);
+		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_VERSION, blackDuckVersion);
+		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_NAME, thirdPartyName);
+		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_VERSION, thirdPartyVersion);
+		infoMap.put(PhoneHomeApiConstants.PLUGIN_VERSION, pluginVersion);
 		
 		final PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
 		
