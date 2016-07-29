@@ -25,81 +25,82 @@ import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderEx
 public class PhoneHomeClientUnitTest {
 	private ClientAndServer server;
 	private int port;
-	
+
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
-	
+
 	@Before
 	public void startProxy() throws PropertiesLoaderException, IOException, NumberFormatException {
-		//Multiple potential test ports from mockServer.properties
+		// Multiple potential test ports from mockServer.properties
 		final Properties properties = new Properties();
 		final String propFileName = PhoneHomeApiConstants.TEST_SERVER_FILE_NAME;
 		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-		
-		if(inputStream != null){
+
+		if (inputStream != null) {
 			properties.load(inputStream);
 			inputStream.close();
 		} else {
 			throw new PropertiesLoaderException("Unable to get find resource: " + propFileName);
 		}
-		
+
 		String portsString = properties.getProperty(PhoneHomeApiConstants.TEST_SERVER_PROPERTY_PORTS);
 		port = Integer.parseInt(portsString);
-		
-		try{
+
+		try {
 			server = ClientAndServer.startClientAndServer(port);
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
+
 		List<Header> headers = new ArrayList<Header>();
-		headers.add(new Header("Content-Type","application/json; charset=UTF-8"));
+		headers.add(new Header("Content-Type", "application/json; charset=UTF-8"));
 		server.when(HttpRequest.request().withPath("/test")).respond(HttpResponse.response().withHeaders(headers));
 	}
-	
+
 	@After
-	public void stopProxy(){
+	public void stopProxy() {
 		server.stop();
 	}
-	
+
 	@Test
-	public void callHomeNull() throws Exception{
+	public void callHomeNull() throws Exception {
 		exception.expect(PhoneHomeException.class);
 		final PhoneHomeClient phClient = new PhoneHomeClient();
-		
+
 		phClient.callHome(null, null);
 	}
-	
+
 	@Test
-	public void callHomeInvalidUrl() throws Exception{
+	public void callHomeInvalidUrl() throws Exception {
 		exception.expect(ResourceException.class);
 		final PhoneHomeClient phClient = new PhoneHomeClient();
-		
+
 		String regId = "regId";
 		Map<String, String> infoMap = new HashMap<String, String>();
 		PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
 		String targetUrl = "http://foo-bar/";
-		
+
 		phClient.callHome(info, targetUrl);
 	}
-	
+
 	@Test
-	public void callHomeValidUrl() throws Exception{
+	public void callHomeValidUrl() throws Exception {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 		String regId = "regId";
 		Map<String, String> infoMap = new HashMap<String, String>();
 		PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
 		String targetUrl = "http://localhost:" + this.port + "/test";
-		
+
 		phClient.callHome(info, targetUrl);
 	}
-	
+
 	@Test
-	public void callHomeIntegrationsTest() throws Exception{
+	public void callHomeIntegrationsTest() throws Exception {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
-		
+
 		String propertiesPath = PhoneHomeApiConstants.TEST_CONFIG_FILE_NAME;
-		
-		phClient.callHomeIntegrations("regKey", "blackDuckName", "blackDuckVersion", "thirdPartyName", "thirdPartyVersion", "pluginVersion", propertiesPath);
+
+		phClient.callHomeIntegrations("regKey", "blackDuckName", "blackDuckVersion", "thirdPartyName",
+				"thirdPartyVersion", "pluginVersion", propertiesPath);
 	}
 }

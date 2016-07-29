@@ -29,10 +29,10 @@ import com.blackducksoftware.integration.phone.home.PhoneHomeInfo;
 /**
  * @author nrowles
  *
- * API for a REST endpoint.
+ *         API for a REST endpoint.
  */
 public interface PhoneHomeServerApi {
-	
+
 	@Post("json")
 	public void postPhoneHomeInfo(PhoneHomeInfo info);
 }

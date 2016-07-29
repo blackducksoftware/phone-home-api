@@ -30,11 +30,11 @@ public class PropertiesLoaderException extends Exception {
 
 	private static final long serialVersionUID = -3628260836105680080L;
 
-	public PropertiesLoaderException(){
+	public PropertiesLoaderException() {
 		super();
 	}
-	
-	public PropertiesLoaderException(String message){
+
+	public PropertiesLoaderException(String message) {
 		super(message);
 	}
 }

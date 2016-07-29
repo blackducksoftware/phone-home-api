@@ -34,14 +34,14 @@ import java.util.Objects;
  * @author nrowles
  * 
  * 
- * Information to be sent to a REST endpoint
+ *         Information to be sent to a REST endpoint
  */
-public class PhoneHomeInfo{
-	
+public class PhoneHomeInfo {
+
 	private final String regId;
 	private final Map<String, String> infoMap;
-	
-	public PhoneHomeInfo(String regId, Map<String, String> infoMap){
+
+	public PhoneHomeInfo(String regId, Map<String, String> infoMap) {
 		this.regId = Objects.requireNonNull(regId);
 		this.infoMap = Objects.requireNonNull(infoMap);
 	}
@@ -50,7 +50,7 @@ public class PhoneHomeInfo{
 		return regId;
 	}
 
-	public Map<String, String> getInfoMap(){
+	public Map<String, String> getInfoMap() {
 		return infoMap;
 	}
 }
