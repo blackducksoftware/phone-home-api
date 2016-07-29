@@ -20,13 +20,12 @@
  * under the License.
  *******************************************************************************/
 
+package com.blackducksoftware.integration.phone.home.exception;
+
 /**
- * 
  * @author nrowles
  * 
  */
-package com.blackducksoftware.integration.phone.home.exception;
-
 public class PropertiesLoaderException extends Exception {
 
 	private static final long serialVersionUID = -3628260836105680080L;
