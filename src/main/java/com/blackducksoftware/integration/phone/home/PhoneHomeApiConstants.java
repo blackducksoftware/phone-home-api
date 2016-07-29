@@ -20,12 +20,12 @@
  * under the License.
  *******************************************************************************/
 
+package com.blackducksoftware.integration.phone.home;
+
 /**
  * @author nrowles
  * 
  */
-package com.blackducksoftware.integration.phone.home;
-
 public class PhoneHomeApiConstants {
 
 	public static final String PROPERTIES_FILE_NAME = "config.properties";

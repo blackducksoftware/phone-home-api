@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 
 /**
- * 
  * @author nrowles
  *
  *         Utility class to load properties from an external file.

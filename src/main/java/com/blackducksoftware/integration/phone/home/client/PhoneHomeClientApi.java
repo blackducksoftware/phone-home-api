@@ -20,12 +20,12 @@
  * under the License.
  *******************************************************************************/
 
+package com.blackducksoftware.integration.phone.home.client;
+
 /**
  * @author nrowles
  * 
  */
-package com.blackducksoftware.integration.phone.home.client;
-
 import org.restlet.resource.ClientProxy;
 
 import com.blackducksoftware.integration.phone.home.api.PhoneHomeServerApi;
