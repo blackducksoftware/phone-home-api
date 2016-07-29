@@ -22,14 +22,15 @@
 
 package com.blackducksoftware.integration.phone.home.client;
 
-/**
- * @author nrowles
- * 
- */
 import org.restlet.resource.ClientProxy;
 
 import com.blackducksoftware.integration.phone.home.api.PhoneHomeServerApi;
 
+
+/**
+ * @author nrowles
+ * 
+ */
 public interface PhoneHomeClientApi extends PhoneHomeServerApi, ClientProxy {
 
 }
