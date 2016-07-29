@@ -25,6 +25,7 @@ package com.blackducksoftware.integration.phone.home;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.json.JSONException;
 import org.restlet.Context;
@@ -35,6 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
+import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
+import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 
 /**
  * @author nrowles
@@ -44,16 +47,24 @@ import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
  */
 public class PhoneHomeClient {
 
-	private static final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
+	private final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
 	
 	/**
 	 * @param info					information to be sent to REST endpoint
 	 * @param targetUrl				the URL to make a POST request to
 	 * @throws ResourceException
+	 * @throws PhoneHomeException 
 	 * 
 	 * This method posts to the specified 'targetUrl' the information contained in 'info'
 	 */
-	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException {
+	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException, PhoneHomeException {
+		try{
+			info = Objects.requireNonNull(info);
+			info = Objects.requireNonNull(info);
+		} catch (NullPointerException e){
+			throw new PhoneHomeException("Expected parameters to not be null");
+		}
+		
 		final PhoneHomeClientApi client = ClientResource.create(new Context(), new Reference(targetUrl), PhoneHomeClientApi.class);
 		
 		client.postPhoneHomeInfo(info);
@@ -62,7 +73,7 @@ public class PhoneHomeClient {
 		if(responseCode >= 200 && responseCode < 300){
 			logger.info("Phone Home Call Successful, status returned: " + responseCode);
 		} else{
-			throw new ResourceException(responseCode);
+			throw new PhoneHomeException("Error from server when phoning-home: " + responseCode);
 		}
 	}
 	
@@ -77,6 +88,8 @@ public class PhoneHomeClient {
 	 * @throws IOException
 	 * @throws ResourceException
 	 * @throws JSONException
+	 * @throws PropertiesLoaderException 
+	 * @throws PhoneHomeException 
 	 * 
 	 * This method is used to phone-home to the internal 'BlackDuck' Integrations server with integrations usage
 	 * information. *NOTE:* This method, in most instances, SHOULD NOT be called. Instead, use
@@ -84,7 +97,9 @@ public class PhoneHomeClient {
 	 * containing the URL to the internal 'BlackDuck' server.
 	 */
 	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, 
-			String thirdPartyVersion, String pluginVersion, String propertiesPath) throws IOException, ResourceException, JSONException {
+			String thirdPartyVersion, String pluginVersion, String propertiesPath) throws IOException, ResourceException, 
+			JSONException, PropertiesLoaderException, PhoneHomeException {
+		
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
 		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
 		
@@ -98,7 +113,6 @@ public class PhoneHomeClient {
 		final PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
 		
 		callHome(info, targetUrl);
-		
 	}
 	
 	/**
@@ -112,13 +126,16 @@ public class PhoneHomeClient {
 	 * @throws IOException
 	 * @throws ResourceException
 	 * @throws JSONException
+	 * @throws PropertiesLoaderException 
+	 * @throws PhoneHomeException 
 	 * 
 	 * This method is used to phone-home to the internal 'BlackDuck' Integrations server with integrations usage
 	 * information.
 	 */
 	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, 
-			String thirdPartyVersion, String pluginVersion) throws IOException, ResourceException, JSONException {
-		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion, "config.properties");
+			String thirdPartyVersion, String pluginVersion) throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
+		
+		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
 	} 
 	
 }

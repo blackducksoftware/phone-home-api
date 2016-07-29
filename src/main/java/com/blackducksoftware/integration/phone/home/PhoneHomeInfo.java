@@ -28,6 +28,7 @@
 package com.blackducksoftware.integration.phone.home;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author nrowles
@@ -41,8 +42,8 @@ public class PhoneHomeInfo{
 	private final Map<String, String> infoMap;
 	
 	public PhoneHomeInfo(String regId, Map<String, String> infoMap){
-		this.regId = regId;
-		this.infoMap = infoMap;
+		this.regId = Objects.requireNonNull(regId);
+		this.infoMap = Objects.requireNonNull(infoMap);
 	}
 
 	public String getRegId() {

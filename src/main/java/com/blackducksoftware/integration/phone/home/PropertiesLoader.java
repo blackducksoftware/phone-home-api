@@ -29,6 +29,8 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
+
 /**
  * 
  * @author nrowles
@@ -37,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PropertiesLoader {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
+	private final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
 	
 	/**
 	 * 
@@ -46,13 +48,18 @@ public class PropertiesLoader {
 	 * @throws IOException
 	 * 
 	 * This method builds a URL from the given properties file name, and returns it as a String.
+	 * @throws PropertiesLoaderException 
 	 */
-	public String createTargetUrl(String propertiesFileName) throws IOException{
+	public String createTargetUrl(String propertiesFileName) throws IOException, PropertiesLoaderException{
 		final Properties properties = new Properties();
 		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
 		
-		properties.load(inputStream);
-		inputStream.close();
+		if(inputStream != null){
+			properties.load(inputStream);
+			inputStream.close();
+		} else {
+			throw new PropertiesLoaderException("Unable to get find resource: " + propertiesFileName);
+		}
 		
 		final StringBuilder target = new StringBuilder();
 		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETURL));
