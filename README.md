@@ -1,19 +1,18 @@
-#Phone Home API
-##Author: Nicholas Rowles
-##Owner: BlackDuck Software, Inc.
+## Overview
+The phone-home-api is used to send information to the BlackDuck Software internal integrations server.
 
-The phone-home-api is used to send information to the BlackDuck Software internal Integrations server. The 
-```java
-PhoneHomeClient
-```
-class is used to send a 
-```java
-PhoneHomeInfo
-```
-object to the server.
+## Build ##
 
-From an integrations standpoint. The 
-```java
-PhoneHomeClient.callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName, String thirdPartyVersion, String pluginVersion)
-```
-method should be used to send the relevant information to the server.
+[![Build Status](https://travis-ci.org/blackducksoftware/phone-home-api.svg?branch=master)](https://travis-ci.org/blackducksoftware/phone-home-api)
+[![Coverage Status](https://coveralls.io/repos/github/blackducksoftware/phone-home-api/badge.svg?branch=master(https://coveralls.io/github/blackducksoftware/phone-home-api?branch=master)
+
+## Release ##
+You can download the latest source from GitHub: https://github.com/blackducksoftware/phone-home-api
+
+You can download the latest artifact from releases: https://github.com/blackducksoftware/phone-home-api/releases
+
+## Documentation ##
+All documentation can be found on the GitHub wiki:  https://github.com/blackducksoftware/phone-home-api/wiki
+
+## License ##
+Apache 2.0
