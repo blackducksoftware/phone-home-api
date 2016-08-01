@@ -72,6 +72,9 @@ public class PhoneHomeClient {
 		final PhoneHomeClientApi client = ClientResource.create(new Context(), new Reference(targetUrl),
 				PhoneHomeClientApi.class);
 
+        client.getClientResource().setEntityBuffering(true);
+        logger.info("PhoneHomeInfo: " + info.toString());
+        
 		client.postPhoneHomeInfo(info);
 
 		int responseCode = client.getClientResource().getResponse().getStatus().getCode();
@@ -131,6 +134,7 @@ public class PhoneHomeClient {
 
 		final PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
 
+		logger.info("PhoneHomeInfo info: " + info.toString());
 		callHome(info, targetUrl);
 	}
 
@@ -167,5 +171,4 @@ public class PhoneHomeClient {
 		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion,
 				PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
 	}
-
 }

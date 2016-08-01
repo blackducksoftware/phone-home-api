@@ -27,6 +27,7 @@
  */
 package com.blackducksoftware.integration.phone.home;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,7 +37,12 @@ import java.util.Objects;
  * 
  *         Information to be sent to a REST endpoint
  */
-public class PhoneHomeInfo {
+public class PhoneHomeInfo implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5604676370200060866L;
 
 	private final String regId;
 	private final Map<String, String> infoMap;
@@ -52,5 +58,21 @@ public class PhoneHomeInfo {
 
 	public Map<String, String> getInfoMap() {
 		return infoMap;
+	}
+	
+	@Override
+	public String toString(){
+		StringBuilder str = new StringBuilder();
+		str.append("{regId: " + regId + ", ");
+		
+		str.append("infoMap: {");
+		for(String key : infoMap.keySet()){
+			str.append(key + ": " + infoMap.get(key));
+			str.append(",");
+		}
+		str.deleteCharAt(str.length()-1);
+		str.append("}}");
+		
+		return str.toString();
 	}
 }
