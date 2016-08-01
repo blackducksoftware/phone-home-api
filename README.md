@@ -9,8 +9,6 @@ The phone-home-api is used to send information to the BlackDuck Software interna
 ## Release ##
 You can download the latest source from GitHub: https://github.com/blackducksoftware/phone-home-api
 
-You can download the latest artifact from releases: https://github.com/blackducksoftware/phone-home-api/releases
-
 ## Documentation ##
 All documentation can be found on the GitHub wiki:  https://github.com/blackducksoftware/phone-home-api/wiki
 
