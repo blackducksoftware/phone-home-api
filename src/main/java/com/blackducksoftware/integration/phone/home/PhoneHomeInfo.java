@@ -63,11 +63,11 @@ public class PhoneHomeInfo implements Serializable {
 	@Override
 	public String toString(){
 		StringBuilder str = new StringBuilder();
-		str.append("{regId: " + regId + ", ");
+		str.append("{regId:" + regId + ", ");
 		
-		str.append("infoMap: {");
+		str.append("infoMap:{");
 		for(String key : infoMap.keySet()){
-			str.append(key + ": " + infoMap.get(key));
+			str.append(key + ":" + infoMap.get(key));
 			str.append(",");
 		}
 		str.deleteCharAt(str.length()-1);
