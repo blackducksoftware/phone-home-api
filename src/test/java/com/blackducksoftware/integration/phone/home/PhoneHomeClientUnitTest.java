@@ -22,8 +22,14 @@
 
 package com.blackducksoftware.integration.phone.home;
 
+import io.restassured.RestAssured;
+import io.restassured.RestAssured.*;
+import io.restassured.matcher.RestAssuredMatchers.*;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +49,10 @@ import org.restlet.resource.ResourceException;
 
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.global.GlobalSettings;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 /**
  * @author nrowles
@@ -54,6 +64,10 @@ public class PhoneHomeClientUnitTest {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
+	
+	@Rule
+	public final WireMockRule wmRule = new WireMockRule(WireMockConfiguration.wireMockConfig().dynamicPort().dynamicHttpsPort());
+	
 
 	@Before
 	public void startProxy() throws PropertiesLoaderException, IOException, NumberFormatException {
@@ -115,7 +129,7 @@ public class PhoneHomeClientUnitTest {
 		String regId = "regId";
 		Map<String, String> infoMap = new HashMap<String, String>();
 		PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
-		String targetUrl = "http://localhost:" + this.port + "/test";
+		String targetUrl = "http://127.0.0.1:" + this.port + "/test";
 
 		phClient.callHome(info, targetUrl);
 	}
