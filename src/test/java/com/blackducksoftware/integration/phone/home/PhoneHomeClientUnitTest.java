@@ -22,17 +22,12 @@
 
 package com.blackducksoftware.integration.phone.home;
 
-import io.restassured.RestAssured;
-import io.restassured.RestAssured.*;
-import io.restassured.matcher.RestAssuredMatchers.*;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
+import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -41,7 +36,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockserver.integration.ClientAndServer;
+import org.mockserver.client.server.MockServerClient;
+import org.mockserver.junit.MockServerRule;
 import org.mockserver.model.Header;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -49,57 +45,51 @@ import org.restlet.resource.ResourceException;
 
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
-import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.global.GlobalSettings;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 /**
  * @author nrowles
  *
  */
 public class PhoneHomeClientUnitTest {
-	private ClientAndServer server;
-	private int port;
-
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
 	
 	@Rule
-	public final WireMockRule wmRule = new WireMockRule(WireMockConfiguration.wireMockConfig().dynamicPort().dynamicHttpsPort());
-	
+	public final ExpectedException exception = ExpectedException.none();	
 
+	@Rule
+	public final MockServerRule msRule = new MockServerRule(this);
+	
+	private final MockServerClient msClient = new MockServerClient(PhoneHomeApiConstants.LOCALHOST, msRule.getPort());
+	private final int port = msRule.getPort();
+	
 	@Before
-	public void startProxy() throws PropertiesLoaderException, IOException, NumberFormatException {
-		// Multiple potential test ports from mockServer.properties
-		final Properties properties = new Properties();
-		final String propFileName = PhoneHomeApiConstants.TEST_SERVER_FILE_NAME;
-		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+	public void startProxy() throws PropertiesLoaderException, IOException, NumberFormatException, FileNotFoundException, SecurityException, UnknownHostException {
+		
+		msClient
+			.when(
+					new HttpRequest()
+						.withPath("/test"))
+			.respond(
+					new HttpResponse()
+						.withHeader(
+								new Header("Content-Type", "json")));
+		
+		String propPath = this.getClass().getClassLoader().getResource(PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME).getPath();
+		FileInputStream in = new FileInputStream(propPath);
+		Properties prop = new Properties();
+		prop.load(in);
+		in.close();
+		
+		FileOutputStream out = new FileOutputStream(propPath);
+		prop.setProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT, Integer.toString(port));
+		prop.store(out, null);
+		out.close();
+		
 
-		if (inputStream != null) {
-			properties.load(inputStream);
-			inputStream.close();
-		} else {
-			throw new PropertiesLoaderException("Unable to get find resource: " + propFileName);
-		}
-
-		String portsString = properties.getProperty(PhoneHomeApiConstants.TEST_SERVER_PROPERTY_PORTS);
-		port = Integer.parseInt(portsString);
-
-		try {
-			server = ClientAndServer.startClientAndServer(port);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		List<Header> headers = new ArrayList<Header>();
-		headers.add(new Header("Content-Type", "application/json; charset=UTF-8"));
-		server.when(HttpRequest.request().withPath("/test")).respond(HttpResponse.response().withHeaders(headers));
 	}
 
 	@After
 	public void stopProxy() {
-		server.stop();
+		//Intentionally left blank
 	}
 
 	@Test
@@ -129,7 +119,7 @@ public class PhoneHomeClientUnitTest {
 		String regId = "regId";
 		Map<String, String> infoMap = new HashMap<String, String>();
 		PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
-		String targetUrl = "http://127.0.0.1:" + this.port + "/test";
+		String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
 
 		phClient.callHome(info, targetUrl);
 	}
@@ -138,7 +128,7 @@ public class PhoneHomeClientUnitTest {
 	public void callHomeIntegrationsTest() throws Exception {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 
-		String propertiesPath = PhoneHomeApiConstants.TEST_CONFIG_FILE_NAME;
+		String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
 		phClient.callHomeIntegrations("regKey", "blackDuckName", "blackDuckVersion", "thirdPartyName",
 				"thirdPartyVersion", "pluginVersion", propertiesPath);

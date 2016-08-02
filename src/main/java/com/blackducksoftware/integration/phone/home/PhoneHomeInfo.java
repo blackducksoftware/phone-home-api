@@ -20,11 +20,6 @@
  * under the License.
  *******************************************************************************/
 
-/**
- * 
- * @author nrowles
- * 
- */
 package com.blackducksoftware.integration.phone.home;
 
 import java.io.Serializable;

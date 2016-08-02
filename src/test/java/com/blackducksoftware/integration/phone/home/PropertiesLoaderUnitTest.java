@@ -54,7 +54,18 @@ public class PropertiesLoaderUnitTest {
 
 		String url = propLoader.createTargetUrl(validPath);
 
-		String expectedUrl = "http://localhost:8121/test";
+		String expectedUrl = "http://127.0.0.1:8121/test";
+		assertEquals(expectedUrl, url);
+	}
+	
+	@Test
+	public void createTargetUrlIntegrations() throws Exception {
+		final PropertiesLoader propLoader = new PropertiesLoader();
+		String configPath = PhoneHomeApiConstants.PROPERTIES_FILE_NAME;
+		
+		String url = propLoader.createTargetUrl(configPath);
+		
+		String expectedUrl = "https://collect.blackducksoftware.com/";
 		assertEquals(expectedUrl, url);
 	}
 }

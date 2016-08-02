@@ -124,7 +124,8 @@ public class PhoneHomeClient {
 
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
 		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
-
+		logger.debug("Integrations phone-home URL: " + targetUrl);
+		
 		final Map<String, String> infoMap = new HashMap<String, String>();
 		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName);
 		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_VERSION, blackDuckVersion);

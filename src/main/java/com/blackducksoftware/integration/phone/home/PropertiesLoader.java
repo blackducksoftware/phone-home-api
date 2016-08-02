@@ -63,11 +63,19 @@ public class PropertiesLoader {
 		}
 
 		final StringBuilder target = new StringBuilder();
+		
 		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETURL));
-		target.append(":");
-		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT));
+		
+		final String targetPort = properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT);
+		if(targetPort != null && targetPort.trim().length() > 0){
+			target.append(":" + targetPort.trim());
+		}
+		
 		target.append("/");
-		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETEXT));
+		final String targetExt = properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETEXT);
+		if(targetExt != null && targetExt.trim().length() > 0){
+			target.append(targetExt.trim());
+		}
 
 		logger.debug("Target URL: " + target.toString());
 
