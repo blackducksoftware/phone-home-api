@@ -168,7 +168,7 @@ public class PhoneHomeClient {
 	 */
 	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
 			final String thirdPartyVersion, final String pluginVersion, final String source, final String propertiesPath)
-			throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
+					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
 		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
