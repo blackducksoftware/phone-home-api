@@ -106,8 +106,9 @@ public class PhoneHomeClientUnitTest {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 
 		String regId = "regId";
+		String source = "Integrations";
 		Map<String, String> infoMap = new HashMap<String, String>();
-		PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
+		PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
 		String targetUrl = "http://foo-bar/";
 
 		phClient.callHome(info, targetUrl);
@@ -117,8 +118,9 @@ public class PhoneHomeClientUnitTest {
 	public void callHomeValidUrl() throws Exception {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 		String regId = "regId";
+		String source = "Integrations";
 		Map<String, String> infoMap = new HashMap<String, String>();
-		PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
+		PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
 		String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
 
 		phClient.callHome(info, targetUrl);
@@ -131,6 +133,6 @@ public class PhoneHomeClientUnitTest {
 		String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
 		phClient.callHomeIntegrations("regKey", "blackDuckName", "blackDuckVersion", "thirdPartyName",
-				"thirdPartyVersion", "pluginVersion", propertiesPath);
+				"thirdPartyVersion", "pluginVersion", "Integrations", propertiesPath);
 	}
 }

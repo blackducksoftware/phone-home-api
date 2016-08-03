@@ -167,8 +167,8 @@ public class PhoneHomeClient {
 	 *             the internal 'BlackDuck' server.
 	 */
 	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
-			final String thirdPartyVersion, final String pluginVersion, final String propertiesPath)
-					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
+			final String thirdPartyVersion, final String pluginVersion, final String source, final String propertiesPath)
+			throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
 		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
@@ -181,7 +181,7 @@ public class PhoneHomeClient {
 		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_VERSION, thirdPartyVersion);
 		infoMap.put(PhoneHomeApiConstants.PLUGIN_VERSION, pluginVersion);
 
-		final PhoneHomeInfo info = new PhoneHomeInfo(regId, infoMap);
+		final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
 
 		logger.info("PhoneHomeInfo info: " + info.toString());
 		callHome(info, targetUrl);
@@ -218,6 +218,6 @@ public class PhoneHomeClient {
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
 		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion,
-				PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
+				PhoneHomeApiConstants.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
 	}
 }

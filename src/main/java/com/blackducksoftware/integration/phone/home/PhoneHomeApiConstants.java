@@ -46,4 +46,6 @@ public class PhoneHomeApiConstants {
 	public static final String MOCKSERVER_CONFIG_FILE_NAME = "mockServer.properties";
 	
 	public static final String LOCALHOST = "http://127.0.0.1";
+	
+	public static final String INTEGRATIONS = "Integrations";
 }

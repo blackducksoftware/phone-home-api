@@ -40,15 +40,21 @@ public class PhoneHomeInfo implements Serializable {
 	private static final long serialVersionUID = 5604676370200060866L;
 
 	private final String regId;
+	private final String source;
 	private final Map<String, String> infoMap;
 
-	public PhoneHomeInfo(String regId, Map<String, String> infoMap) {
+	public PhoneHomeInfo(String regId, String source, Map<String, String> infoMap) {
 		this.regId = Objects.requireNonNull(regId);
+		this.source = Objects.requireNonNull(source);
 		this.infoMap = Objects.requireNonNull(infoMap);
 	}
 
 	public String getRegId() {
 		return regId;
+	}
+	
+	public String getSource() {
+		return source;
 	}
 
 	public Map<String, String> getInfoMap() {
