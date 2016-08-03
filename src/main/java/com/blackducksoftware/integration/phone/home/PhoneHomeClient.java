@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.restlet.Context;
 import org.restlet.data.Reference;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
+import com.blackducksoftware.integration.phone.home.util.AuthenticatorUtil;
 
 /**
  * @author nrowles
@@ -51,33 +53,79 @@ public class PhoneHomeClient {
 	private final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
 
 	/**
+	 * Clears the previously set System properties I.E. https.proxyHost,
+	 * https.proxyPort, http.proxyHost, http.proxyPort, http.nonProxyHosts
+	 *
+	 */
+	private void cleanUpOldProxySettings() {
+
+		System.clearProperty("http.proxyHost");
+		System.clearProperty("http.proxyPort");
+		System.clearProperty("http.nonProxyHosts");
+
+		AuthenticatorUtil.resetAuthenticator();
+	}
+
+	/**
+	 * The proxy settings get set as System properties. I.E. https.proxyHost,
+	 * https.proxyPort, http.proxyHost, http.proxyPort, http.nonProxyHosts
+	 *
+	 */
+	public void setProxyProperties(final String proxyHost, final int proxyPort, final String proxyUser,
+			final String decryptedProxyPassword, final String ignoredProxyHost) {
+		cleanUpOldProxySettings();
+
+		if (!StringUtils.isBlank(proxyHost) && proxyPort > 0) {
+			if (logger != null) {
+				logger.debug("Using Proxy : " + proxyHost + ", at Port : " + proxyPort);
+			}
+
+			System.setProperty("http.proxyHost", proxyHost);
+			System.setProperty("http.proxyPort", Integer.toString(proxyPort));
+
+			try {
+				if (!StringUtils.isBlank(proxyUser) && !StringUtils.isBlank(decryptedProxyPassword)) {
+					AuthenticatorUtil.setAuthenticator(proxyUser, decryptedProxyPassword);
+				}
+			} catch (final Exception e) {
+				if (logger != null) {
+					logger.debug("Error setting up the Java Authenticator.", e);
+				}
+			}
+		}
+		if (!StringUtils.isBlank(ignoredProxyHost)) {
+			System.setProperty("http.nonProxyHosts", ignoredProxyHost.replaceAll(",", "|"));
+		}
+	}
+
+	/**
 	 * @param info
 	 *            information to be sent to REST endpoint
 	 * @param targetUrl
 	 *            the URL to make a POST request to
 	 * @throws ResourceException
 	 * @throws PhoneHomeException
-	 * 
+	 *
 	 *             This method posts to the specified 'targetUrl' the
 	 *             information contained in 'info'
 	 */
-	public void callHome(PhoneHomeInfo info, String targetUrl) throws ResourceException, PhoneHomeException {
+	public void callHome(PhoneHomeInfo info, final String targetUrl) throws ResourceException, PhoneHomeException {
 		try {
 			info = Objects.requireNonNull(info);
 			info = Objects.requireNonNull(info);
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			throw new PhoneHomeException("Expected parameters to not be null");
 		}
 
 		final PhoneHomeClientApi client = ClientResource.create(new Context(), new Reference(targetUrl),
 				PhoneHomeClientApi.class);
 
-        client.getClientResource().setEntityBuffering(true);
-        logger.info("PhoneHomeInfo: " + info.toString());
-        
+		client.getClientResource().setEntityBuffering(true);
+		logger.info("PhoneHomeInfo: " + info.toString());
+
 		client.postPhoneHomeInfo(info);
 
-		int responseCode = client.getClientResource().getResponse().getStatus().getCode();
+		final int responseCode = client.getClientResource().getResponse().getStatus().getCode();
 		if (responseCode >= 200 && responseCode < 300) {
 			logger.info("Phone Home Call Successful, status returned: " + responseCode);
 		} else {
@@ -109,7 +157,7 @@ public class PhoneHomeClient {
 	 * @throws JSONException
 	 * @throws PropertiesLoaderException
 	 * @throws PhoneHomeException
-	 * 
+	 *
 	 *             This method is used to phone-home to the internal 'BlackDuck'
 	 *             Integrations server with integrations usage information.
 	 *             *NOTE:* This method, in most instances, SHOULD NOT be called.
@@ -118,14 +166,14 @@ public class PhoneHomeClient {
 	 *             as it points to a valid properties file containing the URL to
 	 *             the internal 'BlackDuck' server.
 	 */
-	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName,
-			String thirdPartyVersion, String pluginVersion, String propertiesPath)
-			throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
+	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
+			final String thirdPartyVersion, final String pluginVersion, final String propertiesPath)
+					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
 		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
 		logger.debug("Integrations phone-home URL: " + targetUrl);
-		
+
 		final Map<String, String> infoMap = new HashMap<String, String>();
 		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName);
 		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_VERSION, blackDuckVersion);
@@ -140,7 +188,7 @@ public class PhoneHomeClient {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param regId
 	 *            Registration ID of the 'BlackDuck Hub' instance in use
 	 * @param blackDuckName
@@ -161,13 +209,13 @@ public class PhoneHomeClient {
 	 * @throws JSONException
 	 * @throws PropertiesLoaderException
 	 * @throws PhoneHomeException
-	 * 
+	 *
 	 *             This method is used to phone-home to the internal 'BlackDuck'
 	 *             Integrations server with integrations usage information.
 	 */
-	public void callHomeIntegrations(String regId, String blackDuckName, String blackDuckVersion, String thirdPartyName,
-			String thirdPartyVersion, String pluginVersion)
-			throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
+	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
+			final String thirdPartyVersion, final String pluginVersion)
+					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
 		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion,
 				PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
