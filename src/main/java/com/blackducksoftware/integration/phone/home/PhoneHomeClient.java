@@ -124,7 +124,8 @@ public class PhoneHomeClient {
 		logger.info("PhoneHomeInfo: " + info.toString());
 
 		client.postPhoneHomeInfo(info);
-
+		client.getClientResource().release();
+		
 		final int responseCode = client.getClientResource().getResponse().getStatus().getCode();
 		if (responseCode >= 200 && responseCode < 300) {
 			logger.info("Phone Home Call Successful, status returned: " + responseCode);
