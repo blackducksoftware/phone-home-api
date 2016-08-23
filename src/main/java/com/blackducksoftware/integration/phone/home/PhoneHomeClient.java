@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
+import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 import com.blackducksoftware.integration.phone.home.util.AuthenticatorUtil;
@@ -168,7 +169,7 @@ public class PhoneHomeClient {
 	 *             the internal 'BlackDuck' server.
 	 */
 	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
-			final String thirdPartyVersion, final String pluginVersion, final String source, final String propertiesPath)
+			final String thirdPartyVersion, final String pluginVersion, final PhoneHomeSource source, final String propertiesPath)
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
 		final PropertiesLoader propertiesLoader = new PropertiesLoader();
@@ -219,6 +220,6 @@ public class PhoneHomeClient {
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
 		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion,
-				PhoneHomeApiConstants.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
+				PhoneHomeSource.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
 	}
 }

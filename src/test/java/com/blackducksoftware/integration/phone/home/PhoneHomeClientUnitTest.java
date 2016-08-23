@@ -43,6 +43,7 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.restlet.resource.ResourceException;
 
+import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 
@@ -106,7 +107,7 @@ public class PhoneHomeClientUnitTest {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 
 		String regId = "regId";
-		String source = "Integrations";
+		PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
 		Map<String, String> infoMap = new HashMap<String, String>();
 		PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
 		String targetUrl = "http://foo-bar/";
@@ -118,7 +119,7 @@ public class PhoneHomeClientUnitTest {
 	public void callHomeValidUrl() throws Exception {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 		String regId = "regId";
-		String source = "Integrations";
+		PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
 		Map<String, String> infoMap = new HashMap<String, String>();
 		PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
 		String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
@@ -133,6 +134,6 @@ public class PhoneHomeClientUnitTest {
 		String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
 		phClient.callHomeIntegrations("regKey", "blackDuckName", "blackDuckVersion", "thirdPartyName",
-				"thirdPartyVersion", "pluginVersion", "Integrations", propertiesPath);
+				"thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS, propertiesPath);
 	}
 }

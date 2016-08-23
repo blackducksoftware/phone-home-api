@@ -26,6 +26,8 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
+import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
+
 /**
  * @author nrowles
  * 
@@ -40,10 +42,10 @@ public class PhoneHomeInfo implements Serializable {
 	private static final long serialVersionUID = 5604676370200060866L;
 
 	private final String regId;
-	private final String source;
+	private final PhoneHomeSource source;
 	private final Map<String, String> infoMap;
 
-	public PhoneHomeInfo(String regId, String source, Map<String, String> infoMap) {
+	public PhoneHomeInfo(String regId, PhoneHomeSource source, Map<String, String> infoMap) {
 		this.regId = Objects.requireNonNull(regId);
 		this.source = Objects.requireNonNull(source);
 		this.infoMap = Objects.requireNonNull(infoMap);
@@ -53,7 +55,7 @@ public class PhoneHomeInfo implements Serializable {
 		return regId;
 	}
 	
-	public String getSource() {
+	public PhoneHomeSource getSource() {
 		return source;
 	}
 
@@ -65,6 +67,8 @@ public class PhoneHomeInfo implements Serializable {
 	public String toString(){
 		StringBuilder str = new StringBuilder();
 		str.append("{regId:" + regId + ", ");
+		
+		str.append("source:" + source + ", ");
 		
 		str.append("infoMap:{");
 		for(String key : infoMap.keySet()){
