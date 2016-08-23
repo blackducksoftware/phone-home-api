@@ -1,7 +1,5 @@
 package com.blackducksoftware.integration.phone.home.enums;
 
-import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
-
 public enum PhoneHomeSource {
 	HUB, INTEGRATIONS;
 	
