@@ -1,12 +1,13 @@
 package com.blackducksoftware.integration.phone.home.enums;
 
-public enum PhoneHomeSource {
+public enum BlackDuckName {
 	HUB ("Hub"), 
-	INTEGRATIONS ("Integrations");
+	PROTEX ("Protex"), 
+	CODE_CENTER ("Code-Center");
 	
-	private String name;
+	private final String name;
 	
-	private PhoneHomeSource(String name){
+	private BlackDuckName(String name){
 		this.name = name;
 	}
 	

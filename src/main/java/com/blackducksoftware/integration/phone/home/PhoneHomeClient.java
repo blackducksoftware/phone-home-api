@@ -37,7 +37,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
+import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
+import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 import com.blackducksoftware.integration.phone.home.util.AuthenticatorUtil;
@@ -168,7 +170,7 @@ public class PhoneHomeClient {
 	 *             as it points to a valid properties file containing the URL to
 	 *             the internal 'BlackDuck' server.
 	 */
-	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
+	public void callHomeIntegrations(final String regId, final BlackDuckName blackDuckName, final String blackDuckVersion, final ThirdPartyName thirdPartyName,
 			final String thirdPartyVersion, final String pluginVersion, final PhoneHomeSource source, final String propertiesPath)
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
@@ -177,9 +179,9 @@ public class PhoneHomeClient {
 		logger.debug("Integrations phone-home URL: " + targetUrl);
 
 		final Map<String, String> infoMap = new HashMap<String, String>();
-		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName);
+		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName.getName());
 		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_VERSION, blackDuckVersion);
-		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_NAME, thirdPartyName);
+		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_NAME, thirdPartyName.getName());
 		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_VERSION, thirdPartyVersion);
 		infoMap.put(PhoneHomeApiConstants.PLUGIN_VERSION, pluginVersion);
 
@@ -215,7 +217,7 @@ public class PhoneHomeClient {
 	 *             This method is used to phone-home to the internal 'BlackDuck'
 	 *             Integrations server with integrations usage information.
 	 */
-	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
+	public void callHomeIntegrations(final String regId, final BlackDuckName blackDuckName, final String blackDuckVersion, final ThirdPartyName thirdPartyName,
 			final String thirdPartyVersion, final String pluginVersion)
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
