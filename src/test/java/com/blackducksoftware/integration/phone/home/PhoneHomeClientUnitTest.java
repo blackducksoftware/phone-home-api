@@ -135,7 +135,7 @@ public class PhoneHomeClientUnitTest {
 
 		String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
-		phClient.callHomeIntegrations("regKey", BlackDuckName.HUB, "blackDuckVersion", ThirdPartyName.JENKINS,
+		phClient.callHomeIntegrations("regKey", BlackDuckName.HUB.getName(), "blackDuckVersion", ThirdPartyName.JENKINS.getName(),
 				"thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS, propertiesPath);
 	}
 }

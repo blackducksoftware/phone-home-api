@@ -42,12 +42,18 @@ public class PhoneHomeInfo implements Serializable {
 	private static final long serialVersionUID = 5604676370200060866L;
 
 	private final String regId;
-	private final PhoneHomeSource source;
+	private final String source;
 	private final Map<String, String> infoMap;
 
-	public PhoneHomeInfo(String regId, PhoneHomeSource source, Map<String, String> infoMap) {
+	public PhoneHomeInfo(String regId, String source, Map<String, String> infoMap) {
 		this.regId = Objects.requireNonNull(regId);
 		this.source = Objects.requireNonNull(source);
+		this.infoMap = Objects.requireNonNull(infoMap);
+	}
+	
+	public PhoneHomeInfo(String regId, PhoneHomeSource source, Map<String, String> infoMap) {
+		this.regId = Objects.requireNonNull(regId);
+		this.source = Objects.requireNonNull(source.getName());
 		this.infoMap = Objects.requireNonNull(infoMap);
 	}
 
@@ -55,7 +61,7 @@ public class PhoneHomeInfo implements Serializable {
 		return regId;
 	}
 	
-	public PhoneHomeSource getSource() {
+	public String getSource() {
 		return source;
 	}
 
@@ -68,7 +74,7 @@ public class PhoneHomeInfo implements Serializable {
 		StringBuilder str = new StringBuilder();
 		str.append("{regId:" + regId + ", ");
 		
-		str.append("source:" + source.getName() + ", ");
+		str.append("source:" + source + ", ");
 		
 		str.append("infoMap:{");
 		for(String key : infoMap.keySet()){
