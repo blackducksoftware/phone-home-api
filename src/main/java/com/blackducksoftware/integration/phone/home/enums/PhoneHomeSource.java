@@ -1,21 +1,16 @@
 package com.blackducksoftware.integration.phone.home.enums;
 
 public enum PhoneHomeSource {
-	HUB, INTEGRATIONS;
+	HUB ("Hub"), 
+	INTEGRATIONS ("Integrations");
 	
-	@Override
-	public String toString(){
-		String s = null;
-		
-		switch(this) {
-		case HUB: 
-			s = "Hub";
-			break;
-		case INTEGRATIONS:
-			s = "Integrations";
-			break;
-		}
-		
-		return s;
+	private String name;
+	
+	private PhoneHomeSource(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 }

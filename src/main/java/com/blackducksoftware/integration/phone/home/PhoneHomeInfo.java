@@ -68,7 +68,7 @@ public class PhoneHomeInfo implements Serializable {
 		StringBuilder str = new StringBuilder();
 		str.append("{regId:" + regId + ", ");
 		
-		str.append("source:" + source + ", ");
+		str.append("source:" + source.getName() + ", ");
 		
 		str.append("infoMap:{");
 		for(String key : infoMap.keySet()){
