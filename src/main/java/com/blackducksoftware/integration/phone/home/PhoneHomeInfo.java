@@ -30,37 +30,54 @@ import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 
 /**
  * @author nrowles
- * 
- * 
+ *
+ *
  *         Information to be sent to a REST endpoint
  */
 public class PhoneHomeInfo implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5604676370200060866L;
 
 	private final String regId;
+	private final String hubHostName;
 	private final String source;
 	private final Map<String, String> infoMap;
 
-	public PhoneHomeInfo(String regId, String source, Map<String, String> infoMap) {
-		this.regId = Objects.requireNonNull(regId);
+	public PhoneHomeInfo(final String regId, final String hubHostName, final String source,
+			final Map<String, String> infoMap) {
+		if (regId == null && hubHostName == null) {
+			throw new IllegalArgumentException("Neither the regId or hostNameHash was provided.");
+		} else if (regId == null && hubHostName != null) {
+			this.hubHostName = Objects.requireNonNull(hubHostName);
+			this.regId = null;
+		} else if (regId != null && hubHostName == null) {
+			this.regId = Objects.requireNonNull(regId);
+			this.hubHostName = null;
+		} else {
+			this.regId = Objects.requireNonNull(regId);
+			this.hubHostName = Objects.requireNonNull(hubHostName);
+		}
+
 		this.source = Objects.requireNonNull(source);
 		this.infoMap = Objects.requireNonNull(infoMap);
 	}
-	
-	public PhoneHomeInfo(String regId, PhoneHomeSource source, Map<String, String> infoMap) {
-		this.regId = Objects.requireNonNull(regId);
-		this.source = Objects.requireNonNull(source.getName());
-		this.infoMap = Objects.requireNonNull(infoMap);
+
+	public PhoneHomeInfo(final String regId, final String hostNameHash, final PhoneHomeSource source,
+			final Map<String, String> infoMap) {
+		this(regId, hostNameHash, source.getName(), infoMap);
+	}
+
+	public String getHubHostName() {
+		return hubHostName;
 	}
 
 	public String getRegId() {
 		return regId;
 	}
-	
+
 	public String getSource() {
 		return source;
 	}
@@ -68,22 +85,22 @@ public class PhoneHomeInfo implements Serializable {
 	public Map<String, String> getInfoMap() {
 		return infoMap;
 	}
-	
+
 	@Override
 	public String toString(){
-		StringBuilder str = new StringBuilder();
+		final StringBuilder str = new StringBuilder();
 		str.append("{regId:" + regId + ", ");
-		
+		str.append("hubHostName:" + hubHostName + ", ");
 		str.append("source:" + source + ", ");
-		
+
 		str.append("infoMap:{");
-		for(String key : infoMap.keySet()){
+		for(final String key : infoMap.keySet()){
 			str.append(key + ":" + infoMap.get(key));
 			str.append(",");
 		}
 		str.deleteCharAt(str.length()-1);
 		str.append("}}");
-		
+
 		return str.toString();
 	}
 }

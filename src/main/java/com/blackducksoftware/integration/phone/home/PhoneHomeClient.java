@@ -128,7 +128,7 @@ public class PhoneHomeClient {
 
 		client.postPhoneHomeInfo(info);
 		client.getClientResource().release();
-		
+
 		final int responseCode = client.getClientResource().getResponse().getStatus().getCode();
 		if (responseCode >= 200 && responseCode < 300) {
 			logger.info("Phone Home Call Successful, status returned: " + responseCode);
@@ -139,7 +139,9 @@ public class PhoneHomeClient {
 
 	/**
 	 * @param regId
-	 *            Registration ID of the 'BlackDuck Hub' instance in use
+	 *            Registration Id of the 'BlackDuck Hub' instance in use
+	 * @param hostName
+	 *            Host name of the 'BlackDuck Hub' instance in use
 	 * @param blackDuckName
 	 *            Name of the 'BlackDuck' product
 	 * @param blackDuckVersion
@@ -170,7 +172,9 @@ public class PhoneHomeClient {
 	 *             as it points to a valid properties file containing the URL to
 	 *             the internal 'BlackDuck' server.
 	 */
-	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
+	public void callHomeIntegrations(final String regId, final String hostName, final String blackDuckName,
+			final String blackDuckVersion,
+			final String thirdPartyName,
 			final String thirdPartyVersion, final String pluginVersion, final PhoneHomeSource source, final String propertiesPath)
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
@@ -178,23 +182,25 @@ public class PhoneHomeClient {
 		final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
 		logger.debug("Integrations phone-home URL: " + targetUrl);
 
-		final Map<String, String> infoMap = new HashMap<String, String>();
+		final Map<String, String> infoMap = new HashMap<>();
 		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName);
 		infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_VERSION, blackDuckVersion);
 		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_NAME, thirdPartyName);
 		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_VERSION, thirdPartyVersion);
 		infoMap.put(PhoneHomeApiConstants.PLUGIN_VERSION, pluginVersion);
 
-		final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
+		final PhoneHomeInfo info = new PhoneHomeInfo(regId, hostName, source, infoMap);
 
 		logger.info("PhoneHomeInfo info: " + info.toString());
 		callHome(info, targetUrl);
 	}
 
+
 	/**
-	 *
 	 * @param regId
-	 *            Registration ID of the 'BlackDuck Hub' instance in use
+	 *            Registration Id of the 'BlackDuck Hub' instance in use
+	 * @param hostName
+	 *            Host name of the 'BlackDuck Hub' instance in use
 	 * @param blackDuckName
 	 *            Name of the 'BlackDuck' product
 	 * @param blackDuckVersion
@@ -217,18 +223,22 @@ public class PhoneHomeClient {
 	 *             This method is used to phone-home to the internal 'BlackDuck'
 	 *             Integrations server with integrations usage information.
 	 */
-	public void callHomeIntegrations(final String regId, final String blackDuckName, final String blackDuckVersion, final String thirdPartyName,
+	public void callHomeIntegrations(final String regId, final String hostName, final String blackDuckName,
+			final String blackDuckVersion,
+			final String thirdPartyName,
 			final String thirdPartyVersion, final String pluginVersion)
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
-		callHomeIntegrations(regId, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion,
+		callHomeIntegrations(regId, hostName, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion,
+				pluginVersion,
 				PhoneHomeSource.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
 	}
-	
+
 	/**
-	 *
 	 * @param regId
-	 *            Registration ID of the 'BlackDuck Hub' instance in use
+	 *            Registration Id of the 'BlackDuck Hub' instance in use
+	 * @param hostName
+	 *            Host name of the 'BlackDuck Hub' instance in use
 	 * @param blackDuckName
 	 *            Name of the 'BlackDuck' product
 	 * @param blackDuckVersion
@@ -251,11 +261,13 @@ public class PhoneHomeClient {
 	 *             This method is used to phone-home to the internal 'BlackDuck'
 	 *             Integrations server with integrations usage information.
 	 */
-	public void callHomeIntegrations(final String regId, final BlackDuckName blackDuckName, final String blackDuckVersion, final ThirdPartyName thirdPartyName,
+	public void callHomeIntegrations(final String regId, final String hostName, final BlackDuckName blackDuckName,
+			final String blackDuckVersion, final ThirdPartyName thirdPartyName,
 			final String thirdPartyVersion, final String pluginVersion)
 					throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
 
-		callHomeIntegrations(regId, blackDuckName.getName(), blackDuckVersion, thirdPartyName.getName(), thirdPartyVersion, pluginVersion,
+		callHomeIntegrations(regId, hostName, blackDuckName.getName(), blackDuckVersion, thirdPartyName.getName(),
+				thirdPartyVersion, pluginVersion,
 				PhoneHomeSource.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
 	}
 }
