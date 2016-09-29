@@ -41,41 +41,24 @@ public class PhoneHomeInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = 5604676370200060866L;
 
-	private final String regId;
-	private final String hubHostName;
+	private final String hubIdentifier;
 	private final String source;
 	private final Map<String, String> infoMap;
 
-	public PhoneHomeInfo(final String regId, final String hubHostName, final String source,
+	public PhoneHomeInfo(final String hubIdentifier, final String source,
 			final Map<String, String> infoMap) {
-		if (regId == null && hubHostName == null) {
-			throw new IllegalArgumentException("Neither the regId or hostNameHash was provided.");
-		} else if (regId == null && hubHostName != null) {
-			this.hubHostName = Objects.requireNonNull(hubHostName);
-			this.regId = null;
-		} else if (regId != null && hubHostName == null) {
-			this.regId = Objects.requireNonNull(regId);
-			this.hubHostName = null;
-		} else {
-			this.regId = Objects.requireNonNull(regId);
-			this.hubHostName = Objects.requireNonNull(hubHostName);
-		}
-
+		this.hubIdentifier = Objects.requireNonNull(hubIdentifier);
 		this.source = Objects.requireNonNull(source);
 		this.infoMap = Objects.requireNonNull(infoMap);
 	}
 
-	public PhoneHomeInfo(final String regId, final String hostNameHash, final PhoneHomeSource source,
+	public PhoneHomeInfo(final String hubIdentifier, final PhoneHomeSource source,
 			final Map<String, String> infoMap) {
-		this(regId, hostNameHash, source.getName(), infoMap);
+		this(hubIdentifier, source.getName(), infoMap);
 	}
 
-	public String getHubHostName() {
-		return hubHostName;
-	}
-
-	public String getRegId() {
-		return regId;
+	public String getHubIdentifier() {
+		return hubIdentifier;
 	}
 
 	public String getSource() {
@@ -89,8 +72,7 @@ public class PhoneHomeInfo implements Serializable {
 	@Override
 	public String toString(){
 		final StringBuilder str = new StringBuilder();
-		str.append("{regId:" + regId + ", ");
-		str.append("hubHostName:" + hubHostName + ", ");
+		str.append("{hubIdentifier:" + hubIdentifier + ", ");
 		str.append("source:" + source + ", ");
 
 		str.append("infoMap:{");

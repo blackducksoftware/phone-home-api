@@ -114,7 +114,7 @@ public class PhoneHomeClientUnitTest {
 		final String regId = "regId";
 		final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
 		final Map<String, String> infoMap = new HashMap<>();
-		final PhoneHomeInfo info = new PhoneHomeInfo(regId, null, source, infoMap);
+		final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
 		final String targetUrl = "http://foo-bar/";
 
 		phClient.callHome(info, targetUrl);
@@ -126,7 +126,7 @@ public class PhoneHomeClientUnitTest {
 		final String regId = "regId";
 		final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
 		final Map<String, String> infoMap = new HashMap<>();
-		final PhoneHomeInfo info = new PhoneHomeInfo(regId, null, source, infoMap);
+		final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
 		final String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
 
 		phClient.callHome(info, targetUrl);
@@ -144,40 +144,14 @@ public class PhoneHomeClientUnitTest {
 	}
 
 	@Test
-	public void callHomeInvalidUrlWithHostName() throws Exception {
-		exception.expect(ResourceException.class);
-		final PhoneHomeClient phClient = new PhoneHomeClient();
-
-		final String hostName = "localHost";
-		final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
-		final Map<String, String> infoMap = new HashMap<>();
-		final PhoneHomeInfo info = new PhoneHomeInfo(null, hostName, source, infoMap);
-		final String targetUrl = "http://foo-bar/";
-
-		phClient.callHome(info, targetUrl);
-	}
-
-	@Test
-	public void callHomeValidUrlWithHostName() throws Exception {
-		final PhoneHomeClient phClient = new PhoneHomeClient();
-		final String hostName = "localHost";
-		final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
-		final Map<String, String> infoMap = new HashMap<>();
-		final PhoneHomeInfo info = new PhoneHomeInfo(null, hostName, source, infoMap);
-		final String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
-
-		phClient.callHome(info, targetUrl);
-	}
-
-	@Test
 	public void callHomeIntegrationsTestWithHostName() throws Exception {
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 
 		final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
-		final String hostName = "localHost";
-		phClient.callHomeIntegrations(null, hostName, BlackDuckName.HUB.getName(), "blackDuckVersion",
+		phClient.callHomeIntegrations(null, "hostName", BlackDuckName.HUB.getName(), "blackDuckVersion",
 				ThirdPartyName.JENKINS.getName(), "thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS,
 				propertiesPath);
 	}
+
 }

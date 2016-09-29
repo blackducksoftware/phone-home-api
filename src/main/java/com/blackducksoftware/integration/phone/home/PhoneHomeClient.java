@@ -23,10 +23,13 @@
 package com.blackducksoftware.integration.phone.home;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.restlet.Context;
@@ -189,7 +192,14 @@ public class PhoneHomeClient {
 		infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_VERSION, thirdPartyVersion);
 		infoMap.put(PhoneHomeApiConstants.PLUGIN_VERSION, pluginVersion);
 
-		final PhoneHomeInfo info = new PhoneHomeInfo(regId, hostName, source, infoMap);
+		String hubIdentifier = null;
+		if (regId != null) {
+			hubIdentifier = regId;
+		} else if (hostName != null) {
+			hubIdentifier = md5Hash(hostName);
+		}
+
+		final PhoneHomeInfo info = new PhoneHomeInfo(hubIdentifier, source, infoMap);
 
 		logger.info("PhoneHomeInfo info: " + info.toString());
 		callHome(info, targetUrl);
@@ -269,5 +279,16 @@ public class PhoneHomeClient {
 		callHomeIntegrations(regId, hostName, blackDuckName.getName(), blackDuckVersion, thirdPartyName.getName(),
 				thirdPartyVersion, pluginVersion,
 				PhoneHomeSource.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
+	}
+
+	private String md5Hash(final String string) {
+		try {
+			final MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);
+			final byte[] hashedBytes = md.digest(string.getBytes("UTF-8"));
+			return DigestUtils.md5Hex(hashedBytes);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
