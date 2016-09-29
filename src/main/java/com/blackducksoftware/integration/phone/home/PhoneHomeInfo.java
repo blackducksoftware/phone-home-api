@@ -41,13 +41,13 @@ public class PhoneHomeInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = 5604676370200060866L;
 
-	private final String hubIdentifier;
+	private final String regId;
 	private final String source;
 	private final Map<String, String> infoMap;
 
-	public PhoneHomeInfo(final String hubIdentifier, final String source,
+	public PhoneHomeInfo(final String regId, final String source,
 			final Map<String, String> infoMap) {
-		this.hubIdentifier = Objects.requireNonNull(hubIdentifier);
+		this.regId = Objects.requireNonNull(regId);
 		this.source = Objects.requireNonNull(source);
 		this.infoMap = Objects.requireNonNull(infoMap);
 	}
@@ -57,8 +57,8 @@ public class PhoneHomeInfo implements Serializable {
 		this(hubIdentifier, source.getName(), infoMap);
 	}
 
-	public String getHubIdentifier() {
-		return hubIdentifier;
+	public String getRegId() {
+		return regId;
 	}
 
 	public String getSource() {
@@ -72,7 +72,7 @@ public class PhoneHomeInfo implements Serializable {
 	@Override
 	public String toString(){
 		final StringBuilder str = new StringBuilder();
-		str.append("{hubIdentifier:" + hubIdentifier + ", ");
+		str.append("{regId:" + regId + ", ");
 		str.append("source:" + source + ", ");
 
 		str.append("infoMap:{");
