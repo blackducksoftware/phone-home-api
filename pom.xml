@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>phone-home-api</artifactId>
-  <version>1.1.7</version>
+  <version>1.1.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Phone Home API</name>
