@@ -32,20 +32,22 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
-import org.restlet.Context;
-import org.restlet.data.Reference;
+import org.restlet.data.MediaType;
+import org.restlet.data.Method;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.blackducksoftware.integration.phone.home.client.PhoneHomeClientApi;
 import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 import com.blackducksoftware.integration.phone.home.util.AuthenticatorUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * @author nrowles
@@ -115,7 +117,7 @@ public class PhoneHomeClient {
 	 *             This method posts to the specified 'targetUrl' the
 	 *             information contained in 'info'
 	 */
-	public void callHome(PhoneHomeInfo info, final String targetUrl) throws ResourceException, PhoneHomeException {
+	public void callHome(PhoneHomeInfo info, final String targetUrl) throws PhoneHomeException {
 		try {
 			info = Objects.requireNonNull(info);
 			info = Objects.requireNonNull(info);
@@ -123,16 +125,28 @@ public class PhoneHomeClient {
 			throw new PhoneHomeException("Expected parameters to not be null");
 		}
 
-		final PhoneHomeClientApi client = ClientResource.create(new Context(), new Reference(targetUrl),
-				PhoneHomeClientApi.class);
-
-		client.getClientResource().setEntityBuffering(true);
 		logger.info("PhoneHomeInfo: " + info.toString());
 
-		client.postPhoneHomeInfo(info);
-		client.getClientResource().release();
+		final ClientResource resource = new ClientResource(targetUrl);
+		resource.setEntityBuffering(true);
+		resource.setMethod(Method.POST);
 
-		final int responseCode = client.getClientResource().getResponse().getStatus().getCode();
+		final Gson gson = new GsonBuilder().create();
+		final String json = gson.toJson(info);
+
+		final StringRepresentation representation = new StringRepresentation(json, MediaType.APPLICATION_JSON);
+
+		resource.getRequest().setEntity(representation);
+
+		try {
+			resource.handle();
+		} catch (final Exception e) {
+			final int responseCode = resource.getResponse().getStatus().getCode();
+			throw new PhoneHomeException("Error when phoning-home: " + responseCode, e);
+		} finally {
+			resource.release();
+		}
+		final int responseCode = resource.getResponse().getStatus().getCode();
 		if (responseCode >= 200 && responseCode < 300) {
 			logger.info("Phone Home Call Successful, status returned: " + responseCode);
 		} else {

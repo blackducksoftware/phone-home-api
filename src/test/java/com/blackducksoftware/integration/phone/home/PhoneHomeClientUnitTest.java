@@ -42,7 +42,6 @@ import org.mockserver.junit.MockServerRule;
 import org.mockserver.model.Header;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
-import org.restlet.resource.ResourceException;
 
 import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
@@ -108,7 +107,7 @@ public class PhoneHomeClientUnitTest {
 
 	@Test
 	public void callHomeInvalidUrl() throws Exception {
-		exception.expect(ResourceException.class);
+		exception.expect(PhoneHomeException.class);
 		final PhoneHomeClient phClient = new PhoneHomeClient();
 
 		final String regId = "regId";

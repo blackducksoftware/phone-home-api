@@ -34,7 +34,11 @@ public class PhoneHomeException extends Exception {
 		super();
 	}
 
-	public PhoneHomeException(String message) {
+	public PhoneHomeException(final String message) {
 		super(message);
+	}
+
+	public PhoneHomeException(final String message, final Throwable e) {
+		super(message, e);
 	}
 }
