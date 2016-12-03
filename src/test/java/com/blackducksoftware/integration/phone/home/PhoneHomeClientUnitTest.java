@@ -55,102 +55,103 @@ import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderEx
  */
 public class PhoneHomeClientUnitTest {
 
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
-	@Rule
-	public final MockServerRule msRule = new MockServerRule(this);
+    @Rule
+    public final MockServerRule msRule = new MockServerRule(this);
 
-	private final MockServerClient msClient = new MockServerClient(PhoneHomeApiConstants.LOCALHOST, msRule.getPort());
-	private final int port = msRule.getPort();
+    private final MockServerClient msClient = new MockServerClient(PhoneHomeApiConstants.LOCALHOST, msRule.getPort());
 
-	@Before
-	public void startProxy() throws PropertiesLoaderException, IOException, NumberFormatException, FileNotFoundException, SecurityException, UnknownHostException {
+    private final int port = msRule.getPort();
 
-		msClient
-		.when(
-				new HttpRequest()
-				.withPath("/test"))
-		.respond(
-				new HttpResponse()
-				.withHeader(
-						new Header("Content-Type", "json")));
+    @Before
+    public void startProxy()
+            throws PropertiesLoaderException, IOException, NumberFormatException, FileNotFoundException, SecurityException, UnknownHostException {
 
-		String propPath = this.getClass().getClassLoader()
-				.getResource(PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME).getPath();
-		propPath = URLDecoder.decode(propPath, "UTF-8");
-		final FileInputStream in = new FileInputStream(propPath);
-		final Properties prop = new Properties();
-		prop.load(in);
-		in.close();
+        msClient
+                .when(
+                        new HttpRequest()
+                                .withPath("/test"))
+                .respond(
+                        new HttpResponse()
+                                .withHeader(
+                                        new Header("Content-Type", "json")));
 
-		final FileOutputStream out = new FileOutputStream(propPath);
-		prop.setProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT, Integer.toString(port));
-		prop.store(out, null);
-		out.close();
+        String propPath = this.getClass().getClassLoader()
+                .getResource(PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME).getPath();
+        propPath = URLDecoder.decode(propPath, "UTF-8");
+        final FileInputStream in = new FileInputStream(propPath);
+        final Properties prop = new Properties();
+        prop.load(in);
+        in.close();
 
+        final FileOutputStream out = new FileOutputStream(propPath);
+        prop.setProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT, Integer.toString(port));
+        prop.store(out, null);
+        out.close();
 
-	}
+    }
 
-	@After
-	public void stopProxy() {
-		//Intentionally left blank
-	}
+    @After
+    public void stopProxy() {
+        // Intentionally left blank
+    }
 
-	@Test
-	public void callHomeNull() throws Exception {
-		exception.expect(PhoneHomeException.class);
-		final PhoneHomeClient phClient = new PhoneHomeClient();
+    @Test
+    public void callHomeNull() throws Exception {
+        exception.expect(PhoneHomeException.class);
+        final PhoneHomeClient phClient = new PhoneHomeClient();
 
-		phClient.callHome(null, null);
-	}
+        phClient.callHome(null, null);
+    }
 
-	@Test
-	public void callHomeInvalidUrl() throws Exception {
-		exception.expect(PhoneHomeException.class);
-		final PhoneHomeClient phClient = new PhoneHomeClient();
+    @Test
+    public void callHomeInvalidUrl() throws Exception {
+        exception.expect(PhoneHomeException.class);
+        final PhoneHomeClient phClient = new PhoneHomeClient();
 
-		final String regId = "regId";
-		final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
-		final Map<String, String> infoMap = new HashMap<>();
-		final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
-		final String targetUrl = "http://foo-bar/";
+        final String regId = "regId";
+        final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
+        final Map<String, String> infoMap = new HashMap<>();
+        final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
+        final String targetUrl = "http://foo-bar/";
 
-		phClient.callHome(info, targetUrl);
-	}
+        phClient.callHome(info, targetUrl);
+    }
 
-	@Test
-	public void callHomeValidUrl() throws Exception {
-		final PhoneHomeClient phClient = new PhoneHomeClient();
-		final String regId = "regId";
-		final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
-		final Map<String, String> infoMap = new HashMap<>();
-		final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
-		final String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
+    @Test
+    public void callHomeValidUrl() throws Exception {
+        final PhoneHomeClient phClient = new PhoneHomeClient();
+        final String regId = "regId";
+        final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
+        final Map<String, String> infoMap = new HashMap<>();
+        final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
+        final String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
 
-		phClient.callHome(info, targetUrl);
-	}
+        phClient.callHome(info, targetUrl);
+    }
 
-	@Test
-	public void callHomeIntegrationsTest() throws Exception {
-		final PhoneHomeClient phClient = new PhoneHomeClient();
+    @Test
+    public void callHomeIntegrationsTest() throws Exception {
+        final PhoneHomeClient phClient = new PhoneHomeClient();
 
-		final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
+        final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
-		phClient.callHomeIntegrations("regKey", null, BlackDuckName.HUB.getName(), "blackDuckVersion",
-				ThirdPartyName.JENKINS.getName(),
-				"thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS, propertiesPath);
-	}
+        phClient.callHomeIntegrations("regKey", null, BlackDuckName.HUB.getName(), "blackDuckVersion",
+                ThirdPartyName.JENKINS.getName(),
+                "thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS, propertiesPath);
+    }
 
-	@Test
-	public void callHomeIntegrationsTestWithHostName() throws Exception {
-		final PhoneHomeClient phClient = new PhoneHomeClient();
+    @Test
+    public void callHomeIntegrationsTestWithHostName() throws Exception {
+        final PhoneHomeClient phClient = new PhoneHomeClient();
 
-		final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
+        final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
-		phClient.callHomeIntegrations(null, "hostName", BlackDuckName.HUB.getName(), "blackDuckVersion",
-				ThirdPartyName.JENKINS.getName(), "thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS,
-				propertiesPath);
-	}
+        phClient.callHomeIntegrations(null, "hostName", BlackDuckName.HUB.getName(), "blackDuckVersion",
+                ThirdPartyName.JENKINS.getName(), "thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS,
+                propertiesPath);
+    }
 
 }

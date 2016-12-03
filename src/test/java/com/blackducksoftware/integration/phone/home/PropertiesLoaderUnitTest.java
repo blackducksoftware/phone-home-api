@@ -35,37 +35,37 @@ import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderEx
  *
  */
 public class PropertiesLoaderUnitTest {
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
-	@Test
-	public void createTargetUrlInvalidPropFile() throws Exception {
-		exception.expect(PropertiesLoaderException.class);
-		final PropertiesLoader propLoader = new PropertiesLoader();
-		String invalidPath = "not a valid path";
+    @Test
+    public void createTargetUrlInvalidPropFile() throws Exception {
+        exception.expect(PropertiesLoaderException.class);
+        final PropertiesLoader propLoader = new PropertiesLoader();
+        String invalidPath = "not a valid path";
 
-		propLoader.createTargetUrl(invalidPath);
-	}
+        propLoader.createTargetUrl(invalidPath);
+    }
 
-	@Test
-	public void createTargetUrlValidPropFile() throws Exception {
-		final PropertiesLoader propLoader = new PropertiesLoader();
-		String validPath = PhoneHomeApiConstants.TEST_CONFIG_FILE_NAME;
+    @Test
+    public void createTargetUrlValidPropFile() throws Exception {
+        final PropertiesLoader propLoader = new PropertiesLoader();
+        String validPath = PhoneHomeApiConstants.TEST_CONFIG_FILE_NAME;
 
-		String url = propLoader.createTargetUrl(validPath);
+        String url = propLoader.createTargetUrl(validPath);
 
-		String expectedUrl = "http://127.0.0.1:8121/test";
-		assertEquals(expectedUrl, url);
-	}
-	
-	@Test
-	public void createTargetUrlIntegrations() throws Exception {
-		final PropertiesLoader propLoader = new PropertiesLoader();
-		String configPath = PhoneHomeApiConstants.PROPERTIES_FILE_NAME;
-		
-		String url = propLoader.createTargetUrl(configPath);
-		
-		String expectedUrl = "https://collect.blackducksoftware.com/";
-		assertEquals(expectedUrl, url);
-	}
+        String expectedUrl = "http://127.0.0.1:8121/test";
+        assertEquals(expectedUrl, url);
+    }
+
+    @Test
+    public void createTargetUrlIntegrations() throws Exception {
+        final PropertiesLoader propLoader = new PropertiesLoader();
+        String configPath = PhoneHomeApiConstants.PROPERTIES_FILE_NAME;
+
+        String url = propLoader.createTargetUrl(configPath);
+
+        String expectedUrl = "https://collect.blackducksoftware.com/";
+        assertEquals(expectedUrl, url);
+    }
 }

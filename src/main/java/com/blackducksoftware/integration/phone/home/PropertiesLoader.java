@@ -38,47 +38,47 @@ import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderEx
  */
 public class PropertiesLoader {
 
-	private final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
+    private final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
 
-	/**
-	 * 
-	 * @param propertiesFileName
-	 *            Path to a properties file
-	 * @return URL built from properties file
-	 * @throws IOException
-	 * 
-	 *             This method builds a URL from the given properties file name,
-	 *             and returns it as a String.
-	 * @throws PropertiesLoaderException
-	 */
-	public String createTargetUrl(String propertiesFileName) throws IOException, PropertiesLoaderException {
-		final Properties properties = new Properties();
-		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+    /**
+     * 
+     * @param propertiesFileName
+     *            Path to a properties file
+     * @return URL built from properties file
+     * @throws IOException
+     * 
+     *             This method builds a URL from the given properties file name,
+     *             and returns it as a String.
+     * @throws PropertiesLoaderException
+     */
+    public String createTargetUrl(String propertiesFileName) throws IOException, PropertiesLoaderException {
+        final Properties properties = new Properties();
+        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
 
-		if (inputStream != null) {
-			properties.load(inputStream);
-			inputStream.close();
-		} else {
-			throw new PropertiesLoaderException("Unable to get find resource: " + propertiesFileName);
-		}
+        if (inputStream != null) {
+            properties.load(inputStream);
+            inputStream.close();
+        } else {
+            throw new PropertiesLoaderException("Unable to get find resource: " + propertiesFileName);
+        }
 
-		final StringBuilder target = new StringBuilder();
-		
-		target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETURL));
-		
-		final String targetPort = properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT);
-		if(targetPort != null && targetPort.trim().length() > 0){
-			target.append(":" + targetPort.trim());
-		}
-		
-		target.append("/");
-		final String targetExt = properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETEXT);
-		if(targetExt != null && targetExt.trim().length() > 0){
-			target.append(targetExt.trim());
-		}
+        final StringBuilder target = new StringBuilder();
 
-		logger.debug("Target URL: " + target.toString());
+        target.append(properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETURL));
 
-		return target.toString();
-	}
+        final String targetPort = properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETPORT);
+        if (targetPort != null && targetPort.trim().length() > 0) {
+            target.append(":" + targetPort.trim());
+        }
+
+        target.append("/");
+        final String targetExt = properties.getProperty(PhoneHomeApiConstants.PROPERTY_TARGETEXT);
+        if (targetExt != null && targetExt.trim().length() > 0) {
+            target.append(targetExt.trim());
+        }
+
+        logger.debug("Target URL: " + target.toString());
+
+        return target.toString();
+    }
 }

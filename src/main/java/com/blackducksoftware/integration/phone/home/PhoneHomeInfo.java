@@ -30,59 +30,56 @@ import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 
 /**
  * @author nrowles
- *
- *
  *         Information to be sent to a REST endpoint
  */
 public class PhoneHomeInfo implements Serializable {
+    private static final long serialVersionUID = 5604676370200060866L;
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 5604676370200060866L;
+    private final String regId;
 
-	private final String regId;
-	private final String source;
-	private final Map<String, String> infoMap;
+    private final String source;
 
-	public PhoneHomeInfo(final String regId, final String source,
-			final Map<String, String> infoMap) {
-		this.regId = Objects.requireNonNull(regId);
-		this.source = Objects.requireNonNull(source);
-		this.infoMap = Objects.requireNonNull(infoMap);
-	}
+    private final Map<String, String> infoMap;
 
-	public PhoneHomeInfo(final String hubIdentifier, final PhoneHomeSource source,
-			final Map<String, String> infoMap) {
-		this(hubIdentifier, source.getName(), infoMap);
-	}
+    public PhoneHomeInfo(final String regId, final String source,
+            final Map<String, String> infoMap) {
+        this.regId = Objects.requireNonNull(regId);
+        this.source = Objects.requireNonNull(source);
+        this.infoMap = Objects.requireNonNull(infoMap);
+    }
 
-	public String getRegId() {
-		return regId;
-	}
+    public PhoneHomeInfo(final String hubIdentifier, final PhoneHomeSource source,
+            final Map<String, String> infoMap) {
+        this(hubIdentifier, source.getName(), infoMap);
+    }
 
-	public String getSource() {
-		return source;
-	}
+    public String getRegId() {
+        return regId;
+    }
 
-	public Map<String, String> getInfoMap() {
-		return infoMap;
-	}
+    public String getSource() {
+        return source;
+    }
 
-	@Override
-	public String toString(){
-		final StringBuilder str = new StringBuilder();
-		str.append("{regId:" + regId + ", ");
-		str.append("source:" + source + ", ");
+    public Map<String, String> getInfoMap() {
+        return infoMap;
+    }
 
-		str.append("infoMap:{");
-		for(final String key : infoMap.keySet()){
-			str.append(key + ":" + infoMap.get(key));
-			str.append(",");
-		}
-		str.deleteCharAt(str.length()-1);
-		str.append("}}");
+    @Override
+    public String toString() {
+        final StringBuilder str = new StringBuilder();
+        str.append("{regId:" + regId + ", ");
+        str.append("source:" + source + ", ");
 
-		return str.toString();
-	}
+        str.append("infoMap:{");
+        for (final String key : infoMap.keySet()) {
+            str.append(key + ":" + infoMap.get(key));
+            str.append(",");
+        }
+        str.deleteCharAt(str.length() - 1);
+        str.append("}}");
+
+        return str.toString();
+    }
+
 }

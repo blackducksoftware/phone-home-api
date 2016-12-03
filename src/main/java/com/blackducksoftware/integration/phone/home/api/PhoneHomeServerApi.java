@@ -33,6 +33,6 @@ import com.blackducksoftware.integration.phone.home.PhoneHomeInfo;
  */
 public interface PhoneHomeServerApi {
 
-	@Post("json")
-	public void postPhoneHomeInfo(PhoneHomeInfo info);
+    @Post("json")
+    public void postPhoneHomeInfo(PhoneHomeInfo info);
 }

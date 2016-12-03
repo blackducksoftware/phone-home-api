@@ -24,28 +24,36 @@ package com.blackducksoftware.integration.phone.home;
 
 /**
  * @author nrowles
- * 
  */
 public class PhoneHomeApiConstants {
+    public static final String PROPERTIES_FILE_NAME = "config.properties";
 
-	public static final String PROPERTIES_FILE_NAME = "config.properties";
-	public static final String PROPERTY_TARGETURL = "targetUrl";
-	public static final String PROPERTY_TARGETPORT = "targetPort";
-	public static final String PROPERTY_TARGETEXT = "targetExt";
+    public static final String PROPERTY_TARGETURL = "targetUrl";
 
-	public static final String BLACK_DUCK_NAME = "blackDuckName";
-	public static final String BLACK_DUCK_VERSION = "blackDuckVersion";
-	public static final String THIRD_PARTY_NAME = "thirdPartyName";
-	public static final String THIRD_PARTY_VERSION = "thirdPartyVersion";
-	public static final String PLUGIN_VERSION = "pluginVersion";
+    public static final String PROPERTY_TARGETPORT = "targetPort";
 
-	public static final String TEST_SERVER_FILE_NAME = "mockServer.properties";
-	public static final String TEST_SERVER_PROPERTY_PORTS = "port";
+    public static final String PROPERTY_TARGETEXT = "targetExt";
 
-	public static final String TEST_CONFIG_FILE_NAME = "testConfig.properties";
-	public static final String MOCKSERVER_CONFIG_FILE_NAME = "mockServer.properties";
-	
-	public static final String LOCALHOST = "http://127.0.0.1";
-	
-	public static final String INTEGRATIONS = "Integrations";
+    public static final String BLACK_DUCK_NAME = "blackDuckName";
+
+    public static final String BLACK_DUCK_VERSION = "blackDuckVersion";
+
+    public static final String THIRD_PARTY_NAME = "thirdPartyName";
+
+    public static final String THIRD_PARTY_VERSION = "thirdPartyVersion";
+
+    public static final String PLUGIN_VERSION = "pluginVersion";
+
+    public static final String TEST_SERVER_FILE_NAME = "mockServer.properties";
+
+    public static final String TEST_SERVER_PROPERTY_PORTS = "port";
+
+    public static final String TEST_CONFIG_FILE_NAME = "testConfig.properties";
+
+    public static final String MOCKSERVER_CONFIG_FILE_NAME = "mockServer.properties";
+
+    public static final String LOCALHOST = "http://127.0.0.1";
+
+    public static final String INTEGRATIONS = "Integrations";
+
 }

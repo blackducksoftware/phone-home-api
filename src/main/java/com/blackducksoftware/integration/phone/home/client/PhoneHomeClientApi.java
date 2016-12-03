@@ -26,7 +26,6 @@ import org.restlet.resource.ClientProxy;
 
 import com.blackducksoftware.integration.phone.home.api.PhoneHomeServerApi;
 
-
 /**
  * @author nrowles
  * 
