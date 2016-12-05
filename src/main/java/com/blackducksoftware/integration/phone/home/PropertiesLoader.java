@@ -26,9 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.blackducksoftware.integration.log.IntLogger;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 
 /**
@@ -38,15 +36,19 @@ import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderEx
  */
 public class PropertiesLoader {
 
-    private final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
+    private final IntLogger logger;
+
+    public PropertiesLoader(IntLogger logger) {
+        this.logger = logger;
+    }
 
     /**
-     * 
+     *
      * @param propertiesFileName
      *            Path to a properties file
      * @return URL built from properties file
      * @throws IOException
-     * 
+     *
      *             This method builds a URL from the given properties file name,
      *             and returns it as a String.
      * @throws PropertiesLoaderException

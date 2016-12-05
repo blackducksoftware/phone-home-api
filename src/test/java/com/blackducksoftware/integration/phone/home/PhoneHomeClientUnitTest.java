@@ -43,6 +43,7 @@ import org.mockserver.model.Header;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
+import com.blackducksoftware.integration.log.IntBufferedLogger;
 import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
@@ -101,7 +102,7 @@ public class PhoneHomeClientUnitTest {
     @Test
     public void callHomeNull() throws Exception {
         exception.expect(PhoneHomeException.class);
-        final PhoneHomeClient phClient = new PhoneHomeClient();
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
 
         phClient.callHome(null, null);
     }
@@ -109,7 +110,7 @@ public class PhoneHomeClientUnitTest {
     @Test
     public void callHomeInvalidUrl() throws Exception {
         exception.expect(PhoneHomeException.class);
-        final PhoneHomeClient phClient = new PhoneHomeClient();
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
 
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
@@ -122,7 +123,7 @@ public class PhoneHomeClientUnitTest {
 
     @Test
     public void callHomeValidUrl() throws Exception {
-        final PhoneHomeClient phClient = new PhoneHomeClient();
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
@@ -134,7 +135,7 @@ public class PhoneHomeClientUnitTest {
 
     @Test
     public void callHomeIntegrationsTest() throws Exception {
-        final PhoneHomeClient phClient = new PhoneHomeClient();
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
 
         final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
@@ -145,7 +146,7 @@ public class PhoneHomeClientUnitTest {
 
     @Test
     public void callHomeIntegrationsTestWithHostName() throws Exception {
-        final PhoneHomeClient phClient = new PhoneHomeClient();
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
 
         final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 

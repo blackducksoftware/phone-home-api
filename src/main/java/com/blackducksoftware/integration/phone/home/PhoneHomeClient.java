@@ -36,9 +36,8 @@ import org.restlet.data.Method;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import com.blackducksoftware.integration.log.IntLogger;
 import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
@@ -58,7 +57,11 @@ import com.google.gson.GsonBuilder;
  *         information back to a specified REST endpoint.
  */
 public class PhoneHomeClient {
-    private final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
+    private final IntLogger logger;
+
+    public PhoneHomeClient(IntLogger logger) {
+        this.logger = logger;
+    }
 
     /**
      * Clears the previously set System properties I.E. https.proxyHost,
@@ -265,7 +268,7 @@ public class PhoneHomeClient {
             final String thirdPartyVersion, final String pluginVersion, final PhoneHomeSource source, final String propertiesPath)
             throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
         validateIntegrationPhoneHome(regId, hostName, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion);
-        final PropertiesLoader propertiesLoader = new PropertiesLoader();
+        final PropertiesLoader propertiesLoader = new PropertiesLoader(logger);
         final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
         logger.debug("Integrations phone-home URL: " + targetUrl);
 

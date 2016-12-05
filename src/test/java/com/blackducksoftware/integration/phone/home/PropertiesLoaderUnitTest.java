@@ -22,12 +22,13 @@
 
 package com.blackducksoftware.integration.phone.home;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.blackducksoftware.integration.log.IntBufferedLogger;
 import com.blackducksoftware.integration.phone.home.exception.PropertiesLoaderException;
 
 /**
@@ -41,7 +42,7 @@ public class PropertiesLoaderUnitTest {
     @Test
     public void createTargetUrlInvalidPropFile() throws Exception {
         exception.expect(PropertiesLoaderException.class);
-        final PropertiesLoader propLoader = new PropertiesLoader();
+        final PropertiesLoader propLoader = new PropertiesLoader(new IntBufferedLogger());
         String invalidPath = "not a valid path";
 
         propLoader.createTargetUrl(invalidPath);
@@ -49,7 +50,7 @@ public class PropertiesLoaderUnitTest {
 
     @Test
     public void createTargetUrlValidPropFile() throws Exception {
-        final PropertiesLoader propLoader = new PropertiesLoader();
+        final PropertiesLoader propLoader = new PropertiesLoader(new IntBufferedLogger());
         String validPath = PhoneHomeApiConstants.TEST_CONFIG_FILE_NAME;
 
         String url = propLoader.createTargetUrl(validPath);
@@ -60,7 +61,7 @@ public class PropertiesLoaderUnitTest {
 
     @Test
     public void createTargetUrlIntegrations() throws Exception {
-        final PropertiesLoader propLoader = new PropertiesLoader();
+        final PropertiesLoader propLoader = new PropertiesLoader(new IntBufferedLogger());
         String configPath = PhoneHomeApiConstants.PROPERTIES_FILE_NAME;
 
         String url = propLoader.createTargetUrl(configPath);
