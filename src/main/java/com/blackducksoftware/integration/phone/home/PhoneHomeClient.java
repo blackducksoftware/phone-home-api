@@ -58,7 +58,6 @@ import com.google.gson.GsonBuilder;
  *         information back to a specified REST endpoint.
  */
 public class PhoneHomeClient {
-
     private final Logger logger = LoggerFactory.getLogger(PhoneHomeClient.class);
 
     /**
@@ -67,7 +66,6 @@ public class PhoneHomeClient {
      *
      */
     private void cleanUpOldProxySettings() {
-
         System.clearProperty("http.proxyHost");
         System.clearProperty("http.proxyPort");
         System.clearProperty("http.nonProxyHosts");
@@ -88,10 +86,8 @@ public class PhoneHomeClient {
             if (logger != null) {
                 logger.debug("Using Proxy : " + proxyHost + ", at Port : " + proxyPort);
             }
-
             System.setProperty("http.proxyHost", proxyHost);
             System.setProperty("http.proxyPort", Integer.toString(proxyPort));
-
             try {
                 if (!StringUtils.isBlank(proxyUser) && !StringUtils.isBlank(decryptedProxyPassword)) {
                     AuthenticatorUtil.setAuthenticator(proxyUser, decryptedProxyPassword);
@@ -122,7 +118,6 @@ public class PhoneHomeClient {
         if (info == null) {
             throw new PhoneHomeArgumentException("Could not find the information needed for the phone home.");
         }
-
         if (StringUtils.isBlank(targetUrl)) {
             throw new PhoneHomeArgumentException("The targetURL for the phone home was not provided.");
         }
@@ -131,14 +126,10 @@ public class PhoneHomeClient {
         final ClientResource resource = new ClientResource(targetUrl);
         resource.setEntityBuffering(true);
         resource.setMethod(Method.POST);
-
         final Gson gson = new GsonBuilder().create();
         final String json = gson.toJson(info);
-
         final StringRepresentation representation = new StringRepresentation(json, MediaType.APPLICATION_JSON);
-
         resource.getRequest().setEntity(representation);
-
         try {
             resource.handle();
         } catch (final Exception e) {
@@ -192,7 +183,6 @@ public class PhoneHomeClient {
             final String thirdPartyName,
             final String thirdPartyVersion, final String pluginVersion)
             throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
-
         callHomeIntegrations(regId, hostName, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion,
                 pluginVersion,
                 PhoneHomeSource.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
@@ -229,7 +219,6 @@ public class PhoneHomeClient {
             final String blackDuckVersion, final ThirdPartyName thirdPartyName,
             final String thirdPartyVersion, final String pluginVersion)
             throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
-
         callHomeIntegrations(regId, hostName, blackDuckName.getName(), blackDuckVersion, thirdPartyName.getName(),
                 thirdPartyVersion, pluginVersion,
                 PhoneHomeSource.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
@@ -275,9 +264,7 @@ public class PhoneHomeClient {
             final String thirdPartyName,
             final String thirdPartyVersion, final String pluginVersion, final PhoneHomeSource source, final String propertiesPath)
             throws IOException, ResourceException, JSONException, PropertiesLoaderException, PhoneHomeException {
-
         validateIntegrationPhoneHome(regId, hostName, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion);
-
         final PropertiesLoader propertiesLoader = new PropertiesLoader();
         final String targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
         logger.debug("Integrations phone-home URL: " + targetUrl);
