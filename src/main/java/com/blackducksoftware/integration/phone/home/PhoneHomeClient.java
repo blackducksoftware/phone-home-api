@@ -124,8 +124,6 @@ public class PhoneHomeClient {
         if (StringUtils.isBlank(targetUrl)) {
             throw new PhoneHomeArgumentException("The targetURL for the phone home was not provided.");
         }
-        logger.info("PhoneHomeInfo: " + info.toString());
-
         final ClientResource resource = new ClientResource(targetUrl);
         resource.setEntityBuffering(true);
         resource.setMethod(Method.POST);
@@ -143,7 +141,7 @@ public class PhoneHomeClient {
         }
         final int responseCode = resource.getResponse().getStatus().getCode();
         if (responseCode >= 200 && responseCode < 300) {
-            logger.info("Phone Home Call Successful, status returned: " + responseCode);
+            logger.debug("Phone Home Call Successful, status returned: " + responseCode);
         } else {
             String response = resource.getResponse().getEntityAsText();
             if (StringUtils.isNotBlank(response)) {
@@ -288,7 +286,6 @@ public class PhoneHomeClient {
 
         final PhoneHomeInfo info = new PhoneHomeInfo(hubIdentifier, source, infoMap);
 
-        logger.info("PhoneHomeInfo info: " + info.toString());
         callHome(info, targetUrl);
     }
 
