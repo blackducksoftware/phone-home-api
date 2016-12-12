@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>phone-home-api</artifactId>
-  <version>1.2.3-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Phone Home API</name>
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>com.blackducksoftware.integration</groupId>
       <artifactId>integration-common</artifactId>
-      <version>3.0.1</version>
+      <version>4.0.3</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
@@ -27,24 +27,19 @@
       <version>1.10</version>
     </dependency>
     <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20160212</version>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.7</version>
     </dependency>
     <dependency>
-      <groupId>org.restlet.jse</groupId>
-      <artifactId>org.restlet.ext.json</artifactId>
-      <version>2.3.7</version>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>3.4.2</version>
     </dependency>
     <dependency>
-      <groupId>org.restlet.jse</groupId>
-      <artifactId>org.restlet.ext.gson</artifactId>
-      <version>2.3.7</version>
-    </dependency>
-    <dependency>
-      <groupId>org.restlet.jse</groupId>
-      <artifactId>org.restlet</artifactId>
-      <version>2.3.7</version>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp-urlconnection</artifactId>
+      <version>3.4.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>

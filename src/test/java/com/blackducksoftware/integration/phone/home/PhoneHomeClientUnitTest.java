@@ -124,6 +124,7 @@ public class PhoneHomeClientUnitTest {
     @Test
     public void callHomeValidUrl() throws Exception {
         final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
+
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
