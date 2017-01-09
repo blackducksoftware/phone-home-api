@@ -9,7 +9,8 @@ public enum ThirdPartyName {
     GRADLE("Gradle"),
     ARTIFACTORY("Artifactory"),
     FORTIFY("Fortify"),
-    SONARQUBE("Sonarqube");
+    SONARQUBE("Sonarqube"),
+    ECLIPSE("Eclipse");
 
     private final String name;
 
