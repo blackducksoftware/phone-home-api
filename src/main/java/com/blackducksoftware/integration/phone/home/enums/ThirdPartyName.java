@@ -10,7 +10,8 @@ public enum ThirdPartyName {
     ARTIFACTORY("Artifactory"),
     FORTIFY("Fortify"),
     SONARQUBE("Sonarqube"),
-    ECLIPSE("Eclipse");
+    ECLIPSE("Eclipse"),
+    EMAIL_EXTENSION("Email-Extension");
 
     private final String name;
 
