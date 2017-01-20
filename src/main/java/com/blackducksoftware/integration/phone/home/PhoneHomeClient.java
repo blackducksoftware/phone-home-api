@@ -45,7 +45,7 @@ import com.blackducksoftware.integration.phone.home.exception.PhoneHomeArgumentE
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeConnectionException;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 import com.blackducksoftware.integration.phone.home.util.OkAuthenticator;
-import com.blackducksoftware.integration.util.proxy.ProxyUtil;
+import com.blackducksoftware.integration.phone.home.util.ProxyUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
