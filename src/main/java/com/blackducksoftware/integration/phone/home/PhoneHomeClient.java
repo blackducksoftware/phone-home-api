@@ -25,6 +25,7 @@ package com.blackducksoftware.integration.phone.home;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.List;
@@ -89,12 +90,20 @@ public class PhoneHomeClient {
      *
      */
     public void setProxyProperties(final String proxyHost, final int proxyPort, final String proxyUser,
-            final String decryptedProxyPassword, final String ignoredProxyHost) {
+            final String decryptedProxyPassword, final String ignoredProxyHost) throws PhoneHomeArgumentException {
         if (StringUtils.isNotBlank(proxyHost) && proxyPort > 0) {
             boolean shouldUseProxy = true;
             if (StringUtils.isNotBlank(ignoredProxyHost)) {
+                final PropertiesLoader propertiesLoader = new PropertiesLoader(logger);
+                URL targetUrl;
+                try {
+                    targetUrl = new URL(propertiesLoader.createTargetUrl(PhoneHomeApiConstants.PROPERTIES_FILE_NAME));
+                } catch (final Exception e) {
+                    throw new PhoneHomeArgumentException(e.getMessage(), e);
+                }
+
                 final List<Pattern> ignoredProxyHostPatterns = ProxyUtil.getIgnoredProxyHostPatterns(ignoredProxyHost);
-                shouldUseProxy = !ProxyUtil.shouldIgnoreHost(proxyHost, ignoredProxyHostPatterns);
+                shouldUseProxy = !ProxyUtil.shouldIgnoreHost(targetUrl.getHost(), ignoredProxyHostPatterns);
             }
             if (shouldUseProxy) {
                 final Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
@@ -140,14 +149,20 @@ public class PhoneHomeClient {
 
         final Request request = new Request.Builder().url(httpUrl).post(body).build();
 
-        Response response;
+        Response response = null;
         try {
-            response = client.newCall(request).execute();
-        } catch (final IOException e) {
-            throw new PhoneHomeConnectionException(e.getMessage(), e);
-        }
-        if (!response.isSuccessful()) {
-            throw new PhoneHomeConnectionException(response.message());
+            try {
+                response = client.newCall(request).execute();
+            } catch (final IOException e) {
+                throw new PhoneHomeConnectionException(e.getMessage(), e);
+            }
+            if (!response.isSuccessful()) {
+                throw new PhoneHomeConnectionException(response.message());
+            }
+        } finally {
+            if (response != null) {
+                response.close();
+            }
         }
     }
 
