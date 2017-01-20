@@ -69,8 +69,18 @@ public class PhoneHomeClient {
 
     private OkHttpClient client;
 
-    public PhoneHomeClient(IntLogger logger) {
+    private int timeout = 300;
+
+    public PhoneHomeClient(final IntLogger logger) {
         this.logger = logger;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(final int timeout) {
+        this.timeout = timeout;
     }
 
     /**
@@ -78,7 +88,6 @@ public class PhoneHomeClient {
      * https.proxyPort, http.proxyHost, http.proxyPort, http.nonProxyHosts
      *
      */
-
     public void setProxyProperties(final String proxyHost, final int proxyPort, final String proxyUser,
             final String decryptedProxyPassword, final String ignoredProxyHost) {
         if (StringUtils.isNotBlank(proxyHost) && proxyPort > 0) {
@@ -88,7 +97,7 @@ public class PhoneHomeClient {
                 shouldUseProxy = !ProxyUtil.shouldIgnoreHost(proxyHost, ignoredProxyHostPatterns);
             }
             if (shouldUseProxy) {
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+                final Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
                 builder.proxy(proxy);
                 if (StringUtils.isNotBlank(proxyUser) && StringUtils.isNotBlank(decryptedProxyPassword)) {
                     builder.proxyAuthenticator(new OkAuthenticator(proxyUser, decryptedProxyPassword));
@@ -98,9 +107,9 @@ public class PhoneHomeClient {
     }
 
     private void createClient() {
-        builder.connectTimeout(300, TimeUnit.SECONDS);
-        builder.writeTimeout(300, TimeUnit.SECONDS);
-        builder.readTimeout(300, TimeUnit.SECONDS);
+        builder.connectTimeout(timeout, TimeUnit.SECONDS);
+        builder.writeTimeout(timeout, TimeUnit.SECONDS);
+        builder.readTimeout(timeout, TimeUnit.SECONDS);
         client = builder.build();
     }
 
@@ -114,7 +123,7 @@ public class PhoneHomeClient {
      *             This method posts to the specified 'targetUrl' the
      *             information contained in 'info'
      */
-    public void callHome(PhoneHomeInfo info, final String targetUrl) throws PhoneHomeException {
+    public void callHome(final PhoneHomeInfo info, final String targetUrl) throws PhoneHomeException {
         if (info == null) {
             throw new PhoneHomeArgumentException("Could not find the information needed for the phone home.");
         }
@@ -122,19 +131,19 @@ public class PhoneHomeClient {
             throw new PhoneHomeArgumentException("The targetURL for the phone home was not provided.");
         }
         createClient();
-        HttpUrl httpUrl = HttpUrl.parse(targetUrl).newBuilder().build();
+        final HttpUrl httpUrl = HttpUrl.parse(targetUrl).newBuilder().build();
 
         final Gson gson = new GsonBuilder().create();
         final String json = gson.toJson(info);
 
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
+        final RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
 
-        Request request = new Request.Builder().url(httpUrl).post(body).build();
+        final Request request = new Request.Builder().url(httpUrl).post(body).build();
 
         Response response;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new PhoneHomeConnectionException(e.getMessage(), e);
         }
         if (!response.isSuccessful()) {
@@ -248,7 +257,7 @@ public class PhoneHomeClient {
         String targetUrl;
         try {
             targetUrl = propertiesLoader.createTargetUrl(propertiesPath);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new PhoneHomeArgumentException(e.getMessage(), e);
         }
         logger.debug("Integrations phone-home URL: " + targetUrl);

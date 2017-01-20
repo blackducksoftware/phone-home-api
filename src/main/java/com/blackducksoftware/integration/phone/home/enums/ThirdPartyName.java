@@ -7,11 +7,15 @@ public enum ThirdPartyName {
     JIRA("Jira"),
     MAVEN("Maven"),
     GRADLE("Gradle"),
+    SBT("Scala Build Tool"),
     ARTIFACTORY("Artifactory"),
     FORTIFY("Fortify"),
     SONARQUBE("Sonarqube"),
     ECLIPSE("Eclipse"),
-    EMAIL_EXTENSION("Email-Extension");
+    VISUAL_STUDIO("Visual Studio"),
+    EMAIL_EXTENSION("Email-Extension"),
+    CHROME("Chrome"),
+    FIREFOX("Firefox");
 
     private final String name;
 
