@@ -15,7 +15,8 @@ public enum ThirdPartyName {
     VISUAL_STUDIO("Visual Studio"),
     EMAIL_EXTENSION("Email-Extension"),
     CHROME("Chrome"),
-    FIREFOX("Firefox");
+    FIREFOX("Firefox"),
+    NEXUS("Nexus");
 
     private final String name;
 
