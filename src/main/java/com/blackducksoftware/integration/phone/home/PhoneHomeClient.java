@@ -36,6 +36,7 @@ import com.blackducksoftware.integration.exception.IntegrationException;
 import com.blackducksoftware.integration.hub.request.HubRequest;
 import com.blackducksoftware.integration.hub.request.HubRequestFactory;
 import com.blackducksoftware.integration.hub.rest.RestConnection;
+import com.blackducksoftware.integration.hub.rest.UnauthenticatedRestConnection;
 import com.blackducksoftware.integration.log.IntLogger;
 import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
@@ -90,21 +91,13 @@ public class PhoneHomeClient {
         } catch (final MalformedURLException e) {
             throw new PhoneHomeException(e.getMessage(), e);
         }
-        final RestConnection restConnection = new RestConnection(logger, url, timeout) {
-            @Override
-            public void clientAuthenticate() throws IntegrationException {
-            }
-
-            @Override
-            public void addBuilderAuthentication() throws IntegrationException {
-            }
-        };
+        final RestConnection restConnection = new UnauthenticatedRestConnection(logger, url, timeout);
 
         final HubRequestFactory factory = new HubRequestFactory(restConnection);
         final HubRequest request = factory.createRequest(targetUrl);
 
         try {
-            request.executePost(restConnection.getGson().toJson(info));
+            request.executePost(restConnection.gson.toJson(info));
         } catch (final IntegrationException e) {
             throw new PhoneHomeException(e.getMessage(), e);
         }
