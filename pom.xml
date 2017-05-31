@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.blackducksoftware.integration</groupId>
     <artifactId>common-maven-parent</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
   </parent>
 
   <artifactId>phone-home-api</artifactId>
-  <version>1.6.2-SNAPSHOT</version>
-  <packaging>bundle</packaging>
+  <version>2.0.0</version>
+  <packaging>jar</packaging>
 
   <name>Phone Home API</name>
   <url>http://maven.apache.org</url>
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>com.blackducksoftware.integration</groupId>
       <artifactId>hub-common-rest</artifactId>
-      <version>1.1.1</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.mock-server</groupId>
