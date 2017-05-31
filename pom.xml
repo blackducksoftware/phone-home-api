@@ -10,7 +10,6 @@
 
   <artifactId>phone-home-api</artifactId>
   <version>2.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
 
   <name>Phone Home API</name>
   <url>http://maven.apache.org</url>
