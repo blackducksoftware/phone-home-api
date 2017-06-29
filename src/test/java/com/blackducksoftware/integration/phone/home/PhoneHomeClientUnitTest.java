@@ -72,13 +72,13 @@ public class PhoneHomeClientUnitTest {
             throws PropertiesLoaderException, IOException, NumberFormatException, FileNotFoundException, SecurityException, UnknownHostException {
 
         msClient
-                .when(
-                        new HttpRequest()
-                                .withPath("/test"))
-                .respond(
-                        new HttpResponse()
-                                .withHeader(
-                                        new Header("Content-Type", "json")));
+        .when(
+                new HttpRequest()
+                .withPath("/test"))
+        .respond(
+                new HttpResponse()
+                .withHeader(
+                        new Header("Content-Type", "json")));
 
         String propPath = this.getClass().getClassLoader()
                 .getResource(PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME).getPath();
@@ -116,7 +116,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
+        final PhoneHomeRequest info = new PhoneHomeRequest(regId, source, infoMap);
         final String targetUrl = "http://foo-bar/";
 
         phClient.callHome(info, targetUrl);
@@ -129,7 +129,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeInfo info = new PhoneHomeInfo(regId, source, infoMap);
+        final PhoneHomeRequest info = new PhoneHomeRequest(regId, source, infoMap);
         final String targetUrl = PhoneHomeApiConstants.LOCALHOST + ":" + this.port + "/test";
 
         phClient.callHome(info, targetUrl);
@@ -141,8 +141,8 @@ public class PhoneHomeClientUnitTest {
 
         final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
-        phClient.callHomeIntegrations("regKey", null, BlackDuckName.HUB.getName(), "blackDuckVersion",
-                ThirdPartyName.JENKINS.getName(),
+        phClient.callHomeIntegrations("regKey", null, BlackDuckName.HUB, "blackDuckVersion",
+                ThirdPartyName.JENKINS,
                 "thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS, propertiesPath);
     }
 
@@ -152,8 +152,8 @@ public class PhoneHomeClientUnitTest {
 
         final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
 
-        phClient.callHomeIntegrations(null, "hostName", BlackDuckName.HUB.getName(), "blackDuckVersion",
-                ThirdPartyName.JENKINS.getName(), "thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS,
+        phClient.callHomeIntegrations(null, "hostName", BlackDuckName.HUB, "blackDuckVersion",
+                ThirdPartyName.JENKINS, "thirdPartyVersion", "pluginVersion", PhoneHomeSource.INTEGRATIONS,
                 propertiesPath);
     }
 

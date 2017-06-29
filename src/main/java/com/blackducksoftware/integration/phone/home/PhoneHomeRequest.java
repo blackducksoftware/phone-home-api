@@ -29,11 +29,7 @@ import java.util.Objects;
 
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 
-/**
- * @author nrowles
- *         Information to be sent to a REST endpoint
- */
-public class PhoneHomeInfo implements Serializable {
+public class PhoneHomeRequest implements Serializable {
     private static final long serialVersionUID = 5604676370200060866L;
 
     private final String regId;
@@ -42,14 +38,14 @@ public class PhoneHomeInfo implements Serializable {
 
     private final Map<String, String> infoMap;
 
-    public PhoneHomeInfo(final String regId, final String source,
+    public PhoneHomeRequest(final String regId, final String source,
             final Map<String, String> infoMap) {
         this.regId = Objects.requireNonNull(regId);
         this.source = Objects.requireNonNull(source);
         this.infoMap = Objects.requireNonNull(infoMap);
     }
 
-    public PhoneHomeInfo(final String hubIdentifier, final PhoneHomeSource source,
+    public PhoneHomeRequest(final String hubIdentifier, final PhoneHomeSource source,
             final Map<String, String> infoMap) {
         this(hubIdentifier, source.getName(), infoMap);
     }
@@ -64,23 +60,6 @@ public class PhoneHomeInfo implements Serializable {
 
     public Map<String, String> getInfoMap() {
         return infoMap;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder str = new StringBuilder();
-        str.append("{regId:" + regId + ", ");
-        str.append("source:" + source + ", ");
-
-        str.append("infoMap:{");
-        for (final String key : infoMap.keySet()) {
-            str.append(key + ":" + infoMap.get(key));
-            str.append(",");
-        }
-        str.deleteCharAt(str.length() - 1);
-        str.append("}}");
-
-        return str.toString();
     }
 
 }
