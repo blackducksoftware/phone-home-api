@@ -13,38 +13,27 @@ import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
 
 public class PhoneHomeRequestBuilder extends AbstractBuilder<PhoneHomeRequest>{
-    public String regId;
+    private String registrationId;
 
-    public String hostName;
+    private String hostName;
 
-    public BlackDuckName blackDuckName;
+    private BlackDuckName blackDuckName;
 
-    public String blackDuckVersion;
+    private String blackDuckVersion;
 
-    public ThirdPartyName thirdPartyName;
+    private ThirdPartyName thirdPartyName;
 
-    public String thirdPartyVersion;
+    private String thirdPartyVersion;
 
-    public String pluginVersion;
+    private String pluginVersion;
 
-    public PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
-
-    private String md5Hash(final String string) {
-        try {
-            final MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);
-            final byte[] hashedBytes = md.digest(string.getBytes("UTF-8"));
-            return DigestUtils.md5Hex(hashedBytes);
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private PhoneHomeSource source;
 
     @Override
     public PhoneHomeRequest buildObject() {
         String hubIdentifier = null;
-        if (regId != null) {
-            hubIdentifier = regId;
+        if (registrationId != null) {
+            hubIdentifier = registrationId;
         } else if (hostName != null) {
             hubIdentifier = md5Hash(hostName);
         }
@@ -65,4 +54,80 @@ public class PhoneHomeRequestBuilder extends AbstractBuilder<PhoneHomeRequest>{
         final PhoneHomeRequestValidator phoneHomeRequestValidator = new PhoneHomeRequestValidator();
         return phoneHomeRequestValidator;
     }
+
+    private String md5Hash(final String string) {
+        try {
+            final MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);
+            final byte[] hashedBytes = md.digest(string.getBytes("UTF-8"));
+            return DigestUtils.md5Hex(hashedBytes);
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getRegistrationId() {
+        return registrationId;
+    }
+
+    public void setRegistrationId(final String registrationId) {
+        this.registrationId = registrationId;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(final String hostName) {
+        this.hostName = hostName;
+    }
+
+    public BlackDuckName getBlackDuckName() {
+        return blackDuckName;
+    }
+
+    public void setBlackDuckName(final BlackDuckName blackDuckName) {
+        this.blackDuckName = blackDuckName;
+    }
+
+    public String getBlackDuckVersion() {
+        return blackDuckVersion;
+    }
+
+    public void setBlackDuckVersion(final String blackDuckVersion) {
+        this.blackDuckVersion = blackDuckVersion;
+    }
+
+    public ThirdPartyName getThirdPartyName() {
+        return thirdPartyName;
+    }
+
+    public void setThirdPartyName(final ThirdPartyName thirdPartyName) {
+        this.thirdPartyName = thirdPartyName;
+    }
+
+    public String getThirdPartyVersion() {
+        return thirdPartyVersion;
+    }
+
+    public void setThirdPartyVersion(final String thirdPartyVersion) {
+        this.thirdPartyVersion = thirdPartyVersion;
+    }
+
+    public String getPluginVersion() {
+        return pluginVersion;
+    }
+
+    public void setPluginVersion(final String pluginVersion) {
+        this.pluginVersion = pluginVersion;
+    }
+
+    public PhoneHomeSource getSource() {
+        return source;
+    }
+
+    public void setSource(final PhoneHomeSource source) {
+        this.source = source;
+    }
+
 }

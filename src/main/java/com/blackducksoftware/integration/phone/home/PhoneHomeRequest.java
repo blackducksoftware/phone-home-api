@@ -38,16 +38,12 @@ public class PhoneHomeRequest implements Serializable {
 
     private final Map<String, String> infoMap;
 
-    public PhoneHomeRequest(final String regId, final String source,
-            final Map<String, String> infoMap) {
-        this.regId = Objects.requireNonNull(regId);
-        this.source = Objects.requireNonNull(source);
-        this.infoMap = Objects.requireNonNull(infoMap);
-    }
-
     public PhoneHomeRequest(final String hubIdentifier, final PhoneHomeSource source,
             final Map<String, String> infoMap) {
-        this(hubIdentifier, source.getName(), infoMap);
+        final String sourceString = source.name();
+        this.regId = Objects.requireNonNull(hubIdentifier);
+        this.source = Objects.requireNonNull(sourceString);
+        this.infoMap = Objects.requireNonNull(infoMap);
     }
 
     public String getRegId() {

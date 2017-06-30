@@ -24,6 +24,7 @@
 package com.blackducksoftware.integration.phone.home.enums;
 
 public enum ThirdPartyName {
+    BLANK(""),
     JENKINS("Jenkins"),
     BAMBOO("Bamboo"),
     TEAM_CITY("Team-City"),

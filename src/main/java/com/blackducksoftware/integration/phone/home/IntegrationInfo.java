@@ -1,5 +1,5 @@
 /**
- * Phone Home API
+ * Hub Common
  *
  * Copyright (C) 2017 Black Duck Software, Inc.
  * http://www.blackducksoftware.com/
@@ -21,22 +21,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home.exception;
+package com.blackducksoftware.integration.phone.home;
 
-public class PhoneHomeConnectionException extends PhoneHomeException {
-    public PhoneHomeConnectionException() {
+import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
+
+public class IntegrationInfo {
+    public static final IntegrationInfo DO_NOT_PHONE_HOME = new IntegrationInfo(ThirdPartyName.BLANK, null, null);
+
+    private final ThirdPartyName thirdPartyName;
+
+    private final String thirdPartyVersion;
+
+    private final String pluginVersion;
+
+    public IntegrationInfo(final ThirdPartyName thirdPartyName, final String thirdPartyVersion, final String pluginVersion) {
+        this.thirdPartyName = thirdPartyName;
+        this.thirdPartyVersion = thirdPartyVersion;
+        this.pluginVersion = pluginVersion;
     }
 
-    public PhoneHomeConnectionException(final String message) {
-        super(message);
+    public ThirdPartyName getThirdPartyName() {
+        return thirdPartyName;
     }
 
-    public PhoneHomeConnectionException(final Throwable cause) {
-        super(cause);
+    public String getThirdPartyVersion() {
+        return thirdPartyVersion;
     }
 
-    public PhoneHomeConnectionException(final String message, final Throwable cause) {
-        super(message, cause);
+    public String getPluginVersion() {
+        return pluginVersion;
     }
 
 }

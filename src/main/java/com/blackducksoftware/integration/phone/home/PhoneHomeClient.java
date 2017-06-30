@@ -23,7 +23,6 @@
  */
 package com.blackducksoftware.integration.phone.home;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.blackducksoftware.integration.exception.IntegrationException;
@@ -31,15 +30,14 @@ import com.blackducksoftware.integration.hub.request.HubRequest;
 import com.blackducksoftware.integration.hub.rest.RestConnection;
 import com.blackducksoftware.integration.hub.rest.UnauthenticatedRestConnection;
 import com.blackducksoftware.integration.log.IntLogger;
-import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
-import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
-import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 
 public class PhoneHomeClient {
+    public static final String PHONE_HOME_BACKEND_URL = "";
+
     private final IntLogger logger;
 
-    private URL targetUrl = null;
+    private URL phoneHomeBackendUrl;
 
     private int timeout = 300;
 
@@ -53,88 +51,44 @@ public class PhoneHomeClient {
 
     private String proxyNoHosts;
 
-    private boolean hasProxy = false;
-
     public PhoneHomeClient(final IntLogger logger) {
         this.logger = logger;
-    }
-
-    public int getTimeout() {
-        return timeout;
     }
 
     public void setTimeout(final int timeout) {
         this.timeout = timeout;
     }
 
-    public void callHome(final PhoneHomeRequest phoneHomeRequest) throws PhoneHomeException {
-        if (targetUrl == null) {
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setProxyInfo(final String host, final int port, final String username, final String decryptedPassword,
+            final String ignoredProxyHosts) {
+        proxyHost = host;
+        proxyPort = port;
+        proxyUsername = username;
+        proxyPassword = decryptedPassword;
+        proxyNoHosts = ignoredProxyHosts;
+    }
+
+    public void phoneHome(final PhoneHomeRequest phoneHomeRequest) throws PhoneHomeException {
+        if (phoneHomeBackendUrl == null) {
             throw new PhoneHomeException("No server url found.");
         }
-        final RestConnection restConnection = new UnauthenticatedRestConnection(logger, targetUrl, timeout);
-        if (hasProxy){
-            restConnection.proxyHost = proxyHost;
-            restConnection.proxyPort = proxyPort;
-            restConnection.proxyNoHosts = proxyNoHosts;
-            restConnection.proxyUsername = proxyUsername;
-            restConnection.proxyPassword = proxyPassword;
-        }
+        logger.debug("Phoning home to " + phoneHomeBackendUrl);
+        final RestConnection restConnection = new UnauthenticatedRestConnection(logger, phoneHomeBackendUrl, timeout);
+        restConnection.proxyHost = proxyHost;
+        restConnection.proxyPort = proxyPort;
+        restConnection.proxyNoHosts = proxyNoHosts;
+        restConnection.proxyUsername = proxyUsername;
+        restConnection.proxyPassword = proxyPassword;
         final HubRequest request = new HubRequest(restConnection);
         try {
             request.executePost(restConnection.gson.toJson(phoneHomeRequest));
         } catch (final IntegrationException e) {
             throw new PhoneHomeException(e.getMessage(), e);
         }
-    }
-
-    public void callHomeIntegrations(final String regId, final String hostName,
-            final BlackDuckName blackDuckName, final String blackDuckVersion,
-            final ThirdPartyName thirdPartyName, final String thirdPartyVersion,
-            final String pluginVersion)
-                    throws PhoneHomeException {
-        callHome(regId, hostName, blackDuckName, blackDuckVersion, thirdPartyName,
-                thirdPartyVersion, pluginVersion,
-                PhoneHomeSource.INTEGRATIONS, PhoneHomeApiConstants.PROPERTIES_FILE_NAME);
-    }
-
-    public void callHome(final String regId, final String hostName,
-            final BlackDuckName blackDuckName, final String blackDuckVersion,
-            final ThirdPartyName thirdPartyName, final String thirdPartyVersion,
-            final String pluginVersion, final PhoneHomeSource source, final String propertiesPath)
-                    throws PhoneHomeException {
-        //validateIntegrationPhoneHome(regId, hostName, blackDuckName, blackDuckVersion, thirdPartyName, thirdPartyVersion, pluginVersion);
-        logger.debug("Integrations phone-home URL: " + targetUrl);
-
-        final PhoneHomeRequestBuilder requestBuilder = new PhoneHomeRequestBuilder();
-        requestBuilder.regId = regId;
-        requestBuilder.hostName = hostName;
-        requestBuilder.blackDuckName = blackDuckName;
-        requestBuilder.blackDuckVersion = blackDuckVersion;
-        requestBuilder.thirdPartyName = thirdPartyName;
-        requestBuilder.thirdPartyVersion = thirdPartyVersion;
-        requestBuilder.pluginVersion = pluginVersion;
-        requestBuilder.source = source;
-        final PhoneHomeRequest phoneHomeRequest = requestBuilder.build();
-
-        callHome(phoneHomeRequest);
-    }
-
-    public void setServerInfo(final String protocol, final String host, final int port, final String extension) throws PhoneHomeException{
-        try {
-            targetUrl = new URL(protocol, host, port, extension);
-        } catch (final MalformedURLException e) {
-            throw new PhoneHomeException(e.getMessage(), e);
-        }
-    }
-
-    public void setProxyInfo(final String host, final int port, final String username, final String decryptedPassword,
-            final String ignoredProxyHosts) {
-        hasProxy = true;
-        proxyHost = host;
-        proxyPort = port;
-        proxyUsername = username;
-        proxyPassword = decryptedPassword;
-        proxyNoHosts = ignoredProxyHosts;
     }
 
 }
