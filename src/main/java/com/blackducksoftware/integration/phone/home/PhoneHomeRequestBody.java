@@ -29,8 +29,10 @@ import java.util.Objects;
 
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 
-public class PhoneHomeRequest implements Serializable {
+public class PhoneHomeRequestBody implements Serializable {
     private static final long serialVersionUID = 5604676370200060866L;
+
+    public static final PhoneHomeRequestBody DO_NOT_PHONE_HOME = null;
 
     private final String regId;
 
@@ -38,8 +40,7 @@ public class PhoneHomeRequest implements Serializable {
 
     private final Map<String, String> infoMap;
 
-    public PhoneHomeRequest(final String hubIdentifier, final PhoneHomeSource source,
-            final Map<String, String> infoMap) {
+    public PhoneHomeRequestBody(final String hubIdentifier, final PhoneHomeSource source, final Map<String, String> infoMap) {
         final String sourceString = source.name();
         this.regId = Objects.requireNonNull(hubIdentifier);
         this.source = Objects.requireNonNull(sourceString);

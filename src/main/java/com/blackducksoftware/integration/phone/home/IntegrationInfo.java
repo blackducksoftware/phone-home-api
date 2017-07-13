@@ -1,5 +1,5 @@
 /**
- * Hub Common
+ * Phone Home API
  *
  * Copyright (C) 2017 Black Duck Software, Inc.
  * http://www.blackducksoftware.com/

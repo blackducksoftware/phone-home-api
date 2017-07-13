@@ -23,6 +23,7 @@
  */
 package com.blackducksoftware.integration.phone.home;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.blackducksoftware.integration.exception.IntegrationException;
@@ -33,59 +34,44 @@ import com.blackducksoftware.integration.log.IntLogger;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 
 public class PhoneHomeClient {
-    public static final String PHONE_HOME_BACKEND_URL = "";
+    public static final String PHONE_HOME_BACKEND = "https://collect.blackducksoftware.com";
 
     private final IntLogger logger;
 
     private URL phoneHomeBackendUrl;
 
-    private int timeout = 300;
+    private final RestConnection baseConnection;
 
-    private int proxyPort;
-
-    private String proxyHost;
-
-    private String proxyUsername;
-
-    private String proxyPassword;
-
-    private String proxyNoHosts;
-
-    public PhoneHomeClient(final IntLogger logger) {
+    public PhoneHomeClient(final IntLogger logger, final RestConnection restConnection) {
         this.logger = logger;
+        try {
+            this.phoneHomeBackendUrl = new URL(PHONE_HOME_BACKEND);
+        } catch (final MalformedURLException e) {
+            phoneHomeBackendUrl = null;
+        }
+        this.baseConnection = restConnection;
     }
 
-    public void setTimeout(final int timeout) {
-        this.timeout = timeout;
+    public PhoneHomeClient(final IntLogger logger, final URL phoneHomeBackendUrl, final RestConnection restConnection) {
+        this.logger = logger;
+        this.phoneHomeBackendUrl = phoneHomeBackendUrl;
+        this.baseConnection = restConnection;
     }
 
-    public int getTimeout() {
-        return timeout;
-    }
-
-    public void setProxyInfo(final String host, final int port, final String username, final String decryptedPassword,
-            final String ignoredProxyHosts) {
-        proxyHost = host;
-        proxyPort = port;
-        proxyUsername = username;
-        proxyPassword = decryptedPassword;
-        proxyNoHosts = ignoredProxyHosts;
-    }
-
-    public void phoneHome(final PhoneHomeRequest phoneHomeRequest) throws PhoneHomeException {
+    public void postPhoneHomeRequest(final PhoneHomeRequestBody phoneHomeRequestBody) throws PhoneHomeException {
         if (phoneHomeBackendUrl == null) {
-            throw new PhoneHomeException("No server url found.");
+            throw new PhoneHomeException("No phone home server found.");
         }
         logger.debug("Phoning home to " + phoneHomeBackendUrl);
-        final RestConnection restConnection = new UnauthenticatedRestConnection(logger, phoneHomeBackendUrl, timeout);
-        restConnection.proxyHost = proxyHost;
-        restConnection.proxyPort = proxyPort;
-        restConnection.proxyNoHosts = proxyNoHosts;
-        restConnection.proxyUsername = proxyUsername;
-        restConnection.proxyPassword = proxyPassword;
+        final RestConnection restConnection = new UnauthenticatedRestConnection(logger, phoneHomeBackendUrl, baseConnection.timeout);
+        restConnection.proxyHost = baseConnection.proxyHost;
+        restConnection.proxyPort = baseConnection.proxyPort;
+        restConnection.proxyNoHosts = baseConnection.proxyNoHosts;
+        restConnection.proxyUsername = baseConnection.proxyUsername;
+        restConnection.proxyPassword = baseConnection.proxyPassword;
         final HubRequest request = new HubRequest(restConnection);
         try {
-            request.executePost(restConnection.gson.toJson(phoneHomeRequest));
+            request.executePost(restConnection.gson.toJson(phoneHomeRequestBody));
         } catch (final IntegrationException e) {
             throw new PhoneHomeException(e.getMessage(), e);
         }

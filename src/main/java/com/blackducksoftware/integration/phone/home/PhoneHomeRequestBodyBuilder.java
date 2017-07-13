@@ -1,3 +1,26 @@
+/**
+ * Phone Home API
+ *
+ * Copyright (C) 2017 Black Duck Software, Inc.
+ * http://www.blackducksoftware.com/
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package com.blackducksoftware.integration.phone.home;
 
 import java.security.MessageDigest;
@@ -12,7 +35,7 @@ import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
 
-public class PhoneHomeRequestBuilder extends AbstractBuilder<PhoneHomeRequest>{
+public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeRequestBody>{
     private String registrationId;
 
     private String hostName;
@@ -29,8 +52,10 @@ public class PhoneHomeRequestBuilder extends AbstractBuilder<PhoneHomeRequest>{
 
     private PhoneHomeSource source;
 
+    private final Map<String, String> metaDataMap = new HashMap<>();
+
     @Override
-    public PhoneHomeRequest buildObject() {
+    public PhoneHomeRequestBody buildObject() {
         String hubIdentifier = null;
         if (registrationId != null) {
             hubIdentifier = registrationId;
@@ -38,20 +63,27 @@ public class PhoneHomeRequestBuilder extends AbstractBuilder<PhoneHomeRequest>{
             hubIdentifier = md5Hash(hostName);
         }
 
-        final Map<String, String> infoMap = new HashMap<>();
+        final Map<String, String> infoMap = metaDataMap;
         infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName.getName());
         infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_VERSION, blackDuckVersion);
         infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_NAME, thirdPartyName.getName());
         infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_VERSION, thirdPartyVersion);
         infoMap.put(PhoneHomeApiConstants.PLUGIN_VERSION, pluginVersion);
 
-        final PhoneHomeRequest info = new PhoneHomeRequest(hubIdentifier, source, infoMap);
+        final PhoneHomeRequestBody info = new PhoneHomeRequestBody(hubIdentifier, source, infoMap);
         return info;
     }
 
     @Override
-    public PhoneHomeRequestValidator createValidator() {
-        final PhoneHomeRequestValidator phoneHomeRequestValidator = new PhoneHomeRequestValidator();
+    public PhoneHomeRequestBodyValidator createValidator() {
+        final PhoneHomeRequestBodyValidator phoneHomeRequestValidator = new PhoneHomeRequestBodyValidator();
+        phoneHomeRequestValidator.setBlackDuckName(blackDuckName);
+        phoneHomeRequestValidator.setBlackDuckVersion(blackDuckVersion);
+        phoneHomeRequestValidator.setHostName(hostName);
+        phoneHomeRequestValidator.setPluginVersion(pluginVersion);
+        phoneHomeRequestValidator.setRegistrationId(registrationId);
+        phoneHomeRequestValidator.setThirdPartyName(thirdPartyName);
+        phoneHomeRequestValidator.setThirdPartyVersion(thirdPartyVersion);
         return phoneHomeRequestValidator;
     }
 
@@ -65,6 +97,15 @@ public class PhoneHomeRequestBuilder extends AbstractBuilder<PhoneHomeRequest>{
         }
         return null;
     }
+
+    public Map<String, String> getMetaDataMap() {
+        return metaDataMap;
+    }
+
+    public void addMetaData(final String key, final String value){
+        metaDataMap.put(key, value);
+    }
+
 
     public String getRegistrationId() {
         return registrationId;

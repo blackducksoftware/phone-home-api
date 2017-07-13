@@ -23,15 +23,9 @@
  */
 package com.blackducksoftware.integration.phone.home;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.UnknownHostException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,6 +38,8 @@ import org.mockserver.model.Header;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
+import com.blackducksoftware.integration.hub.rest.RestConnection;
+import com.blackducksoftware.integration.hub.rest.UnauthenticatedRestConnection;
 import com.blackducksoftware.integration.log.IntBufferedLogger;
 import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
 import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
@@ -51,9 +47,9 @@ import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
 import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
 
 public class PhoneHomeClientUnitTest {
-    public static String LOCALHOST = "127.0.0.1";
+    public static final String LOCALHOST = "127.0.0.1";
 
-    public static String PROPERTY_TARGETPORT = "port";
+    public static final int TIMEOUT = 5;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -66,9 +62,7 @@ public class PhoneHomeClientUnitTest {
     private final int port = msRule.getPort();
 
     @Before
-    public void startProxy()
-            throws IOException, NumberFormatException, FileNotFoundException, SecurityException, UnknownHostException {
-
+    public void startProxy(){
         msClient
         .when(
                 new HttpRequest()
@@ -77,20 +71,6 @@ public class PhoneHomeClientUnitTest {
                 new HttpResponse()
                 .withHeader(
                         new Header("Content-Type", "json")));
-
-        String propPath = this.getClass().getClassLoader()
-                .getResource(PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME).getPath();
-        propPath = URLDecoder.decode(propPath, "UTF-8");
-        final FileInputStream in = new FileInputStream(propPath);
-        final Properties prop = new Properties();
-        prop.load(in);
-        in.close();
-
-        final FileOutputStream out = new FileOutputStream(propPath);
-        prop.setProperty(PROPERTY_TARGETPORT, Integer.toString(port));
-        prop.store(out, null);
-        out.close();
-
     }
 
     @After
@@ -99,47 +79,43 @@ public class PhoneHomeClientUnitTest {
     }
 
     @Test
-    public void callHomeNull() throws Exception {
-        exception.expect(PhoneHomeException.class);
-        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
-
-        phClient.phoneHome(null);
-    }
-
-    @Test
     public void callHomeInvalidUrl() throws Exception {
         exception.expect(PhoneHomeException.class);
-        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
+        final String targetUrl = "http://example.com:"+this.port+"/test";
+        final URL url = new URL(targetUrl);
+        final RestConnection restConnection = new UnauthenticatedRestConnection(new IntBufferedLogger(), url, TIMEOUT);
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger(), url, restConnection);
 
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequest phoneHomeRequest = new PhoneHomeRequest(regId, source, infoMap);
-        //final String targetUrl = "http://foo-bar/";
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
 
-        phClient.phoneHome(phoneHomeRequest);
+        phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
 
     @Test
     public void callHomeValidUrl() throws Exception {
-        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
-
+        final String targetUrl = "http://"+LOCALHOST + ":" + this.port + "/test";
+        final URL url = new URL(targetUrl);
+        final RestConnection restConnection = new UnauthenticatedRestConnection(new IntBufferedLogger(), url, TIMEOUT);
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger(), url, restConnection);
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequest phoneHomeRequest = new PhoneHomeRequest(regId, source, infoMap);
-        //final String targetUrl = LOCALHOST + ":" + this.port + "/test";
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
 
-        phClient.phoneHome(phoneHomeRequest);
+        phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
 
     @Test
     public void callHomeIntegrationsTest() throws Exception {
-        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
+        final String targetUrl = "http://"+LOCALHOST + ":" + this.port + "/test";
+        final URL url = new URL(targetUrl);
+        final RestConnection restConnection = new UnauthenticatedRestConnection(new IntBufferedLogger(), url, TIMEOUT);
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger(), url, restConnection);
 
-        final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
-
-        final PhoneHomeRequestBuilder phoneHomeRequestBuilder = new PhoneHomeRequestBuilder();
+        final PhoneHomeRequestBodyBuilder phoneHomeRequestBuilder = new PhoneHomeRequestBodyBuilder();
         phoneHomeRequestBuilder.setRegistrationId("regKey");
         phoneHomeRequestBuilder.setHostName(null);
         phoneHomeRequestBuilder.setBlackDuckName(BlackDuckName.HUB);
@@ -148,18 +124,19 @@ public class PhoneHomeClientUnitTest {
         phoneHomeRequestBuilder.setThirdPartyName(ThirdPartyName.JENKINS);
         phoneHomeRequestBuilder.setThirdPartyVersion("thirdPartyVersion");
         phoneHomeRequestBuilder.setSource(PhoneHomeSource.INTEGRATIONS);
-        final PhoneHomeRequest phoneHomeRequest = phoneHomeRequestBuilder.build();
+        final PhoneHomeRequestBody phoneHomeRequest = phoneHomeRequestBuilder.build();
 
-        phClient.phoneHome(phoneHomeRequest);
+        phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
 
     @Test
     public void callHomeIntegrationsTestWithHostName() throws Exception {
-        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger());
+        final String targetUrl = "http://"+LOCALHOST + ":" + this.port + "/test";
+        final URL url = new URL(targetUrl);
+        final RestConnection restConnection = new UnauthenticatedRestConnection(new IntBufferedLogger(), url, TIMEOUT);
+        final PhoneHomeClient phClient = new PhoneHomeClient(new IntBufferedLogger(), url, restConnection);
 
-        final String propertiesPath = PhoneHomeApiConstants.MOCKSERVER_CONFIG_FILE_NAME;
-
-        final PhoneHomeRequestBuilder phoneHomeRequestBuilder = new PhoneHomeRequestBuilder();
+        final PhoneHomeRequestBodyBuilder phoneHomeRequestBuilder = new PhoneHomeRequestBodyBuilder();
         phoneHomeRequestBuilder.setRegistrationId(null);
         phoneHomeRequestBuilder.setHostName("hostName");
         phoneHomeRequestBuilder.setBlackDuckName(BlackDuckName.HUB);
@@ -168,9 +145,9 @@ public class PhoneHomeClientUnitTest {
         phoneHomeRequestBuilder.setThirdPartyName(ThirdPartyName.JENKINS);
         phoneHomeRequestBuilder.setThirdPartyVersion("thirdPartyVersion");
         phoneHomeRequestBuilder.setSource(PhoneHomeSource.INTEGRATIONS);
-        final PhoneHomeRequest phoneHomeRequest = phoneHomeRequestBuilder.build();
+        final PhoneHomeRequestBody phoneHomeRequest = phoneHomeRequestBuilder.build();
 
-        phClient.phoneHome(phoneHomeRequest);
+        phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
 
 }
