@@ -21,29 +21,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home.exception;
+package com.blackducksoftware.integration.phonehome;
 
-/**
- * @author nrowles
- *
- */
-public class PhoneHomeException extends Exception {
+public class PhoneHomeApiConstants {
+    public static final String BLACK_DUCK_NAME = "blackDuckName";
 
-    private static final long serialVersionUID = 678249589814131943L;
+    public static final String BLACK_DUCK_VERSION = "blackDuckVersion";
 
-    public PhoneHomeException() {
-        super();
-    }
+    public static final String THIRD_PARTY_NAME = "thirdPartyName";
 
-    public PhoneHomeException(final String message) {
-        super(message);
-    }
+    public static final String THIRD_PARTY_VERSION = "thirdPartyVersion";
 
-    public PhoneHomeException(final Throwable cause) {
-        super(cause);
-    }
+    public static final String PLUGIN_VERSION = "pluginVersion";
 
-    public PhoneHomeException(final String message, final Throwable e) {
-        super(message, e);
-    }
+    public static final String INTEGRATIONS = "Integrations";
+
 }

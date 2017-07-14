@@ -21,19 +21,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home;
+package com.blackducksoftware.integration.phonehome.enums;
 
-public class PhoneHomeApiConstants {
-    public static final String BLACK_DUCK_NAME = "blackDuckName";
+public enum BlackDuckName {
+    HUB("Hub"),
+    PROTEX("Protex"),
+    CODE_CENTER("Code-Center");
 
-    public static final String BLACK_DUCK_VERSION = "blackDuckVersion";
+    private final String name;
 
-    public static final String THIRD_PARTY_NAME = "thirdPartyName";
+    private BlackDuckName(String name) {
+        this.name = name;
+    }
 
-    public static final String THIRD_PARTY_VERSION = "thirdPartyVersion";
-
-    public static final String PLUGIN_VERSION = "pluginVersion";
-
-    public static final String INTEGRATIONS = "Integrations";
-
+    public String getName() {
+        return this.name;
+    }
 }

@@ -21,7 +21,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home;
+package com.blackducksoftware.integration.phonehome;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -41,10 +41,13 @@ import org.mockserver.model.HttpResponse;
 import com.blackducksoftware.integration.hub.rest.RestConnection;
 import com.blackducksoftware.integration.hub.rest.UnauthenticatedRestConnection;
 import com.blackducksoftware.integration.log.IntBufferedLogger;
-import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
-import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
-import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
-import com.blackducksoftware.integration.phone.home.exception.PhoneHomeException;
+import com.blackducksoftware.integration.phonehome.PhoneHomeClient;
+import com.blackducksoftware.integration.phonehome.PhoneHomeRequestBody;
+import com.blackducksoftware.integration.phonehome.PhoneHomeRequestBodyBuilder;
+import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
+import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
+import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
+import com.blackducksoftware.integration.phonehome.exception.PhoneHomeException;
 
 public class PhoneHomeClientUnitTest {
     public static final String LOCALHOST = "127.0.0.1";

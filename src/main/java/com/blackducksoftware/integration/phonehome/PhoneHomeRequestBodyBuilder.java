@@ -21,7 +21,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home;
+package com.blackducksoftware.integration.phonehome;
 
 import java.security.MessageDigest;
 import java.util.HashMap;
@@ -31,9 +31,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import com.blackducksoftware.integration.builder.AbstractBuilder;
-import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
-import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
-import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
+import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
+import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
+import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 
 public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeRequestBody>{
     private String registrationId;
@@ -102,7 +102,7 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         return metaDataMap;
     }
 
-    public void addMetaData(final String key, final String value){
+    public void addToMetaDataMap(final String key, final String value){
         metaDataMap.put(key, value);
     }
 

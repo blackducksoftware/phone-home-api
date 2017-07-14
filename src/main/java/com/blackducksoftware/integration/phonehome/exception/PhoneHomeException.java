@@ -21,20 +21,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home.enums;
+package com.blackducksoftware.integration.phonehome.exception;
 
-public enum BlackDuckName {
-    HUB("Hub"),
-    PROTEX("Protex"),
-    CODE_CENTER("Code-Center");
+/**
+ * @author nrowles
+ *
+ */
+public class PhoneHomeException extends Exception {
 
-    private final String name;
+    private static final long serialVersionUID = 678249589814131943L;
 
-    private BlackDuckName(String name) {
-        this.name = name;
+    public PhoneHomeException() {
+        super();
     }
 
-    public String getName() {
-        return this.name;
+    public PhoneHomeException(final String message) {
+        super(message);
+    }
+
+    public PhoneHomeException(final Throwable cause) {
+        super(cause);
+    }
+
+    public PhoneHomeException(final String message, final Throwable e) {
+        super(message, e);
     }
 }

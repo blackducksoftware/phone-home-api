@@ -21,13 +21,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home;
+package com.blackducksoftware.integration.phonehome;
 
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
-import com.blackducksoftware.integration.phone.home.enums.PhoneHomeSource;
+import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
 
 public class PhoneHomeRequestBody implements Serializable {
     private static final long serialVersionUID = 5604676370200060866L;

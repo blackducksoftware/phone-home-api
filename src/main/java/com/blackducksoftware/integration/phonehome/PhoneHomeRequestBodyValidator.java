@@ -21,13 +21,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.blackducksoftware.integration.phone.home;
+package com.blackducksoftware.integration.phonehome;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.blackducksoftware.integration.phone.home.enums.BlackDuckName;
-import com.blackducksoftware.integration.phone.home.enums.PhoneHomeRequestFieldEnum;
-import com.blackducksoftware.integration.phone.home.enums.ThirdPartyName;
+import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
+import com.blackducksoftware.integration.phonehome.enums.PhoneHomeRequestFieldEnum;
+import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 import com.blackducksoftware.integration.validator.AbstractValidator;
 import com.blackducksoftware.integration.validator.ValidationResult;
 import com.blackducksoftware.integration.validator.ValidationResultEnum;
