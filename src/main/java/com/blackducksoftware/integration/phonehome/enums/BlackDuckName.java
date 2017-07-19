@@ -30,7 +30,7 @@ public enum BlackDuckName {
 
     private final String name;
 
-    private BlackDuckName(String name) {
+    private BlackDuckName(final String name) {
         this.name = name;
     }
 

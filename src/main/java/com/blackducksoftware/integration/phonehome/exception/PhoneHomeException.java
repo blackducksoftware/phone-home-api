@@ -23,12 +23,7 @@
  */
 package com.blackducksoftware.integration.phonehome.exception;
 
-/**
- * @author nrowles
- *
- */
 public class PhoneHomeException extends Exception {
-
     private static final long serialVersionUID = 678249589814131943L;
 
     public PhoneHomeException() {

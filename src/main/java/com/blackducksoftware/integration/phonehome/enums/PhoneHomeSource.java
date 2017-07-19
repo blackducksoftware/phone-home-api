@@ -29,7 +29,7 @@ public enum PhoneHomeSource {
 
     private String name;
 
-    private PhoneHomeSource(String name) {
+    private PhoneHomeSource(final String name) {
         this.name = name;
     }
 

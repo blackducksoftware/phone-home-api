@@ -32,6 +32,7 @@ import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import com.blackducksoftware.integration.builder.AbstractBuilder;
 import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
+import com.blackducksoftware.integration.phonehome.enums.PhoneHomeRequestFieldEnum;
 import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 
@@ -57,11 +58,11 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         }
 
         final Map<String, String> infoMap = metaDataMap;
-        infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_NAME, blackDuckName.getName());
-        infoMap.put(PhoneHomeApiConstants.BLACK_DUCK_VERSION, blackDuckVersion);
-        infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_NAME, thirdPartyName.getName());
-        infoMap.put(PhoneHomeApiConstants.THIRD_PARTY_VERSION, thirdPartyVersion);
-        infoMap.put(PhoneHomeApiConstants.PLUGIN_VERSION, pluginVersion);
+        infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), blackDuckName.getName());
+        infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKVERSION.getKey(), blackDuckVersion);
+        infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), thirdPartyName.getName());
+        infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYVERSION.getKey(), thirdPartyVersion);
+        infoMap.put(PhoneHomeRequestFieldEnum.PLUGINVERSION.getKey(), pluginVersion);
 
         final PhoneHomeRequestBody info = new PhoneHomeRequestBody(hubIdentifier, source, infoMap);
         return info;

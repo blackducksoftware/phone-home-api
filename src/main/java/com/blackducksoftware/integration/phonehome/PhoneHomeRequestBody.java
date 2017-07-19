@@ -31,13 +31,9 @@ import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
 
 public class PhoneHomeRequestBody implements Serializable {
     private static final long serialVersionUID = 5604676370200060866L;
-
     public static final PhoneHomeRequestBody DO_NOT_PHONE_HOME = null;
-
     private final String regId;
-
     private final String source;
-
     private final Map<String, String> infoMap;
 
     public PhoneHomeRequestBody(final String hubIdentifier, final PhoneHomeSource source, final Map<String, String> infoMap) {
