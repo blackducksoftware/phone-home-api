@@ -45,7 +45,6 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
     private String thirdPartyVersion;
     private String pluginVersion;
     private PhoneHomeSource source;
-    private boolean alwaysWrite;
     private final Map<String, String> metaDataMap = new HashMap<>();
 
     @Override
@@ -163,14 +162,6 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
 
     public void setSource(final PhoneHomeSource source) {
         this.source = source;
-    }
-
-    public boolean getAlwaysWrite(){
-        return alwaysWrite;
-    }
-
-    public void setAlwaysWrite(final boolean alwaysWrite){
-        this.alwaysWrite = alwaysWrite;
     }
 
 }
