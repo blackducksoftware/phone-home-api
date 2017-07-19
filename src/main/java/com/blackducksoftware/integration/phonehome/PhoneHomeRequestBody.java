@@ -35,12 +35,14 @@ public class PhoneHomeRequestBody implements Serializable {
     private final String regId;
     private final String source;
     private final Map<String, String> infoMap;
+    private final boolean bypassDailyIpCaching;
 
-    public PhoneHomeRequestBody(final String hubIdentifier, final PhoneHomeSource source, final Map<String, String> infoMap) {
+    public PhoneHomeRequestBody(final String hubIdentifier, final PhoneHomeSource source, final Map<String, String> infoMap, final boolean bypassDailyIpCaching) {
         final String sourceString = source.name();
         this.regId = Objects.requireNonNull(hubIdentifier);
         this.source = Objects.requireNonNull(sourceString);
         this.infoMap = Objects.requireNonNull(infoMap);
+        this.bypassDailyIpCaching = bypassDailyIpCaching;
     }
 
     public String getRegId() {
@@ -53,6 +55,10 @@ public class PhoneHomeRequestBody implements Serializable {
 
     public Map<String, String> getInfoMap() {
         return infoMap;
+    }
+
+    public boolean getBypassDailyIpCaching(){
+        return bypassDailyIpCaching;
     }
 
 }

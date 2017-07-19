@@ -41,9 +41,6 @@ import org.mockserver.model.HttpResponse;
 import com.blackducksoftware.integration.hub.rest.RestConnection;
 import com.blackducksoftware.integration.hub.rest.UnauthenticatedRestConnection;
 import com.blackducksoftware.integration.log.IntBufferedLogger;
-import com.blackducksoftware.integration.phonehome.PhoneHomeClient;
-import com.blackducksoftware.integration.phonehome.PhoneHomeRequestBody;
-import com.blackducksoftware.integration.phonehome.PhoneHomeRequestBodyBuilder;
 import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
 import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
@@ -92,7 +89,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap, false);
 
         phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
@@ -106,7 +103,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap, false);
 
         phClient.postPhoneHomeRequest(phoneHomeRequest);
     }

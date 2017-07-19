@@ -35,11 +35,8 @@ import com.blackducksoftware.integration.phonehome.exception.PhoneHomeException;
 
 public class PhoneHomeClient {
     public static final String PHONE_HOME_BACKEND = "https://collect.blackducksoftware.com";
-
     private final IntLogger logger;
-
     private URL phoneHomeBackendUrl;
-
     private final RestConnection baseConnection;
 
     public PhoneHomeClient(final IntLogger logger, final RestConnection restConnection) {

@@ -35,28 +35,21 @@ import com.blackducksoftware.integration.validator.ValidationResults;
 
 public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     private String registrationId;
-
     private String hostName;
-
     private BlackDuckName blackDuckName;
-
     private String blackDuckVersion;
-
     private ThirdPartyName thirdPartyName;
-
     private String thirdPartyVersion;
-
     private String pluginVersion;
+    private boolean bypassDailyIpCaching;
 
     @Override
     public ValidationResults assertValid() {
         final ValidationResults result = new ValidationResults();
-
         validateHubServerIdentifier(result);
         validateBlackDuckProductInfo(result);
         validateThirdPartyProductInfo(result);
         validateIntegrationInfo(result);
-
         return result;
     }
 
@@ -120,6 +113,14 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
 
     public void setPluginVersion(final String pluginVersion) {
         this.pluginVersion = pluginVersion;
+    }
+
+    public boolean getBypassDailyIpCaching() {
+        return bypassDailyIpCaching;
+    }
+
+    public void setBypassDailyIpCaching(final boolean bypassDailyIpCaching) {
+        this.bypassDailyIpCaching = bypassDailyIpCaching;
     }
 
 }

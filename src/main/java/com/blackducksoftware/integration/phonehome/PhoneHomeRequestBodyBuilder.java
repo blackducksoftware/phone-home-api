@@ -45,25 +45,19 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
     private String thirdPartyVersion;
     private String pluginVersion;
     private PhoneHomeSource source;
+    private boolean bypassDailyIpCaching;
     private final Map<String, String> metaDataMap = new HashMap<>();
 
     @Override
     public PhoneHomeRequestBody buildObject() {
-        String hubIdentifier = null;
-        if (registrationId != null) {
-            hubIdentifier = registrationId;
-        } else if (hostName != null) {
-            hubIdentifier = md5Hash(hostName);
-        }
-
+        final String hubIdentifier = registrationId == null ? md5Hash(hostName) : registrationId;
         final Map<String, String> infoMap = metaDataMap;
         infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), blackDuckName.getName());
         infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKVERSION.getKey(), blackDuckVersion);
         infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), thirdPartyName.getName());
         infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYVERSION.getKey(), thirdPartyVersion);
         infoMap.put(PhoneHomeRequestFieldEnum.PLUGINVERSION.getKey(), pluginVersion);
-
-        final PhoneHomeRequestBody info = new PhoneHomeRequestBody(hubIdentifier, source, infoMap);
+        final PhoneHomeRequestBody info = new PhoneHomeRequestBody(hubIdentifier, source, infoMap, bypassDailyIpCaching);
         return info;
     }
 
@@ -77,6 +71,7 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         phoneHomeRequestValidator.setRegistrationId(registrationId);
         phoneHomeRequestValidator.setThirdPartyName(thirdPartyName);
         phoneHomeRequestValidator.setThirdPartyVersion(thirdPartyVersion);
+        phoneHomeRequestValidator.setBypassDailyIpCaching(bypassDailyIpCaching);
         return phoneHomeRequestValidator;
     }
 
@@ -86,7 +81,6 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
             final byte[] hashedBytes = md.digest(string.getBytes("UTF-8"));
             return DigestUtils.md5Hex(hashedBytes);
         } catch (final Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -162,6 +156,14 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
 
     public void setSource(final PhoneHomeSource source) {
         this.source = source;
+    }
+
+    public boolean getBypassDailyIpCaching() {
+        return bypassDailyIpCaching;
+    }
+
+    public void setBypassDailyIpCaching(final boolean bypassDailyIpCaching) {
+        this.bypassDailyIpCaching = bypassDailyIpCaching;
     }
 
 }
