@@ -214,4 +214,24 @@ public class PhoneHomeClientUnitTest {
         assertTrue(phoneHomeRequestBuilder.md5Hash(phoneHomeRequestBuilder.getHostName()).equals(phoneHomeRequestWithHost.getRegId()));
     }
 
+    @Test
+    public void validateBadPhoneHomeBackend() throws Exception{
+        final PhoneHomeClient phClient = new PhoneHomeClient(null, null, null);
+        try{
+            phClient.postPhoneHomeRequest(null);
+            fail("Phone home exception not thrown");
+        }catch(final PhoneHomeException e){
+            //Do nothing
+        }
+    }
+
+    @Test
+    public void constructPhoneHomeClientWithoutUrl() throws Exception{
+        final String targetUrl = "http://example.com:"+this.port+"/test";
+        final URL url = new URL(targetUrl);
+        final RestConnection restConnection = new UnauthenticatedRestConnection(new IntBufferedLogger(), url, TIMEOUT);
+        new PhoneHomeClient(new IntBufferedLogger(), restConnection);
+        //Cannot test this meaningfully without phoning home to an actual server, which is bad.
+    }
+
 }
