@@ -140,6 +140,7 @@ public class PhoneHomeClientUnitTest {
         phoneHomeRequestBuilder.setRegistrationId(null);
         phoneHomeRequestBuilder.setHostName("hostName");
         phoneHomeRequestBuilder.setBlackDuckName(BlackDuckName.HUB);
+        phoneHomeRequestBuilder.setBlackDuckVersion("blackDuckVersion");
         phoneHomeRequestBuilder.setPluginVersion("pluginVersion");
         phoneHomeRequestBuilder.setThirdPartyName(ThirdPartyName.JENKINS);
         phoneHomeRequestBuilder.setThirdPartyVersion("thirdPartyVersion");
