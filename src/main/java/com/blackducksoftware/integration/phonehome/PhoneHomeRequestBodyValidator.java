@@ -42,7 +42,6 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     private ThirdPartyName thirdPartyName;
     private String thirdPartyVersion;
     private String pluginVersion;
-    private boolean bypassDailyIpCaching;
     private PhoneHomeSource source;
 
     @Override
@@ -124,14 +123,6 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
 
     public void setPluginVersion(final String pluginVersion) {
         this.pluginVersion = pluginVersion;
-    }
-
-    public boolean getBypassDailyIpCaching() {
-        return bypassDailyIpCaching;
-    }
-
-    public void setBypassDailyIpCaching(final boolean bypassDailyIpCaching) {
-        this.bypassDailyIpCaching = bypassDailyIpCaching;
     }
 
     public void setSource(final PhoneHomeSource source) {

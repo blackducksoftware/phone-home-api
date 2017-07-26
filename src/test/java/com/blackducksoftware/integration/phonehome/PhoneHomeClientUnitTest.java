@@ -51,30 +51,23 @@ import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 import com.blackducksoftware.integration.phonehome.exception.PhoneHomeException;
 
 public class PhoneHomeClientUnitTest {
-    public static final String LOCALHOST = "127.0.0.1";
-
-    public static final int TIMEOUT = 5;
-
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Rule
     public final MockServerRule msRule = new MockServerRule(this);
 
-    private final MockServerClient msClient = new MockServerClient(LOCALHOST, msRule.getPort());
+    public static final String LOCALHOST = "127.0.0.1";
+    public static final int TIMEOUT = 5;
 
+    private final MockServerClient msClient = new MockServerClient(LOCALHOST, msRule.getPort());
     private final int port = msRule.getPort();
 
     @Before
     public void startProxy(){
         msClient
-        .when(
-                new HttpRequest()
-                .withPath("/test"))
-        .respond(
-                new HttpResponse()
-                .withHeader(
-                        new Header("Content-Type", "json")));
+        .when(new HttpRequest().withPath("/test"))
+        .respond(new HttpResponse().withHeader(new Header("Content-Type", "json")));
     }
 
     @After
@@ -164,7 +157,7 @@ public class PhoneHomeClientUnitTest {
             try{
                 throw phoneHomeException;
             }catch(final PhoneHomeException e){
-                // Success
+                //Do nothing
             }
         }
     }
@@ -176,7 +169,15 @@ public class PhoneHomeClientUnitTest {
             phoneHomeRequestBuilder.build();
             fail("Illegal state exception not thrown");
         }catch(final IllegalStateException e){
-            //Success
+            //Do nothing
+        }
+        try{
+            phoneHomeRequestBuilder.setBlackDuckName(BlackDuckName.HUB);
+            phoneHomeRequestBuilder.setThirdPartyName(ThirdPartyName.ARTIFACTORY);
+            phoneHomeRequestBuilder.build();
+            fail("Illegal state exception not thrown");
+        }catch(final IllegalStateException e){
+            //Do nothing
         }
     }
 
@@ -206,6 +207,11 @@ public class PhoneHomeClientUnitTest {
         assertTrue(phoneHomeRequestBuilder.getSource().getName().equals(phoneHomeRequest.getSource()));
         assertTrue(phoneHomeRequestBuilder.getBypassDailyIpCaching() == (phoneHomeRequest.getBypassIpCaching()));
         assertTrue(builderInfoMap.equals((phoneHomeRequest.getInfoMap())));
+
+        phoneHomeRequestBuilder.setRegistrationId(null);
+        phoneHomeRequestBuilder.setHostName(LOCALHOST);
+        final PhoneHomeRequestBody phoneHomeRequestWithHost = phoneHomeRequestBuilder.build();
+        assertTrue(phoneHomeRequestBuilder.md5Hash(phoneHomeRequestBuilder.getHostName()).equals(phoneHomeRequestWithHost.getRegId()));
     }
 
 }

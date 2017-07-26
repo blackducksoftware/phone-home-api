@@ -23,7 +23,9 @@
  */
 package com.blackducksoftware.integration.phonehome;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +52,12 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
 
     @Override
     public PhoneHomeRequestBody buildObject() {
-        final String hubIdentifier = registrationId == null ? md5Hash(hostName) : registrationId;
+        String hubIdentifier;
+        try {
+            hubIdentifier = registrationId == null ? md5Hash(hostName) : registrationId;
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            hubIdentifier = null;
+        }
         final Map<String, String> infoMap = metaDataMap;
         infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), blackDuckName.getName());
         infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKVERSION.getKey(), blackDuckVersion);
@@ -71,19 +78,14 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         phoneHomeRequestValidator.setRegistrationId(registrationId);
         phoneHomeRequestValidator.setThirdPartyName(thirdPartyName);
         phoneHomeRequestValidator.setThirdPartyVersion(thirdPartyVersion);
-        phoneHomeRequestValidator.setBypassDailyIpCaching(bypassDailyIpCaching);
         phoneHomeRequestValidator.setSource(source);
         return phoneHomeRequestValidator;
     }
 
-    private String md5Hash(final String string) {
-        try {
-            final MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);
-            final byte[] hashedBytes = md.digest(string.getBytes("UTF-8"));
-            return DigestUtils.md5Hex(hashedBytes);
-        } catch (final Exception e) {
-        }
-        return null;
+    public String md5Hash(final String string) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        final MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);
+        final byte[] hashedBytes = md.digest(string.getBytes("UTF-8"));
+        return DigestUtils.md5Hex(hashedBytes);
     }
 
     public Map<String, String> getMetaDataMap() {
