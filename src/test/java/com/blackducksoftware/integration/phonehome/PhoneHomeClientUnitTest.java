@@ -140,7 +140,6 @@ public class PhoneHomeClientUnitTest {
         phoneHomeRequestBuilder.setRegistrationId(null);
         phoneHomeRequestBuilder.setHostName("hostName");
         phoneHomeRequestBuilder.setBlackDuckName(BlackDuckName.HUB);
-        phoneHomeRequestBuilder.setBlackDuckVersion("blackDuckVersion");
         phoneHomeRequestBuilder.setPluginVersion("pluginVersion");
         phoneHomeRequestBuilder.setThirdPartyName(ThirdPartyName.JENKINS);
         phoneHomeRequestBuilder.setThirdPartyVersion("thirdPartyVersion");
@@ -148,6 +147,21 @@ public class PhoneHomeClientUnitTest {
         final PhoneHomeRequestBody phoneHomeRequest = phoneHomeRequestBuilder.build();
 
         phClient.postPhoneHomeRequest(phoneHomeRequest);
+    }
+
+    @Test
+    public void testPhoneHomeException() {
+        final PhoneHomeException emptyException = new PhoneHomeException();
+        final PhoneHomeException exceptionException = new PhoneHomeException(emptyException);
+        final PhoneHomeException messageException = new PhoneHomeException("message");
+        final PhoneHomeException exceptionAndMessageException = new PhoneHomeException("message", emptyException);
+        for(final PhoneHomeException phoneHomeException : new PhoneHomeException[]{emptyException, exceptionException, messageException, exceptionAndMessageException}){
+            try{
+                throw phoneHomeException;
+            }catch(final PhoneHomeException e){
+                // Success
+            }
+        }
     }
 
 }

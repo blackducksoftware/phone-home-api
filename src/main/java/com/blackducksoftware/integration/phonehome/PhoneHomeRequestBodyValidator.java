@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
 import com.blackducksoftware.integration.phonehome.enums.PhoneHomeRequestFieldEnum;
+import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 import com.blackducksoftware.integration.validator.AbstractValidator;
 import com.blackducksoftware.integration.validator.ValidationResult;
@@ -42,6 +43,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     private String thirdPartyVersion;
     private String pluginVersion;
     private boolean bypassDailyIpCaching;
+    private PhoneHomeSource source;
 
     @Override
     public ValidationResults assertValid() {
@@ -50,6 +52,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
         validateBlackDuckProductInfo(result);
         validateThirdPartyProductInfo(result);
         validateIntegrationInfo(result);
+        validateSource(result);
         return result;
     }
 
@@ -87,6 +90,14 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
         }
     }
 
+    public void validateSource(final ValidationResults result){
+        if (source == null || StringUtils.isBlank(source.getName())) {
+            result.addResult(PhoneHomeRequestFieldEnum.PLUGINVERSION,
+                    new ValidationResult(ValidationResultEnum.ERROR, "No source was found."));
+        }
+    }
+
+
     public void setRegistrationId(final String registrationId) {
         this.registrationId = registrationId;
     }
@@ -121,6 +132,10 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
 
     public void setBypassDailyIpCaching(final boolean bypassDailyIpCaching) {
         this.bypassDailyIpCaching = bypassDailyIpCaching;
+    }
+
+    public void setSource(final PhoneHomeSource source) {
+        this.source = source;
     }
 
 }
