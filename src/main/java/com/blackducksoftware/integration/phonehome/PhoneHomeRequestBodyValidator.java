@@ -64,7 +64,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     }
 
     public void validateBlackDuckProductInfo(final ValidationResults result){
-        if (StringUtils.isBlank(blackDuckName.getName())) {
+        if (blackDuckName == null || StringUtils.isBlank(blackDuckName.getName())) {
             result.addResult(PhoneHomeRequestFieldEnum.BLACKDUCKNAME,
                     new ValidationResult(ValidationResultEnum.ERROR, "No Black Duck product name was found."));
         }else if (StringUtils.isBlank(blackDuckVersion)) {
@@ -74,7 +74,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     }
 
     public void validateThirdPartyProductInfo(final ValidationResults result){
-        if (StringUtils.isBlank(thirdPartyName.getName())) {
+        if (thirdPartyName == null || StringUtils.isBlank(thirdPartyName.getName())) {
             result.addResult(PhoneHomeRequestFieldEnum.THIRDPARTYNAME,
                     new ValidationResult(ValidationResultEnum.ERROR, "No third party name was found."));
         } else if (StringUtils.isBlank(thirdPartyVersion)) {

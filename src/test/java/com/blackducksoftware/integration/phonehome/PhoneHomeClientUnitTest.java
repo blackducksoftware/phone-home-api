@@ -23,6 +23,9 @@
  */
 package com.blackducksoftware.integration.phonehome;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +45,7 @@ import com.blackducksoftware.integration.hub.rest.RestConnection;
 import com.blackducksoftware.integration.hub.rest.UnauthenticatedRestConnection;
 import com.blackducksoftware.integration.log.IntBufferedLogger;
 import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
+import com.blackducksoftware.integration.phonehome.enums.PhoneHomeRequestFieldEnum;
 import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
 import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 import com.blackducksoftware.integration.phonehome.exception.PhoneHomeException;
@@ -163,6 +167,45 @@ public class PhoneHomeClientUnitTest {
                 // Success
             }
         }
+    }
+
+    @Test
+    public void testPostBadPhoneHomeRequestBuilding() throws Exception{
+        final PhoneHomeRequestBodyBuilder phoneHomeRequestBuilder = new PhoneHomeRequestBodyBuilder();
+        try{
+            phoneHomeRequestBuilder.build();
+            fail("Illegal state exception not thrown");
+        }catch(final IllegalStateException e){
+            //Success
+        }
+    }
+
+    @Test
+    public void validatePhoneHomeRequestBuilding() throws Exception{
+        final PhoneHomeRequestBodyBuilder phoneHomeRequestBuilder = new PhoneHomeRequestBodyBuilder();
+        phoneHomeRequestBuilder.setRegistrationId("regKey");
+        phoneHomeRequestBuilder.setHostName(null);
+        phoneHomeRequestBuilder.setBlackDuckName(BlackDuckName.HUB);
+        phoneHomeRequestBuilder.setBlackDuckVersion("blackDuckVersion");
+        phoneHomeRequestBuilder.setPluginVersion("pluginVersion");
+        phoneHomeRequestBuilder.setThirdPartyName(ThirdPartyName.JENKINS);
+        phoneHomeRequestBuilder.setThirdPartyVersion("thirdPartyVersion");
+        phoneHomeRequestBuilder.setSource(PhoneHomeSource.INTEGRATIONS);
+        phoneHomeRequestBuilder.setBypassDailyIpCaching(true);
+        phoneHomeRequestBuilder.addToMetaDataMap("some", "metadata");
+        final Map<String, String> builderInfoMap = phoneHomeRequestBuilder.getMetaDataMap();
+        builderInfoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), phoneHomeRequestBuilder.getBlackDuckName().getName());
+        builderInfoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKVERSION.getKey(), phoneHomeRequestBuilder.getBlackDuckVersion());
+        builderInfoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), phoneHomeRequestBuilder.getThirdPartyName().getName());
+        builderInfoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYVERSION.getKey(), phoneHomeRequestBuilder.getThirdPartyVersion());
+        builderInfoMap.put(PhoneHomeRequestFieldEnum.PLUGINVERSION.getKey(), phoneHomeRequestBuilder.getPluginVersion());
+
+        final PhoneHomeRequestBody phoneHomeRequest = phoneHomeRequestBuilder.build();
+
+        assertTrue(phoneHomeRequestBuilder.getRegistrationId().equals(phoneHomeRequest.getRegId()));
+        assertTrue(phoneHomeRequestBuilder.getSource().getName().equals(phoneHomeRequest.getSource()));
+        assertTrue(phoneHomeRequestBuilder.getBypassDailyIpCaching() == (phoneHomeRequest.getBypassIpCaching()));
+        assertTrue(builderInfoMap.equals((phoneHomeRequest.getInfoMap())));
     }
 
 }

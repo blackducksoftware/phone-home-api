@@ -38,7 +38,7 @@ public class PhoneHomeRequestBody implements Serializable {
     private final boolean bypassIpCaching;
 
     public PhoneHomeRequestBody(final String hubIdentifier, final PhoneHomeSource source, final Map<String, String> infoMap, final boolean bypassIpCaching) {
-        final String sourceString = source.name();
+        final String sourceString = source.getName();
         this.regId = Objects.requireNonNull(hubIdentifier);
         this.source = Objects.requireNonNull(sourceString);
         this.infoMap = Objects.requireNonNull(infoMap);
