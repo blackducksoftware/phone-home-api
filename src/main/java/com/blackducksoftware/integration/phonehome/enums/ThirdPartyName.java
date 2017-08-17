@@ -40,7 +40,12 @@ public enum ThirdPartyName {
     EMAIL_EXTENSION("Email-Extension"),
     CHROME("Chrome"),
     FIREFOX("Firefox"),
-    NEXUS("Nexus");
+    NEXUS("Nexus"),
+    FORTIFY_ON_DEMAND("Fortify On-Demand"),
+    FORTIFY_SSC("Fortify SSC"),
+    PIVOTAL_SCANNER("Pivotal Scan Service Broker"),
+    GOOGLE_CONTAINER_BUILDER("Google Container Builder"),
+    GOOGLE_REGISTRY_SCANNER("Google Cloud Registry Scanning Integration");
 
     private final String name;
 
@@ -49,7 +54,7 @@ public enum ThirdPartyName {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
 }
