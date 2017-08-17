@@ -47,7 +47,6 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
     private String thirdPartyVersion;
     private String pluginVersion;
     private PhoneHomeSource source;
-    private boolean bypassDailyIpCaching;
     private final Map<String, String> metaDataMap = new HashMap<>();
 
     @Override
@@ -64,7 +63,7 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), thirdPartyName.getName());
         infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYVERSION.getKey(), thirdPartyVersion);
         infoMap.put(PhoneHomeRequestFieldEnum.PLUGINVERSION.getKey(), pluginVersion);
-        final PhoneHomeRequestBody info = new PhoneHomeRequestBody(hubIdentifier, source, infoMap, bypassDailyIpCaching);
+        final PhoneHomeRequestBody info = new PhoneHomeRequestBody(hubIdentifier, source, infoMap);
         return info;
     }
 
@@ -159,14 +158,6 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
 
     public void setSource(final PhoneHomeSource source) {
         this.source = source;
-    }
-
-    public boolean getBypassDailyIpCaching() {
-        return bypassDailyIpCaching;
-    }
-
-    public void setBypassDailyIpCaching(final boolean bypassDailyIpCaching) {
-        this.bypassDailyIpCaching = bypassDailyIpCaching;
     }
 
 }

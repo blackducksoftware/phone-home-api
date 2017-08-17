@@ -86,7 +86,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap, false);
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
 
         phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
@@ -100,7 +100,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap, false);
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
 
         phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
@@ -192,7 +192,6 @@ public class PhoneHomeClientUnitTest {
         phoneHomeRequestBuilder.setThirdPartyName(ThirdPartyName.JENKINS);
         phoneHomeRequestBuilder.setThirdPartyVersion("thirdPartyVersion");
         phoneHomeRequestBuilder.setSource(PhoneHomeSource.INTEGRATIONS);
-        phoneHomeRequestBuilder.setBypassDailyIpCaching(true);
         phoneHomeRequestBuilder.addToMetaDataMap("some", "metadata");
         final Map<String, String> builderInfoMap = phoneHomeRequestBuilder.getMetaDataMap();
         builderInfoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), phoneHomeRequestBuilder.getBlackDuckName().getName());
@@ -205,7 +204,6 @@ public class PhoneHomeClientUnitTest {
 
         assertTrue(phoneHomeRequestBuilder.getRegistrationId().equals(phoneHomeRequest.getRegId()));
         assertTrue(phoneHomeRequestBuilder.getSource().getName().equals(phoneHomeRequest.getSource()));
-        assertTrue(phoneHomeRequestBuilder.getBypassDailyIpCaching() == (phoneHomeRequest.getBypassIpCaching()));
         assertTrue(builderInfoMap.equals((phoneHomeRequest.getInfoMap())));
 
         phoneHomeRequestBuilder.setRegistrationId(null);
