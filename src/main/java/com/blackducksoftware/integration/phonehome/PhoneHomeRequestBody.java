@@ -27,8 +27,6 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
-import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
-
 public class PhoneHomeRequestBody implements Serializable {
     private static final long serialVersionUID = 5604676370200060866L;
     public static final PhoneHomeRequestBody DO_NOT_PHONE_HOME = null;
@@ -36,8 +34,8 @@ public class PhoneHomeRequestBody implements Serializable {
     private final String source;
     private final Map<String, String> infoMap;
 
-    public PhoneHomeRequestBody(final String hubIdentifier, final PhoneHomeSource source, final Map<String, String> infoMap) {
-        final String sourceString = source.getName();
+    public PhoneHomeRequestBody(final String hubIdentifier, final String source, final Map<String, String> infoMap) {
+        final String sourceString = source;
         this.regId = Objects.requireNonNull(hubIdentifier);
         this.source = Objects.requireNonNull(sourceString);
         this.infoMap = Objects.requireNonNull(infoMap);

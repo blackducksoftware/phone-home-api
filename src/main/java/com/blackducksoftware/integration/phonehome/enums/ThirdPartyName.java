@@ -24,7 +24,6 @@
 package com.blackducksoftware.integration.phonehome.enums;
 
 public enum ThirdPartyName {
-    BLANK(""),
     JENKINS("Jenkins"),
     BAMBOO("Bamboo"),
     TEAM_CITY("Team-City"),
@@ -41,6 +40,7 @@ public enum ThirdPartyName {
     CHROME("Chrome"),
     FIREFOX("Firefox"),
     NEXUS("Nexus"),
+    DETECT("Detect"),
     FORTIFY_ON_DEMAND("Fortify On-Demand"),
     FORTIFY_SSC("Fortify SSC"),
     PIVOTAL_SCANNER("Pivotal Scan Service Broker"),
