@@ -36,6 +36,7 @@ import com.blackducksoftware.integration.builder.AbstractBuilder;
 import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
 import com.blackducksoftware.integration.phonehome.enums.PhoneHomeRequestFieldEnum;
 import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
+import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 
 public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeRequestBody>{
     private String registrationId;
@@ -135,7 +136,7 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         return thirdPartyName;
     }
 
-    public void setThirdPartyName(final BlackDuckName thirdPartyName) {
+    public void setThirdPartyName(final ThirdPartyName thirdPartyName) {
         this.thirdPartyName = thirdPartyName.getName();
     }
 
