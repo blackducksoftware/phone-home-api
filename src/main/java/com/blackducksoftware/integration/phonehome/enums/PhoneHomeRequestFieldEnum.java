@@ -26,12 +26,12 @@ package com.blackducksoftware.integration.phonehome.enums;
 import com.blackducksoftware.integration.validator.FieldEnum;
 
 public enum PhoneHomeRequestFieldEnum implements FieldEnum{
-    REGID("regId"),
     BLACKDUCKNAME("blackDuckName"),
     BLACKDUCKVERSION("blackDuckVersion"),
+    PLUGINVERSION("pluginVersion"),
+    REGID("regId"),
     THIRDPARTYNAME("thirdPartyName"),
-    THIRDPARTYVERSION("thirdPartyVersion"),
-    PLUGINVERSION("pluginVersion");
+    THIRDPARTYVERSION("thirdPartyVersion");
 
     private String key;
 

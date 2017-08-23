@@ -24,9 +24,9 @@
 package com.blackducksoftware.integration.phonehome.enums;
 
 public enum PhoneHomeSource {
+    ALLIANCES("Alliance Integrations"),
     HUB("Hub"),
-    INTEGRATIONS("Integrations"),
-    ALLIANCES("Alliance Integrations");
+    INTEGRATIONS("Integrations");
 
     private String name;
 
