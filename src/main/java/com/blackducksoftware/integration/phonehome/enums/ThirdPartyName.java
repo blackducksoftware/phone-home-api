@@ -24,28 +24,29 @@
 package com.blackducksoftware.integration.phonehome.enums;
 
 public enum ThirdPartyName {
-    BLANK(""),
-    JENKINS("Jenkins"),
-    BAMBOO("Bamboo"),
-    TEAM_CITY("Team-City"),
-    JIRA("Jira"),
-    MAVEN("Maven"),
-    GRADLE("Gradle"),
-    SBT("Scala Build Tool"),
     ARTIFACTORY("Artifactory"),
-    FORTIFY("Fortify"),
-    SONARQUBE("Sonarqube"),
-    ECLIPSE("Eclipse"),
-    VISUAL_STUDIO("Visual Studio"),
-    EMAIL_EXTENSION("Email-Extension"),
+    BAMBOO("Bamboo"),
+    BLANK(""),
     CHROME("Chrome"),
+    DETECT("Hub-Detect"),
+    ECLIPSE("Eclipse"),
+    EMAIL_EXTENSION("Email-Extension"),
     FIREFOX("Firefox"),
-    NEXUS("Nexus"),
+    FORTIFY("Fortify"),
     FORTIFY_ON_DEMAND("Fortify On-Demand"),
     FORTIFY_SSC("Fortify SSC"),
-    PIVOTAL_SCANNER("Pivotal Scan Service Broker"),
     GOOGLE_CONTAINER_BUILDER("Google Container Builder"),
-    GOOGLE_REGISTRY_SCANNER("Google Cloud Registry Scanning Integration");
+    GOOGLE_REGISTRY_SCANNER("Google Cloud Registry Scanning Integration"),
+    GRADLE("Gradle"),
+    JENKINS("Jenkins"),
+    JIRA("Jira"),
+    MAVEN("Maven"),
+    NEXUS("Nexus"),
+    PIVOTAL_SCANNER("Pivotal Scan Service Broker"),
+    SBT("Scala Build Tool"),
+    SONARQUBE("Sonarqube"),
+    TEAM_CITY("Team-City"),
+    VISUAL_STUDIO("Visual Studio");
 
     private final String name;
 
