@@ -38,6 +38,7 @@ public enum ThirdPartyName {
     GOOGLE_REGISTRY_SCANNER("Google Cloud Registry Scanning Integration"),
     GRADLE("Gradle"),
     JENKINS("Jenkins"),
+    JENKINS_DETECT("Jenkins-Detect"),
     JIRA("Jira"),
     MAVEN("Maven"),
     NEXUS("Nexus"),
