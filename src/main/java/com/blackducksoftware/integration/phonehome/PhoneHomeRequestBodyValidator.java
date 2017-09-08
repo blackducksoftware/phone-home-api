@@ -25,10 +25,7 @@ package com.blackducksoftware.integration.phonehome;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.blackducksoftware.integration.phonehome.enums.BlackDuckName;
 import com.blackducksoftware.integration.phonehome.enums.PhoneHomeRequestFieldEnum;
-import com.blackducksoftware.integration.phonehome.enums.PhoneHomeSource;
-import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 import com.blackducksoftware.integration.validator.AbstractValidator;
 import com.blackducksoftware.integration.validator.ValidationResult;
 import com.blackducksoftware.integration.validator.ValidationResultEnum;
@@ -37,12 +34,12 @@ import com.blackducksoftware.integration.validator.ValidationResults;
 public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     private String registrationId;
     private String hostName;
-    private BlackDuckName blackDuckName;
+    private String blackDuckName;
     private String blackDuckVersion;
-    private ThirdPartyName thirdPartyName;
+    private String thirdPartyName;
     private String thirdPartyVersion;
     private String pluginVersion;
-    private PhoneHomeSource source;
+    private String source;
 
     @Override
     public ValidationResults assertValid() {
@@ -63,7 +60,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     }
 
     public void validateBlackDuckProductInfo(final ValidationResults result){
-        if (blackDuckName == null || StringUtils.isBlank(blackDuckName.getName())) {
+        if (blackDuckName == null || StringUtils.isBlank(blackDuckName)) {
             result.addResult(PhoneHomeRequestFieldEnum.BLACKDUCKNAME,
                     new ValidationResult(ValidationResultEnum.ERROR, "No Black Duck product name was found."));
         }else if (StringUtils.isBlank(blackDuckVersion)) {
@@ -73,7 +70,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     }
 
     public void validateThirdPartyProductInfo(final ValidationResults result){
-        if (thirdPartyName == null || StringUtils.isBlank(thirdPartyName.getName())) {
+        if (thirdPartyName == null || StringUtils.isBlank(thirdPartyName)) {
             result.addResult(PhoneHomeRequestFieldEnum.THIRDPARTYNAME,
                     new ValidationResult(ValidationResultEnum.ERROR, "No third party name was found."));
         } else if (StringUtils.isBlank(thirdPartyVersion)) {
@@ -90,7 +87,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
     }
 
     public void validateSource(final ValidationResults result){
-        if (source == null || StringUtils.isBlank(source.getName())) {
+        if (source == null || StringUtils.isBlank(source)) {
             result.addResult(PhoneHomeRequestFieldEnum.PLUGINVERSION,
                     new ValidationResult(ValidationResultEnum.ERROR, "No source was found."));
         }
@@ -105,7 +102,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
         this.hostName = hostName;
     }
 
-    public void setBlackDuckName(final BlackDuckName blackDuckName) {
+    public void setBlackDuckName(final String blackDuckName) {
         this.blackDuckName = blackDuckName;
     }
 
@@ -113,7 +110,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
         this.blackDuckVersion = blackDuckVersion;
     }
 
-    public void setThirdPartyName(final ThirdPartyName thirdPartyName) {
+    public void setThirdPartyName(final String thirdPartyName) {
         this.thirdPartyName = thirdPartyName;
     }
 
@@ -125,7 +122,7 @@ public class PhoneHomeRequestBodyValidator extends AbstractValidator{
         this.pluginVersion = pluginVersion;
     }
 
-    public void setSource(final PhoneHomeSource source) {
+    public void setSource(final String source) {
         this.source = source;
     }
 

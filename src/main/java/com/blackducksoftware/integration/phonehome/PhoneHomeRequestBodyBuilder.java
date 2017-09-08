@@ -41,12 +41,12 @@ import com.blackducksoftware.integration.phonehome.enums.ThirdPartyName;
 public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeRequestBody>{
     private String registrationId;
     private String hostName;
-    private BlackDuckName blackDuckName;
+    private String blackDuckName;
     private String blackDuckVersion;
-    private ThirdPartyName thirdPartyName;
+    private String thirdPartyName;
     private String thirdPartyVersion;
     private String pluginVersion;
-    private PhoneHomeSource source;
+    private String source;
     private final Map<String, String> metaDataMap = new HashMap<>();
 
     @Override
@@ -58,9 +58,9 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
             hubIdentifier = null;
         }
         final Map<String, String> infoMap = metaDataMap;
-        infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), blackDuckName.getName());
+        infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), blackDuckName);
         infoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKVERSION.getKey(), blackDuckVersion);
-        infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), thirdPartyName.getName());
+        infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), thirdPartyName);
         infoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYVERSION.getKey(), thirdPartyVersion);
         infoMap.put(PhoneHomeRequestFieldEnum.PLUGINVERSION.getKey(), pluginVersion);
         final PhoneHomeRequestBody info = new PhoneHomeRequestBody(hubIdentifier, source, infoMap);
@@ -112,11 +112,15 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         this.hostName = hostName;
     }
 
-    public BlackDuckName getBlackDuckName() {
+    public String getBlackDuckName() {
         return blackDuckName;
     }
 
     public void setBlackDuckName(final BlackDuckName blackDuckName) {
+        this.blackDuckName = blackDuckName.getName();
+    }
+
+    public void setBlackDuckName(final String blackDuckName) {
         this.blackDuckName = blackDuckName;
     }
 
@@ -128,11 +132,15 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         this.blackDuckVersion = blackDuckVersion;
     }
 
-    public ThirdPartyName getThirdPartyName() {
+    public String getThirdPartyName() {
         return thirdPartyName;
     }
 
     public void setThirdPartyName(final ThirdPartyName thirdPartyName) {
+        this.thirdPartyName = thirdPartyName.getName();
+    }
+
+    public void setThirdPartyName(final String thirdPartyName) {
         this.thirdPartyName = thirdPartyName;
     }
 
@@ -152,11 +160,15 @@ public class PhoneHomeRequestBodyBuilder extends AbstractBuilder<PhoneHomeReques
         this.pluginVersion = pluginVersion;
     }
 
-    public PhoneHomeSource getSource() {
+    public String getSource() {
         return source;
     }
 
     public void setSource(final PhoneHomeSource source) {
+        this.source = source.getName();
+    }
+
+    public void setSource(final String source) {
         this.source = source;
     }
 

@@ -24,9 +24,9 @@
 package com.blackducksoftware.integration.phonehome.enums;
 
 public enum BlackDuckName {
+    CODE_CENTER("Code-Center"),
     HUB("Hub"),
-    PROTEX("Protex"),
-    CODE_CENTER("Code-Center");
+    PROTEX("Protex");
 
     private final String name;
 

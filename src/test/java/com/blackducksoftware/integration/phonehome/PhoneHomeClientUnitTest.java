@@ -86,7 +86,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source.getName(), infoMap);
 
         phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
@@ -100,7 +100,7 @@ public class PhoneHomeClientUnitTest {
         final String regId = "regId";
         final PhoneHomeSource source = PhoneHomeSource.INTEGRATIONS;
         final Map<String, String> infoMap = new HashMap<>();
-        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source, infoMap);
+        final PhoneHomeRequestBody phoneHomeRequest = new PhoneHomeRequestBody(regId, source.getName(), infoMap);
 
         phClient.postPhoneHomeRequest(phoneHomeRequest);
     }
@@ -194,16 +194,16 @@ public class PhoneHomeClientUnitTest {
         phoneHomeRequestBuilder.setSource(PhoneHomeSource.INTEGRATIONS);
         phoneHomeRequestBuilder.addToMetaDataMap("some", "metadata");
         final Map<String, String> builderInfoMap = phoneHomeRequestBuilder.getMetaDataMap();
-        builderInfoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), phoneHomeRequestBuilder.getBlackDuckName().getName());
+        builderInfoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKNAME.getKey(), phoneHomeRequestBuilder.getBlackDuckName());
         builderInfoMap.put(PhoneHomeRequestFieldEnum.BLACKDUCKVERSION.getKey(), phoneHomeRequestBuilder.getBlackDuckVersion());
-        builderInfoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), phoneHomeRequestBuilder.getThirdPartyName().getName());
+        builderInfoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYNAME.getKey(), phoneHomeRequestBuilder.getThirdPartyName());
         builderInfoMap.put(PhoneHomeRequestFieldEnum.THIRDPARTYVERSION.getKey(), phoneHomeRequestBuilder.getThirdPartyVersion());
         builderInfoMap.put(PhoneHomeRequestFieldEnum.PLUGINVERSION.getKey(), phoneHomeRequestBuilder.getPluginVersion());
 
         final PhoneHomeRequestBody phoneHomeRequest = phoneHomeRequestBuilder.build();
 
         assertTrue(phoneHomeRequestBuilder.getRegistrationId().equals(phoneHomeRequest.getRegId()));
-        assertTrue(phoneHomeRequestBuilder.getSource().getName().equals(phoneHomeRequest.getSource()));
+        assertTrue(phoneHomeRequestBuilder.getSource().equals(phoneHomeRequest.getSource()));
         assertTrue(builderInfoMap.equals((phoneHomeRequest.getInfoMap())));
 
         phoneHomeRequestBuilder.setRegistrationId(null);

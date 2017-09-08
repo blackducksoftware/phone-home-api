@@ -26,7 +26,6 @@ package com.blackducksoftware.integration.phonehome.enums;
 public enum ThirdPartyName {
     ARTIFACTORY("Artifactory"),
     BAMBOO("Bamboo"),
-    BLANK(""),
     CHROME("Chrome"),
     DETECT("Hub-Detect"),
     ECLIPSE("Eclipse"),
