@@ -66,6 +66,7 @@ public class PhoneHomeClient {
         restConnection.proxyNoHosts = baseConnection.proxyNoHosts;
         restConnection.proxyUsername = baseConnection.proxyUsername;
         restConnection.proxyPassword = baseConnection.proxyPassword;
+        restConnection.alwaysTrustServerCertificate = baseConnection.alwaysTrustServerCertificate;
         final HubRequest request = new HubRequest(restConnection);
         try {
             request.executePost(restConnection.gson.toJson(phoneHomeRequestBody));
