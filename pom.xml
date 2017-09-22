@@ -9,22 +9,7 @@
   </parent>
 
   <artifactId>phone-home-api</artifactId>
-  <version>4.2.2-SNAPSHOT</version>
+  <version>5.0.0</version>
 
   <name>Phone Home API</name>
-  <url>http://maven.apache.org</url>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.blackducksoftware.integration</groupId>
-      <artifactId>hub-common-rest</artifactId>
-      <version>2.4.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mock-server</groupId>
-      <artifactId>mockserver-netty</artifactId>
-      <version>3.10.4</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 </project>

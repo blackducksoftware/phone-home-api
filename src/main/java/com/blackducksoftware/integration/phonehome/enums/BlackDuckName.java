@@ -37,4 +37,5 @@ public enum BlackDuckName {
     public String getName() {
         return this.name;
     }
+
 }
