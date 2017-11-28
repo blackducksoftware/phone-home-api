@@ -42,6 +42,7 @@ public enum ThirdPartyName {
     JIRA("Jira"),
     MAVEN("Maven"),
     NEXUS("Nexus"),
+    OSCF_SCANNER("Cloud Foundry Scan Service Broker"),
     PIVOTAL_SCANNER("Pivotal Scan Service Broker"),
     SBT("Scala Build Tool"),
     SONARQUBE("Sonarqube"),
