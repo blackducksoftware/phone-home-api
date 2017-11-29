@@ -24,10 +24,11 @@
 package com.blackducksoftware.integration.phonehome.enums;
 
 public enum ThirdPartyName {
+    ALERT("Alert"),
     ARTIFACTORY("Artifactory"),
     BAMBOO("Bamboo"),
     CHROME("Chrome"),
-    DETECT("Hub-Detect"),
+    DETECT("Detect"),
     ECLIPSE("Eclipse"),
     EMAIL_EXTENSION("Email-Extension"),
     FIREFOX("Firefox"),
