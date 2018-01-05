@@ -1,8 +1,7 @@
 language: java
 
-cache:
-  directories:
-    - $HOME/.m2
+jdk:
+  - oraclejdk8
 
 notifications:
   email:
@@ -13,8 +12,10 @@ notifications:
       - ekerwin@blackducksoftware.com
 
 install: true
+
 script:
-  - mvn clean package
+  - ./gradlew clean build
+
 after_success:
-  - mvn jacoco:report coveralls:report
+  - ./gradlew test jacocoTestReport coveralls
   - bash <(curl -s https://copilot.blackducksoftware.com/ci/travis/scripts/upload)
