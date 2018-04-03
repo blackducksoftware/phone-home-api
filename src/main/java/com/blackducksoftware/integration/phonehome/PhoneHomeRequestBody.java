@@ -29,18 +29,23 @@ import java.util.Objects;
 public class PhoneHomeRequestBody {
     public static final PhoneHomeRequestBody DO_NOT_PHONE_HOME = null;
     private final String regId;
+    private final String hostName;
     private final String source;
     private final Map<String, String> infoMap;
 
-    public PhoneHomeRequestBody(final String hubIdentifier, final String source, final Map<String, String> infoMap) {
-        final String sourceString = source;
+    public PhoneHomeRequestBody(final String hubIdentifier, final String hostName, final String source, final Map<String, String> infoMap) {
         this.regId = Objects.requireNonNull(hubIdentifier);
-        this.source = Objects.requireNonNull(sourceString);
+        this.hostName = Objects.requireNonNull(hostName);
+        this.source = Objects.requireNonNull(source);
         this.infoMap = Objects.requireNonNull(infoMap);
     }
 
     public String getRegId() {
         return regId;
+    }
+
+    public String getHostName() {
+        return hostName;
     }
 
     public String getSource() {
